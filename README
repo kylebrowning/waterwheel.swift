@@ -1,0 +1,42 @@
+A library for communication with Drupal 6.x and services module 2.x Note: you need http://drupal.org/project/plist_server in order for this to work correctly.
+
+INSTALLATION:
+Drag drupal-ios-sdk into your Xcode Project.
+
+Add the following frameworks to your Project
+UIKit.Framework
+CoreGraphics.framework
+CFNetwork.framework
+libz.1.2.3.dylib
+SystemConfiguration.framework
+MobileCoreServices.framework
+
+And Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN
+
+USAGE:
+
+For use with views.
+    DIOSConnect *session = [[DIOSConnect alloc] init];
+    DIOSViews *views = [[DIOSViews alloc] initWithUserInfo:[session userInfo] andSessId:[session sessid]];
+    [views initViews];
+    [views addParam:@"test" forKey:@"view_name"];
+    [views addParam:@"block_1" forKey:@"display_id"];
+    [views runMethod];
+
+For use with DIOSNode
+
+  DIOSNode *node = [[DIOSNode alloc] init];
+  [node setType:@"story"];
+  [node setTitle:[mTitle text]];
+  [node setBody:[mBody text]];
+  [node nodeSave];
+
+For user with DIOSComment
+if(session == nil) {
+   session = [[DIOSConnect alloc] init];   
+}
+   DIOSComment *commentConnect = [[DIOSComment alloc] initWithUserInfo:[session userInfo] andSessId:[session sessid]];
+    [commentConnect getComments:nid andStart:start andCount:count];
+
+TROUBLESHOOTING:
+If you are getting Access denied, or API Key not valid, double check that your key settings are setup correctly at admin/build/services/keys and double check that permissions are correct for your user and anonymous.
