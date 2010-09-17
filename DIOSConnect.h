@@ -40,6 +40,7 @@
 #define DRUPAL_SERVICES_URL  @"http://demo.kylebrowning.com/services/plist"
 #define DRUPAL_URL  @"http://demo.kylebrowning.com/"
 #define DRUPAL_CELL_DEFAULT_IMAGE  @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
+#define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
 #define DRUPAL_DOMAIN @"testing" 
 #define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
 #define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"

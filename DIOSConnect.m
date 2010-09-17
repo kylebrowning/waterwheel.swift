@@ -102,7 +102,7 @@
 
 - (void) done:(id)results{
 #ifdef DEBUG 
-    //NSLog(@"%@", results);
+    NSLog(@"%@", results);
 #endif
     if([[[results object] objectForKey:@"#method"] isEqualToString:@"system.connect"]) {
         myDict = [[results object] objectForKey:@"#data"];
