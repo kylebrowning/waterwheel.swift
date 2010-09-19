@@ -90,8 +90,8 @@
 
 - (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
     [self setMethod:@"user.login"];
-    [self addParam:@"test" forKey:@"username"];
-    [self addParam:@"test" forKey:@"password"];
+    [self addParam:userName forKey:@"username"];
+    [self addParam:password forKey:@"password"];
     [self runMethod];
 }
 
@@ -100,28 +100,6 @@
     [self runMethod];
 }
 
-- (void) done:(id)results{
-#ifdef DEBUG 
-    NSLog(@"%@", results);
-#endif
-    if([[[results object] objectForKey:@"#method"] isEqualToString:@"system.connect"]) {
-        myDict = [[results object] objectForKey:@"#data"];
-        if(myDict != nil) {
-            [self setSessid:[myDict objectForKey:@"sessid"]];
-            [self setUserInfo:[myDict objectForKey:@"user"]];
-        }
-    }
-    if([[[results object] objectForKey:@"#method"] isEqualToString:@"user.login"]) {
-        myDict = [[results object] objectForKey:@"#data"];
-        if(myDict != nil) {
-            [self setSessid:[myDict objectForKey:@"sessid"]];
-            [self setUserInfo:[myDict objectForKey:@"user"]];
-        }
-    }
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc removeObserver:self];
-    isRunning = NO;
-}
 - (NSString*)stringWithHexBytes:(NSData *)theData {
 	NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([theData length] * 2)];
 	const unsigned char *dataBuffer = [theData bytes];
@@ -173,6 +151,7 @@
     [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
     [self addParam:timestamp forKey:@"domain_time_stamp"];
     [self addParam:nonce forKey:@"nonce"];
+  
     [self addParam:[self sessid] forKey:@"sessid"];
     
     NSURL *url = [NSURL URLWithString:DRUPAL_SERVICES_URL];
@@ -203,7 +182,9 @@
             [self setUserInfo:[myDict objectForKey:@"user"]];
         }
     }
-
+  //Bug in ASIHTTPRequest, put here to stop activity indicator
+  UIApplication* app = [UIApplication sharedApplication];
+  app.networkActivityIndicatorVisible = NO;
 }
 
 - (void) setMethod:(NSString *)aMethod {
@@ -242,7 +223,7 @@
     [params removeObjectForKey:key];
 }
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@, %@, %@, %@, %@", connResult, userInfo, params, sessid, (isRunning ? @"YES" : @"NO")];
+    return [NSString stringWithFormat:@"connresult = %@, userInfo = %@, params = %@, sessionid = %@, isRunning = %@", connResult, userInfo, params, sessid, (isRunning ? @"YES" : @"NO")];
 }
 - (void) dealloc {
     [connResult release];

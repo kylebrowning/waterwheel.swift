@@ -67,7 +67,6 @@
 - (void) addParam:(id)value forKey:(NSString *)key;
 - (void) removeParam:(NSString *)key;
 - (void) connect;
-- (void) done:(id)results;
 - (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
 - (void) logout;
 - (void) connect;
