@@ -74,28 +74,6 @@
     [node release];
     return self;
 }
-
-
-//This method essetinally converts a node into a serialized array
-- (NSString *)serializedObject:(NSMutableDictionary *)object {
-    NSString *serializedString;
-    if([object isKindOfClass:[NSMutableDictionary class]]) {
-        NSEnumerator *e = [object keyEnumerator];
-        serializedString = [NSString stringWithFormat:@"a:%d:{", [[e allObjects] count]];
-        for(NSString *aKey in object){
-            id objectValue = [object valueForKey:aKey];
-            NSString *currentReturnValue = nil;
-            currentReturnValue = @"";
-            if([objectValue isKindOfClass:[NSString class]]) {
-                currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";s:%d:\"%@\";", [aKey length], aKey, [objectValue length], objectValue];
-            }
-            serializedString = [serializedString stringByAppendingString:currentReturnValue];
-        }
-        serializedString = [serializedString stringByAppendingFormat:@"}"];
-    }
-    return serializedString;
-}
-
 - (void) dealloc {
     [super dealloc];
   

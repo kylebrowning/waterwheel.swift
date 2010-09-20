@@ -39,8 +39,9 @@
 #import "DIOSConnect.h"
 
 @interface DIOSComment : DIOSConnect {
-
 }
+
 - (id) init;
 - (void) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count;
+- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody;
 @end

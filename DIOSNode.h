@@ -52,6 +52,5 @@
 @property (nonatomic, retain) NSString *title;
 - (id) nodeSave;
 -(id)nodeGet:(NSString *)anNid;
-- (NSString *)serializedObject:(id)object;
 
 @end

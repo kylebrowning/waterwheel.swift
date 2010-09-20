@@ -52,4 +52,28 @@
     [self addParam:count forKey:@"count"];
     [self runMethod];
 }
+- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
+    [self setMethod:@"comment.save"];
+    NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
+    if(nid != nil) 
+      [comment setObject:nid forKey:@"nid"];
+    if(aSubject != nil)
+      [comment setObject:aSubject forKey:@"subject"];
+    if(aBody != nil)
+      [comment setObject:aBody forKey:@"comment"];
+    
+    if([[self userInfo] objectForKey:@"uid"] != nil) {
+      id temp = [[self userInfo] objectForKey:@"uid"];
+      [comment setObject:[temp stringValue] forKey:@"uid"];
+    }    
+    if([[self userInfo] objectForKey:@"name"] != nil) {
+      id temp = [[self userInfo] objectForKey:@"name"];
+      [comment setObject:temp forKey:@"name"];
+    }
+    [self addParam:[self serializedObject:comment] forKey:@"comment"];
+    [self addParam:nid forKey:@"nid"];
+    [self runMethod];
+    [comment release];
+    return;
+}
 @end

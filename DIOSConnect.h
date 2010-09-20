@@ -73,4 +73,5 @@
 - (NSString *) buildParams;
 - (NSString *) genRandStringLength;
 - (NSString *)generateHash:(NSString *)inputString;
+- (NSString *)serializedObject:(NSMutableDictionary *)object;
 @end
