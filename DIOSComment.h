@@ -42,6 +42,9 @@
 }
 
 - (id) init;
-- (void) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count;
+- (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count;
 - (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody;
+- (NSDictionary *) getCommentCountNewForNid:(NSString*)nid;
+- (NSDictionary *) getCommentCountForNid:(NSString*)nid;
+- (NSDictionary *) getComment:(NSString*)cid;
 @end

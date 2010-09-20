@@ -45,12 +45,32 @@
     return self;
 }
 
-- (void) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count {
+- (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count {
     [self setMethod:@"comment.loadNodeComments"];
     [self addParam:nid forKey:@"nid"];
     [self addParam:start forKey:@"start"];
     [self addParam:count forKey:@"count"];
     [self runMethod];
+    return [self connResult];
+}
+- (NSDictionary *) getComment:(NSString*)cid {
+  [self setMethod:@"comment.load"];
+  [self addParam:cid forKey:@"cid"];
+  [self runMethod];
+  return [self connResult];
+}
+
+- (NSDictionary *) getCommentCountForNid:(NSString*)nid {
+  [self setMethod:@"comment.countAll"];
+  [self addParam:nid forKey:@"nid"];
+  [self runMethod];
+  return [self connResult];
+}
+- (NSDictionary *) getCommentCountNewForNid:(NSString*)nid {
+  [self setMethod:@"comment.countNew"];
+  [self addParam:nid forKey:@"nid"];
+  [self runMethod];
+  return [self connResult];
 }
 - (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
     [self setMethod:@"comment.save"];
