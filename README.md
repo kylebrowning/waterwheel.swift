@@ -18,6 +18,16 @@ Demo Code
 --------------
     DIOSConnect *session = [[DIOSConnect alloc] init];
     
+    [session loginWithUsername:[username text] andPassword:[password text]];
+    
+    NSDictionary *result = [[[delegate session] connResult] objectForKey:@"#data"];
+    if([result objectForKey:@"#error"]) {
+      UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" message:[result objectForKey:@"#message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] autorelease];
+      [alert show];
+    } else {
+      //Do some login Stuff
+    }
+    
     DIOSViews *views = [[DIOSViews alloc] initWithUserInfo:[session userInfo] andSessId:[session sessid]];
     [views initViews];
     [views addParam:@"test" forKey:@"view_name"];
