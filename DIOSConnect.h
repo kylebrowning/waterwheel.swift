@@ -45,15 +45,16 @@
 #define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
 #define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
 #define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
+#define DRUPAL_CATEGORY_VID @"1"
 @interface DIOSConnect : NSObject {
-    NSDictionary *connResult;
-    NSMutableDictionary *params;
-    NSDictionary *myDict;
-    NSString *sessid;
-    NSString *method;
-    NSDictionary *userInfo;
-    BOOL isRunning;
-    NSTimer *mainTimer;
+  NSDictionary *connResult;
+  NSMutableDictionary *params;
+  NSDictionary *myDict;
+  NSString *sessid;
+  NSString *method;
+  NSDictionary *userInfo;
+  BOOL isRunning;
+  NSTimer *mainTimer;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
 @property (nonatomic, retain) NSString *sessid;
@@ -74,4 +75,5 @@
 - (NSString *) genRandStringLength;
 - (NSString *)generateHash:(NSString *)inputString;
 - (NSString *)serializedObject:(NSMutableDictionary *)object;
+- (id) initWithSession:(DIOSConnect*)aSession;
 @end
