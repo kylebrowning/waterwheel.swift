@@ -140,6 +140,9 @@
       if([objectValue isKindOfClass:[NSString class]]) {
         currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";s:%d:\"%@\";", [aKey length], aKey, [objectValue length], objectValue];
       }
+      if([objectValue isKindOfClass:[NSNumber class]]) {
+        currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";i:%d:\"%@\";", [aKey length], aKey, [objectValue length], [objectValue stringValue]];
+      }
       serializedString = [serializedString stringByAppendingString:currentReturnValue];
     }
     serializedString = [serializedString stringByAppendingFormat:@"}"];
@@ -147,6 +150,28 @@
   return serializedString;
 }
 
+- (NSString *)serializedArray:(NSArray *)array {
+  NSString *serializedString;
+  if([array isKindOfClass:[NSArray class]]) {
+    NSEnumerator *e = [array objectEnumerator];
+    serializedString = [NSString stringWithFormat:@"a:%d:{", [[e allObjects] count]];
+    int x = 0;
+    for(id objectValue in array) {
+      NSString *currentReturnValue = nil;
+      currentReturnValue = @"";
+      if([objectValue isKindOfClass:[NSString class]]) {
+        currentReturnValue = [NSString stringWithFormat:@"i:%d;s:%d:\"%@\";", x, [objectValue length], objectValue];
+      }
+      if([objectValue isKindOfClass:[NSNumber class]]) {
+        currentReturnValue = [NSString stringWithFormat:@"i:%d;i:%d:\"%@\";", x, [objectValue length], [objectValue stringValue]];
+      }
+      serializedString = [serializedString stringByAppendingString:currentReturnValue];
+      x++;
+    }
+    serializedString = [serializedString stringByAppendingFormat:@"}"];
+  }
+  return serializedString;
+}
 - (NSString *)generateHash:(NSString *)inputString {
 	NSData *key = [DRUPAL_API_KEY dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *clearTextData = [inputString dataUsingEncoding:NSUTF8StringEncoding];
@@ -190,6 +215,7 @@
   [self addParam:nonce forKey:@"nonce"];
   
   [self addParam:[self sessid] forKey:@"sessid"];
+  NSLog(@"%@", params);
   NSURL *url = [NSURL URLWithString:DRUPAL_SERVICES_URL];
   ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
   NSString *key;

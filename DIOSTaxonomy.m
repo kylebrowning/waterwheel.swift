@@ -75,29 +75,54 @@
  */
 - (NSDictionary *)selectNodes:(NSString*)tids withFields:(NSString*)fields andOperator:(NSString*)operator andDepth:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder {
   [self setMethod:@"taxonomy.selectNodes"];
-
   if (tids != nil) {
-    [self addParam:tids forKey:@"tids"];
+    NSString *searchingForCommas = @",";
+    NSRange tidRange = [tids rangeOfString:searchingForCommas];
+    NSRange fieldsRange = [fields rangeOfString:searchingForCommas];
+    NSArray *newTids = [[NSArray alloc] init];
+    NSArray *newFields = [[NSArray alloc] init];
+    if (tidRange.location != NSNotFound) {
+      newTids = [tids componentsSeparatedByString:@","];
+    } else {
+      newTids = [NSArray arrayWithObject:tids];
+    }
+    
+    [self addParam:[self serializedArray:newTids] forKey:@"tids"];
     
     if (fields != nil) {
-      [self addParam:fields forKey:@"fields"];
+      if (fieldsRange.location != NSNotFound) {
+        newFields = [tids componentsSeparatedByString:@","];
+      } else {
+        newFields = [NSArray arrayWithObject:fields];
+      }
+      [self addParam:[self serializedArray:newFields] forKey:@"fields"];
+    } else {
+      [self addParam:[self serializedArray:[NSArray new]] forKey:@"fields"];
     }
     if (operator != nil) {
       [self addParam:operator forKey:@"operator"];
+    } else {
+      [self addParam:@"or" forKey:@"operator"];
     }
     if (depth != nil) {
       [self addParam:depth forKey:@"depth"];
+    } else {
+      [self addParam:@"0" forKey:@"depth"];
     }
     if (pager == YES) {
-      [self addParam:[NSNumber numberWithInt:1]  forKey:@"pager"];
+      [self addParam:[NSNumber numberWithInt:0]  forKey:@"pager"];
+    } else {
+      if (pager == YES) {
+        [self addParam:[NSNumber numberWithInt:1]  forKey:@"pager"];
+      }
     }
     if (anOrder != nil) {
       [self addParam:anOrder forKey:@"order"];
     } else {
-      [self addParam:@"created" forKey:@"order"];
+      [self addParam:@"n.sticky DESC, n.created DESC" forKey:@"order"];
     }
-    
     [self runMethod];
+    
     return [self connResult];
   }
   //tids is required

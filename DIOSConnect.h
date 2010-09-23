@@ -46,6 +46,8 @@
 #define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
 #define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
 #define DRUPAL_CATEGORY_VID @"1"
+#define DRUPAL_VIEWS_IMAGE_FIELD @"files_node_data_field_image_filepath"
+#define DRUPAL_NODE_IMAGE_FIELD @"field_image"
 @interface DIOSConnect : NSObject {
   NSDictionary *connResult;
   NSMutableDictionary *params;
@@ -76,4 +78,5 @@
 - (NSString *)generateHash:(NSString *)inputString;
 - (NSString *)serializedObject:(NSMutableDictionary *)object;
 - (id) initWithSession:(DIOSConnect*)aSession;
+- (NSString *)serializedArray:(NSArray *)array;
 @end
