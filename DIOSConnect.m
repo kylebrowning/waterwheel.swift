@@ -215,7 +215,6 @@
   [self addParam:nonce forKey:@"nonce"];
   
   [self addParam:[self sessid] forKey:@"sessid"];
-  NSLog(@"%@", params);
   NSURL *url = [NSURL URLWithString:DRUPAL_SERVICES_URL];
   ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
   NSString *key;

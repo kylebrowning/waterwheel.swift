@@ -12,6 +12,7 @@ What you need to get started
   - SystemConfiguration.framework
   - MobileCoreServices.framework
 * Drupal 6.0 setup with [PLIST Server](http://drupal.org/project/plist_server)
+* ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
 * Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN
 
 Demo Code
@@ -28,20 +29,20 @@ Demo Code
       //Do some login Stuff
     }
     
-    DIOSViews *views = [[DIOSViews alloc] initWithUserInfo:[session userInfo] andSessId:[session sessid]];
+    DIOSViews *views = [[DIOSViews alloc] initWithSession:session];
     [views initViews];
     [views addParam:@"test" forKey:@"view_name"];
     [views addParam:@"block_1" forKey:@"display_id"];
     [views runMethod];
 
-    DIOSNode *node = [[DIOSNode alloc] init];
+    DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
     [node setType:@"story"];
     [node setTitle:[mTitle text]];
     [node setBody:[mBody text]];
     [node nodeSave];
 
 
-    DIOSComment *commentConnect = [[DIOSComment alloc] initWithUserInfo:[session userInfo] andSessId:[session sessid]];
+    DIOSComment *commentConnect = [[DIOSComment alloc] initWithSession:session];
     [commentConnect getComments:nid andStart:start andCount:count];
 
 Troubleshooting
