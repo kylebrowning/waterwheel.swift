@@ -62,6 +62,10 @@ Comment
       return newArray;
     }
   
+    DIOSComment *comment = [[DIOSComment alloc] initWithSession:[delegate session]];
+    [comment addComment:[[nodeInfo objectForKey:@"nid"] stringValue] subject:[subject text] body:[body text]];
+  
+  
 User
 -----------------------
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
