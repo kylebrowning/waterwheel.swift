@@ -105,13 +105,14 @@
   [self runMethod];
 }
 
+//DEPRECATED -- use DIOSUser
 - (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
   [self setMethod:@"user.login"];
   [self addParam:userName forKey:@"username"];
   [self addParam:password forKey:@"password"];
   [self runMethod];
 }
-
+//DEPRECATED -- use DIOSUser
 - (void) logout {
   [self setMethod:@"user.logout"];
   [self runMethod];
