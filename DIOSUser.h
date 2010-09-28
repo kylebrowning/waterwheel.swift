@@ -42,5 +42,6 @@
 }
 - (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
 - (NSDictionary *) logout;
-- (NSDictionary *) userSave:(NSMutableDictionary *)userInfo;
+- (NSDictionary *) userSave:(NSMutableDictionary *)userDict;
+- (NSDictionary *) userDelete:(NSString*)uid;
 @end

@@ -51,7 +51,7 @@
   [self runMethod];
   return [self connResult];
 }
-- (NSDictionary *) userSave:(NSMutableDictionary *)userDict{
+- (NSDictionary *) userSave:(NSMutableDictionary *)userDict {
   [self setMethod:@"user.save"];
   [self addParam:[self serializedObject:userDict] forKey:@"account"];
   [self runMethod];
