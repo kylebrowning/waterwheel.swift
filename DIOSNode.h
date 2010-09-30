@@ -39,18 +39,9 @@
 #import "DIOSConnect.h"
 
 @interface DIOSNode : DIOSConnect {
-    //Used strings because everything passed through to drupal in PHP can technically be considered a string
-    //Can easily change these when we get to a point that needs it.
-    NSString *nid;
-    NSString *type;
-    NSString *body;
-    NSString *title;
 }
-@property (nonatomic, retain) NSString *nid;
-@property (nonatomic, retain) NSString *type;
-@property (nonatomic, retain) NSString *body;
-@property (nonatomic, retain) NSString *title;
-- (id) nodeSave;
--(id)nodeGet:(NSString *)anNid;
+
+-(id) nodeGet:(NSString *)anNid;
+-(id) nodeSave:(NSMutableDictionary *)node;
 
 @end

@@ -37,41 +37,21 @@
 
 
 @implementation DIOSNode
-@synthesize nid, title, body, type;
 -(id) init {
     [super init];
     return self;
 }
 
--(id)nodeGet:(NSString *)anNid {
+-(id) nodeGet:(NSString *)anNid {
     [self setMethod:@"node.get"];
     [self addParam:anNid forKey:@"nid"];
     [self runMethod];
     return self;
 }
--(id)nodeSave {
+-(id) nodeSave:(NSMutableDictionary *)node {
     [self setMethod:@"node.save"];
-    NSMutableDictionary *node = [[NSMutableDictionary alloc] init];
-    if(nid != nil) 
-    [node setObject:nid forKey:@"nid"];
-    if(type != nil)
-    [node setObject:type forKey:@"type"];
-    if(title != nil)
-    [node setObject:title forKey:@"title"];
-    if(body != nil)
-    [node setObject:body forKey:@"body"];
-    
-    if([[self userInfo] objectForKey:@"uid"] != nil) {
-        id temp = [[self userInfo] objectForKey:@"uid"];
-        [node setObject:[temp stringValue] forKey:@"uid"];
-    }    
-    if([[self userInfo] objectForKey:@"name"] != nil) {
-        id temp = [[self userInfo] objectForKey:@"name"];
-        [node setObject:temp forKey:@"name"];
-    }
     [self addParam:[self serializedObject:node] forKey:@"node"];
     [self runMethod];
-    [node release];
     return self;
 }
 - (void) dealloc {

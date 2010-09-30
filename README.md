@@ -15,7 +15,7 @@ What you need to get started
 * ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
 * Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN
 
-Demo Code
+Demo Code (note: does not represent all Drupal iOS SDK can do just examples I thougth were important to see)
 ======================
 Session
 --------------------
@@ -42,10 +42,11 @@ Views
 Node
 -----------------------
     DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
-    [node setType:@"story"];
-    [node setTitle:[mTitle text]];
-    [node setBody:[mBody text]];
-    [node nodeSave];
+    NSMutableDictionary *node = [[NSMutableDictionary alloc] init];
+    [node setObject:@"story" forKey:@"type"];
+    [node setObject:@"A Title" forKey:@"title"];
+    [node setObject:@"Some Body Text" forKey:@"body"];
+    [node nodeSave:node];
 
 
 Comment
