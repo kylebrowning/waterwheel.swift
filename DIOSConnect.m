@@ -57,31 +57,6 @@
   [self connect];
   return self;
 }
-// DEPRECATED
-- (id) initWithSessId:(NSString*)aSessId {
-  [super init];
-  isRunning = NO;
-  mainTimer = nil;
-  if(params == nil) {
-    NSMutableDictionary *newParams = [[[NSMutableDictionary alloc] init] autorelease];
-    params = newParams;
-  }
-  [self setSessid:aSessId];
-  return self;
-}
-// DEPRECATED
-- (id) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId {
-  [super init];
-  isRunning = NO;
-  mainTimer = nil;
-  if(params == nil) {
-    NSMutableDictionary *newParams = [[[NSMutableDictionary alloc] init] autorelease];
-    params = newParams;
-  }
-  [self setUserInfo:someUserInfo];
-  [self setSessid:sessId];
-  return self;
-}
 
 //Use this, if you have already connected to Drupal, for example, if the user is logged in, you should
 //Store that session id somewhere and use it anytime you need to make a new drupal call.
@@ -102,19 +77,6 @@
 }
 - (void) connect {
   [self setMethod:@"system.connect"];
-  [self runMethod];
-}
-
-//DEPRECATED -- use DIOSUser
-- (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
-  [self setMethod:@"user.login"];
-  [self addParam:userName forKey:@"username"];
-  [self addParam:password forKey:@"password"];
-  [self runMethod];
-}
-//DEPRECATED -- use DIOSUser
-- (void) logout {
-  [self setMethod:@"user.logout"];
   [self runMethod];
 }
 
@@ -218,6 +180,7 @@
     output[theIndex + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
     output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
   }
+    return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
 }
 -(NSString *) genRandStringLength {
   NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
@@ -332,5 +295,24 @@
   [params release];
   [userInfo release];
   [super dealloc];
+}
+
+#pragma mark 
+#pragma mark DEPRECATED METHODS
+// DEPRECATED
+- (void) initWithSessId:(NSString*)aSessId {
+  NSAssert(NO, @"DIOSConnect initWithSessID is deprecated, use initWithSession");
+}
+// DEPRECATED
+- (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId {
+  NSAssert(NO, @"DIOSConnect initWithUserInfo is deprecated, use initWithSession");
+}
+//DEPRECATED -- use DIOSUser
+- (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
+  NSAssert(NO, @"DIOSConnect loginWithUsername is deprecated, use DIOSUser");
+}
+//DEPRECATED -- use DIOSUser
+- (void) logout {
+  NSAssert(NO, @"DIOSConnect logout is deprecated, use DIOSUser");
 }
 @end
