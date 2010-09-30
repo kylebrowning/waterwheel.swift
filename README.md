@@ -15,7 +15,7 @@ What you need to get started
 * ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
 * Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN
 
-Demo Code (note: does not represent all Drupal iOS SDK can do just examples I thougth were important to see)
+Demo Code (note: does not represent all Drupal iOS SDK can do just examples I thought were important to see)
 ======================
 Session
 --------------------
@@ -109,6 +109,10 @@ Taxonomy
 Troubleshooting
 ----------
 If you are getting Access denied, or API Key not valid, double check that your key settings are setup correctly at admin/build/services/keys and double check that permissions are correct for your user and anonymous.
+
+X service doesnt exist in Drupal iOS SDK
+----------
+Thats ok, just subclass DIOSConnect and follow the model of tthe other DIOS classes. If its a core services Class and I have not added it in, please help us all out and contribute it by by doing a pull request. Thanks!
 
 Questions
 ----------
