@@ -40,7 +40,10 @@
 
 @implementation DIOSFile
 
-
+-(id) init {
+  [super init];
+  return self;
+}
 - (NSDictionary *) fileSave:(NSMutableDictionary *)fileDict {
   [self setMethod:@"file.save"];
   [self addParam:[self serializedObject:fileDict] forKey:@"file"];

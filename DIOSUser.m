@@ -38,6 +38,10 @@
 
 
 @implementation DIOSUser
+-(id) init {
+  [super init];
+  return self;
+}
 - (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
   [self setMethod:@"user.login"];
   [self addParam:userName forKey:@"username"];
