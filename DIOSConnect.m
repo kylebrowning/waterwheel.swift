@@ -105,6 +105,9 @@
       }
       if([objectValue isKindOfClass:[NSNumber class]]) {
         currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";i:%d:\"%@\";", [aKey length], aKey, [objectValue length], [objectValue stringValue]];
+      }      
+      if([objectValue isKindOfClass:[NSMutableDictionary class]]) {
+        currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";%@", [aKey length], aKey, [self serializedObject:objectValue]];
       }
       serializedString = [serializedString stringByAppendingString:currentReturnValue];
     }
@@ -112,6 +115,7 @@
   }
   return serializedString;
 }
+
 
 
 	
