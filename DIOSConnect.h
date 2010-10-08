@@ -37,7 +37,7 @@
 #import <Foundation/Foundation.h>
 
 #define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
-#define DRUPAL_SERVICES_URL  @"http://drupal6/services/plist"
+#define DRUPAL_SERVICES_URL  @"http://drupal6-services/services/plist"
 #define DRUPAL_URL  @"http://demo.kylebrowning.com/"
 #define DRUPAL_CELL_DEFAULT_IMAGE  @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
 #define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
@@ -57,12 +57,16 @@
   NSDictionary *userInfo;
   BOOL isRunning;
   NSTimer *mainTimer;
+  NSString *methodUrl;
+  NSString *responseStatusMessage;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
 @property (nonatomic, retain) NSString *sessid;
 @property (nonatomic, retain) NSString *method;
 @property (nonatomic, retain) NSMutableDictionary *params;
 @property (nonatomic, retain) NSDictionary *userInfo;
+@property (nonatomic, retain) NSString *methodUrl;
+@property (nonatomic, retain) NSString *responseStatusMessage;
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;
 - (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId;

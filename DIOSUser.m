@@ -44,19 +44,22 @@
 }
 - (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
   [self setMethod:@"user.login"];
-  [self addParam:userName forKey:@"username"];
-  [self addParam:password forKey:@"password"];
+  [self setMethodUrl:@"user/login"];
+  [self addParam:userName forKey:@"name"];
+  [self addParam:password forKey:@"pass"];
   [self runMethod];
   return [self connResult];
 }
 
 - (NSDictionary *) logout {
   [self setMethod:@"user.logout"];
+  [self setMethodUrl:@"user/logout"];
   [self runMethod];
   return [self connResult];
 }
 - (NSDictionary *) userSave:(NSMutableDictionary *)userDict {
   [self setMethod:@"user.save"];
+  [self setMethodUrl:@"user/save"];
   [self addParam:userDict forKey:@"account"];
   [self runMethod];
   return [self connResult];

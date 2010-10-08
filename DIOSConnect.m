@@ -41,7 +41,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation DIOSConnect
-@synthesize connResult, sessid, method, params, userInfo;
+@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
@@ -77,6 +77,7 @@
 }
 - (void) connect {
   [self setMethod:@"system.connect"];
+  [self setMethodUrl:@"system/connect"];
   [self runMethod];
 }
 
@@ -164,7 +165,7 @@
   [self addParam:nonce forKey:@"nonce"];
   [self addParam:[self sessid] forKey:@"sessid"];
   
-  NSString *url = [NSString stringWithFormat:@"%@/%@", DRUPAL_SERVICES_URL, [self method]];
+  NSString *url = [NSString stringWithFormat:@"%@/%@", DRUPAL_SERVICES_URL, [self methodUrl]];
   
   ASIHTTPRequest *requestBinary = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
   NSString *errorStr;
@@ -182,7 +183,7 @@
   }
   NSPropertyListFormat format;
   id plist;
-  
+  responseStatusMessage = [requestBinary responseStatusMessage];
   plist = [NSPropertyListSerialization propertyListFromData:response
                                            mutabilityOption:NSPropertyListMutableContainersAndLeaves
                                                      format:&format
