@@ -41,7 +41,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation DIOSConnect
-@synthesize connResult, sessid, method, params, userInfo;
+@synthesize connResult, sessid, method, params, userInfo, responseStatusMessage;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
@@ -182,7 +182,7 @@
   }
   NSPropertyListFormat format;
   id plist;
-  
+  [self setResponseStatusMessage:[requestBinary responseStatusMessage]];
   plist = [NSPropertyListSerialization propertyListFromData:response
                                            mutabilityOption:NSPropertyListMutableContainersAndLeaves
                                                      format:&format
