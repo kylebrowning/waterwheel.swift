@@ -70,7 +70,7 @@
   isRunning = NO;
   mainTimer = nil;
   if(params == nil) {
-    NSMutableDictionary *newParams = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *newParams = [[NSMutableDictionary alloc] init];
     params = newParams;
   }
   return self;
@@ -90,58 +90,7 @@
 	
 	return [[stringBuffer copy] autorelease];
 }
-//This method essetinally converts a node into a serialized array
-- (NSString *)serializedObject:(NSMutableDictionary *)object {
-  NSString *serializedString;
-  if([object isKindOfClass:[NSMutableDictionary class]]) {
-    NSEnumerator *e = [object keyEnumerator];
-    serializedString = [NSString stringWithFormat:@"a:%d:{", [[e allObjects] count]];
-    for(NSString *aKey in object){
-      id objectValue = [object valueForKey:aKey];
-      NSString *currentReturnValue = nil;
-      currentReturnValue = @"";
-      if([objectValue isKindOfClass:[NSString class]]) {
-        currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";s:%d:\"%@\";", [aKey length], aKey, [objectValue length], objectValue];
-      }
-      if([objectValue isKindOfClass:[NSNumber class]]) {
-        currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";i:%d:\"%@\";", [aKey length], aKey, [objectValue length], [objectValue stringValue]];
-      }      
-      if([objectValue isKindOfClass:[NSMutableDictionary class]]) {
-        currentReturnValue = [NSString stringWithFormat:@"s:%d:\"%@\";%@", [aKey length], aKey, [self serializedObject:objectValue]];
-      }
-      serializedString = [serializedString stringByAppendingString:currentReturnValue];
-    }
-    serializedString = [serializedString stringByAppendingFormat:@"}"];
-  }
-  return serializedString;
-}
 
-
-
-	
-  
-- (NSString *)serializedArray:(NSArray *)array {
-  NSString *serializedString;
-  if([array isKindOfClass:[NSArray class]]) {
-    NSEnumerator *e = [array objectEnumerator];
-    serializedString = [NSString stringWithFormat:@"a:%d:{", [[e allObjects] count]];
-    int x = 0;
-    for(id objectValue in array) {
-      NSString *currentReturnValue = nil;
-      currentReturnValue = @"";
-      if([objectValue isKindOfClass:[NSString class]]) {
-        currentReturnValue = [NSString stringWithFormat:@"i:%d;s:%d:\"%@\";", x, [objectValue length], objectValue];
-      }
-      if([objectValue isKindOfClass:[NSNumber class]]) {
-        currentReturnValue = [NSString stringWithFormat:@"i:%d;i:%d:\"%@\";", x, [objectValue length], [objectValue stringValue]];
-      }
-      serializedString = [serializedString stringByAppendingString:currentReturnValue];
-      x++;
-    }
-    serializedString = [serializedString stringByAppendingFormat:@"}"];
-  }
-  return serializedString;
-}
 - (NSString *)generateHash:(NSString *)inputString {
 	NSData *key = [DRUPAL_API_KEY dataUsingEncoding:NSUTF8StringEncoding];
 	NSData *clearTextData = [inputString dataUsingEncoding:NSUTF8StringEncoding];
@@ -213,40 +162,45 @@
   [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
   [self addParam:timestamp forKey:@"domain_time_stamp"];
   [self addParam:nonce forKey:@"nonce"];
-  
   [self addParam:[self sessid] forKey:@"sessid"];
-  NSURL *url = [NSURL URLWithString:DRUPAL_SERVICES_URL];
-  ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
-  NSString *key;
-  for (key in [self params]) {
-    [request setPostValue:[[self params] objectForKey:key] forKey:key];
-  }
-  [request startSynchronous];
-  NSError *error = [request error];
-  NSString *response;
+  
+  NSString *url = [NSString stringWithFormat:@"%@/%@", DRUPAL_SERVICES_URL, [self method]];
+  
+  ASIHTTPRequest *requestBinary = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+  NSString *errorStr;
+  NSData *dataRep = [NSPropertyListSerialization dataFromPropertyList: [self params]
+                                                               format: NSPropertyListBinaryFormat_v1_0
+                                                     errorDescription: &errorStr];
+  [requestBinary appendPostData:dataRep];
+  [requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
+  [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
+  [requestBinary startSynchronous];
+  NSError *error = [requestBinary error];
+  NSData *response;
   if (!error) {
-    response = [request responseString];
+    response = [requestBinary responseData];
   }
-  NSDictionary *dictionary;
-  @try {
-    dictionary = [response propertyList];
-  }
-  @catch (NSException * e) {
-    NSLog(@"I couldnt read the propery list returned from the server %@ :(", response);
-  }
-  [self setConnResult:dictionary];
-  if([[dictionary objectForKey:@"#method"] isEqualToString:@"system.connect"]) {
-    myDict = [dictionary objectForKey:@"#data"];
-    if(myDict != nil) {
-      [self setSessid:[myDict objectForKey:@"sessid"]];
-      [self setUserInfo:[myDict objectForKey:@"user"]];
+  NSPropertyListFormat format;
+  id plist;
+  
+  plist = [NSPropertyListSerialization propertyListFromData:response
+                                           mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                                     format:&format
+                                           errorDescription:&errorStr];
+  
+  
+
+  [self setConnResult:plist];
+  if([[self method] isEqualToString:@"system.connect"]) {
+    if(plist != nil) {
+      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
     }
   }
-  if([[dictionary objectForKey:@"#method"] isEqualToString:@"user.login"]) {
-    myDict = [dictionary objectForKey:@"#data"];
-    if(myDict != nil) {
-      [self setSessid:[myDict objectForKey:@"sessid"]];
-      [self setUserInfo:[myDict objectForKey:@"user"]];
+  if([[self method] isEqualToString:@"user.login"]) {
+    if(plist != nil) {
+      [self setSessid:[plist objectForKey:@"sessid"]];
+      [self setUserInfo:[plist objectForKey:@"user"]];
     }
   }
   //Bug in ASIHTTPRequest, put here to stop activity indicator
@@ -318,5 +272,12 @@
 //DEPRECATED -- use DIOSUser
 - (void) logout {
   NSAssert(NO, @"DIOSConnect logout is deprecated, use DIOSUser");
+}
+
+- (void)serializedObject:(NSMutableDictionary *)object {
+  NSAssert(NO, @"serializedObject NO LONGER NEEDED");
+}
+- (void)serializedArray:(NSArray *)array {
+  NSAssert(NO, @"serializedArray NO LONGER NEEDED");
 }
 @end

@@ -90,7 +90,7 @@
       id temp = [[self userInfo] objectForKey:@"name"];
       [comment setObject:temp forKey:@"name"];
     }
-    [self addParam:[self serializedObject:comment] forKey:@"comment"];
+    [self addParam:comment forKey:@"comment"];
     [self addParam:nid forKey:@"nid"];
     [self runMethod];
     [comment release];

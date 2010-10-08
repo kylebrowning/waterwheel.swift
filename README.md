@@ -76,7 +76,7 @@ User
     [userData setObject:@"anemail@anyemail.com" forKey:@"mail"];
     NSMutableDictionary *roles = [[NSMutableDictionary alloc] init];
     [roles setObject:@"testRole" forKey:@"3"];
-    [userData setObject:[user serializedObject:roles] forKey:@"roles"];
+    [userData setObject:roles forKey:@"roles"];
     [user userSave:userData];
 
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];

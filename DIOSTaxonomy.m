@@ -48,7 +48,6 @@
 }
 - (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth {
   [self setMethod:@"taxonomy.getTree"];
-  
   if (vid != nil) {
     [self addParam:vid forKey:@"vid"];
     
@@ -60,6 +59,7 @@
     }    
     
     [self runMethod];
+    
     return [self connResult];
   }
   //vid is required
@@ -87,7 +87,7 @@
       newTids = [NSArray arrayWithObject:tids];
     }
     
-    [self addParam:[self serializedArray:newTids] forKey:@"tids"];
+    [self addParam:newTids forKey:@"tids"];
     
     if (fields != nil) {
       if (fieldsRange.location != NSNotFound) {
@@ -95,9 +95,9 @@
       } else {
         newFields = [NSArray arrayWithObject:fields];
       }
-      [self addParam:[self serializedArray:newFields] forKey:@"fields"];
+      [self addParam:newFields forKey:@"fields"];
     } else {
-      [self addParam:[self serializedArray:[NSArray new]] forKey:@"fields"];
+      [self addParam:[NSArray new] forKey:@"fields"];
     }
     if (operator != nil) {
       [self addParam:operator forKey:@"operator"];

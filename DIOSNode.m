@@ -50,7 +50,7 @@
 }
 -(id) nodeSave:(NSMutableDictionary *)node {
     [self setMethod:@"node.save"];
-    [self addParam:[self serializedObject:node] forKey:@"node"];
+    [self addParam:node forKey:@"node"];
     [self runMethod];
     return self;
 }
