@@ -44,4 +44,5 @@
 - (NSDictionary *) logout;
 - (NSDictionary *) userSave:(NSMutableDictionary *)userDict;
 - (NSDictionary *) userDelete:(NSString*)uid;
+- (NSDictionary *) userGet:(NSString*)uid;
 @end

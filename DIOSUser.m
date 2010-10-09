@@ -68,8 +68,10 @@
 }
 - (NSDictionary *) userGet:(NSString*)uid {
   [self setMethod:@"user.get"];
-  [self addParam:uid forKey:@"uid"];
+  [self setRequestMethod:@"GET"];
+  [self setMethodUrl:[NSString stringWithFormat:@"user/%@", uid]];
   [self runMethod];
+  
   return [self connResult];
 }
 - (NSDictionary *) userDelete:(NSString*)uid {

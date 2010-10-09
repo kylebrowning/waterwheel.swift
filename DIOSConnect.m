@@ -41,7 +41,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation DIOSConnect
-@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage;
+@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
@@ -54,6 +54,7 @@
     NSMutableDictionary *newParams = [[NSMutableDictionary alloc] init];
     params = newParams;
   }
+  [self setRequestMethod:@"POST"];
   [self connect];
   return self;
 }
@@ -73,6 +74,7 @@
     NSMutableDictionary *newParams = [[NSMutableDictionary alloc] init];
     params = newParams;
   }
+  [self setRequestMethod:@"POST"];
   return self;
 }
 - (void) connect {
@@ -158,22 +160,27 @@
 //  [self removeParam:@"domain_name"];
 //  [self removeParam:@"domain_time_stamp"];
 //  [self removeParam:@"nonce"];
-//  [self removeParam:@"sessid"];
+
 //  NSString *hashParams = [NSString stringWithFormat:@"%@;%@;%@;%@",timestamp,DRUPAL_DOMAIN,nonce,[self method]];
 //  [self addParam:[self generateHash:hashParams] forKey:@"hash"];
 //  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
 //  [self addParam:timestamp forKey:@"domain_time_stamp"];
 //  [self addParam:nonce forKey:@"nonce"];
-//  [self addParam:[self sessid] forKey:@"sessid"];
+  [self removeParam:@"sessid"];
+  [self addParam:[self sessid] forKey:@"sessid"];
   
   NSString *url = [NSString stringWithFormat:@"%@/%@", DRUPAL_SERVICES_URL, [self methodUrl]];
   
   ASIHTTPRequest *requestBinary = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+  [requestBinary setRequestMethod:requestMethod];
+  
   NSString *errorStr;
   NSData *dataRep = [NSPropertyListSerialization dataFromPropertyList: [self params]
                                                                format: NSPropertyListBinaryFormat_v1_0
                                                      errorDescription: &errorStr];
-  [requestBinary appendPostData:dataRep];
+  if([[self requestMethod] isEqualToString:@"POST"]) {
+    [requestBinary appendPostData:dataRep];
+  }
   [requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
   [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
   [requestBinary startSynchronous];
@@ -190,6 +197,7 @@
                                              mutabilityOption:NSPropertyListMutableContainersAndLeaves
                                                        format:&format
                                              errorDescription:&errorStr];
+    [self setConnResult:plist];
     if([[self method] isEqualToString:@"system.connect"]) {
       if(plist != nil) {
         [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
