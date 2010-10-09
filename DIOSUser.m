@@ -60,9 +60,13 @@
 - (NSDictionary *) userSave:(NSMutableDictionary *)userDict {
   [self setMethod:@"user.save"];
   [self setMethodUrl:@"user"];
-  for (NSString *key in userDict) {
-     [self addParam:[userDict objectForKey:key] forKey:key]; 
+  if ([userDict objectForKey:@"uid"] != nil && ![[userDict objectForKey:@"uid"] isEqualToString:@""]) {
+    [self setMethodUrl:[NSString stringWithFormat:@"user/%@", [userDict objectForKey:@"uid"]]];
+    [self setRequestMethod:@"PUT"];
   }
+  for (NSString *key in userDict) {
+    [self addParam:[userDict objectForKey:key] forKey:key]; 
+  } 
   [self runMethod];
   return [self connResult];
 }

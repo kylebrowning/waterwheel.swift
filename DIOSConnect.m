@@ -172,15 +172,15 @@
   NSString *url = [NSString stringWithFormat:@"%@/%@", DRUPAL_SERVICES_URL, [self methodUrl]];
   
   ASIHTTPRequest *requestBinary = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
-  [requestBinary setRequestMethod:requestMethod];
   
   NSString *errorStr;
   NSData *dataRep = [NSPropertyListSerialization dataFromPropertyList: [self params]
                                                                format: NSPropertyListBinaryFormat_v1_0
                                                      errorDescription: &errorStr];
-  if([[self requestMethod] isEqualToString:@"POST"]) {
+  if([[self requestMethod] isEqualToString:@"POST"] || [[self requestMethod] isEqualToString:@"PUT"]) {
     [requestBinary appendPostData:dataRep];
   }
+  [requestBinary setRequestMethod:requestMethod];
   [requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
   [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
   [requestBinary startSynchronous];
