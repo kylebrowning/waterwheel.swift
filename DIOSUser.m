@@ -59,8 +59,10 @@
 }
 - (NSDictionary *) userSave:(NSMutableDictionary *)userDict {
   [self setMethod:@"user.save"];
-  [self setMethodUrl:@"user/save"];
-  [self addParam:userDict forKey:@"account"];
+  [self setMethodUrl:@"user"];
+  for (NSString *key in userDict) {
+     [self addParam:[userDict objectForKey:key] forKey:key]; 
+  }
   [self runMethod];
   return [self connResult];
 }

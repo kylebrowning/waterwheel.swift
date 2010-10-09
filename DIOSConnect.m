@@ -149,21 +149,22 @@
 
 //This runs our method and actually gets a response from drupal
 -(void) runMethod {
-  NSString *timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
-  NSString *nonce = [self genRandStringLength];
-  //removed because we have to regen this every call
-  [self removeParam:@"hash"];
-  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
-  [self removeParam:@"domain_name"];
-  [self removeParam:@"domain_time_stamp"];
-  [self removeParam:@"nonce"];
-  [self removeParam:@"sessid"];
-  NSString *hashParams = [NSString stringWithFormat:@"%@;%@;%@;%@",timestamp,DRUPAL_DOMAIN,nonce,[self method]];
-  [self addParam:[self generateHash:hashParams] forKey:@"hash"];
-  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
-  [self addParam:timestamp forKey:@"domain_time_stamp"];
-  [self addParam:nonce forKey:@"nonce"];
-  [self addParam:[self sessid] forKey:@"sessid"];
+  //Key Auth doesnt work in REST services
+//  NSString *timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
+//  NSString *nonce = [self genRandStringLength];
+//  //removed because we have to regen this every call
+//  [self removeParam:@"hash"];
+//  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
+//  [self removeParam:@"domain_name"];
+//  [self removeParam:@"domain_time_stamp"];
+//  [self removeParam:@"nonce"];
+//  [self removeParam:@"sessid"];
+//  NSString *hashParams = [NSString stringWithFormat:@"%@;%@;%@;%@",timestamp,DRUPAL_DOMAIN,nonce,[self method]];
+//  [self addParam:[self generateHash:hashParams] forKey:@"hash"];
+//  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
+//  [self addParam:timestamp forKey:@"domain_time_stamp"];
+//  [self addParam:nonce forKey:@"nonce"];
+//  [self addParam:[self sessid] forKey:@"sessid"];
   
   NSString *url = [NSString stringWithFormat:@"%@/%@", DRUPAL_SERVICES_URL, [self methodUrl]];
   
@@ -184,25 +185,25 @@
   NSPropertyListFormat format;
   id plist;
   responseStatusMessage = [requestBinary responseStatusMessage];
-  plist = [NSPropertyListSerialization propertyListFromData:response
-                                           mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                                     format:&format
-                                           errorDescription:&errorStr];
-  
-  
-
-  [self setConnResult:plist];
-  if([[self method] isEqualToString:@"system.connect"]) {
-    if(plist != nil) {
-      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+  if ([requestBinary responseStatusCode] == 200) {
+    plist = [NSPropertyListSerialization propertyListFromData:response
+                                             mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                                       format:&format
+                                             errorDescription:&errorStr];
+    if([[self method] isEqualToString:@"system.connect"]) {
+      if(plist != nil) {
+        [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+        [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+      }
     }
-  }
-  if([[self method] isEqualToString:@"user.login"]) {
-    if(plist != nil) {
-      [self setSessid:[plist objectForKey:@"sessid"]];
-      [self setUserInfo:[plist objectForKey:@"user"]];
+    if([[self method] isEqualToString:@"user.login"]) {
+      if(plist != nil) {
+        [self setSessid:[plist objectForKey:@"sessid"]];
+        [self setUserInfo:[plist objectForKey:@"user"]];
+      }
     }
+  } else {
+    //Something WRONG happend
   }
   //Bug in ASIHTTPRequest, put here to stop activity indicator
   UIApplication* app = [UIApplication sharedApplication];
