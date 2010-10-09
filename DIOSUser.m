@@ -76,7 +76,8 @@
 }
 - (NSDictionary *) userDelete:(NSString*)uid {
   [self setMethod:@"user.delete"];
-  [self addParam:uid forKey:@"uid"];
+  [self setRequestMethod:@"DELETE"];
+  [self setMethodUrl:[NSString stringWithFormat:@"user/%@", uid]];
   [self runMethod];
   return [self connResult];
 }
