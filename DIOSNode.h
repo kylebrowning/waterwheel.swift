@@ -43,5 +43,5 @@
 
 -(id) nodeGet:(NSString *)anNid;
 -(id) nodeSave:(NSMutableDictionary *)node;
-
+-(id) nodeDelete:(NSString *)anNid;
 @end

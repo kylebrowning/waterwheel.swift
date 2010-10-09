@@ -41,7 +41,12 @@
     [super init];
     return self;
 }
-
+-(id) nodeDelete:(NSString *)anNid {
+  [self setMethod:@"node.delete"];
+  [self addParam:anNid forKey:@"nid"];
+  [self runMethod];
+  return self;
+}
 -(id) nodeGet:(NSString *)anNid {
     [self setMethod:@"node.get"];
     [self addParam:anNid forKey:@"nid"];
