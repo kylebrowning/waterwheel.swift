@@ -41,7 +41,7 @@
 #import "ASIFormDataRequest.h"
 
 @implementation DIOSConnect
-@synthesize connResult, sessid, method, params, userInfo, responseStatusMessage;
+@synthesize connResult, sessid, method, params, userInfo, responseStatusMessage, methodUrl;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal

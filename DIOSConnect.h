@@ -58,6 +58,7 @@
   BOOL isRunning;
   NSTimer *mainTimer;
   NSString *responseStatusMessage;
+  NSString *methodUrl;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
 @property (nonatomic, retain) NSString *sessid;
@@ -65,6 +66,7 @@
 @property (nonatomic, retain) NSMutableDictionary *params;
 @property (nonatomic, retain) NSDictionary *userInfo;
 @property (nonatomic, retain) NSString *responseStatusMessage;
+@property (nonatomic, retain) NSString *methodUrl;
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;
 - (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId;
