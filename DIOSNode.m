@@ -41,18 +41,32 @@
     [super init];
     return self;
 }
-
--(id) nodeGet:(NSString *)anNid {
-    [self setMethod:@"node.get"];
-    [self addParam:anNid forKey:@"nid"];
-    [self runMethod];
-    return self;
+-(NSDictionary *) nodeDelete:(NSString *)nid {
+  [self setMethod:@"node.delete"];
+  [self setRequestMethod:@"DELETE"];
+  [self setMethodUrl:[NSString stringWithFormat:@"node/%@", nid]];
+  [self runMethod];
+  return [self connResult];
 }
--(id) nodeSave:(NSMutableDictionary *)node {
-    [self setMethod:@"node.save"];
-    [self addParam:node forKey:@"node"];
-    [self runMethod];
-    return self;
+-(NSDictionary *) nodeGet:(NSString *)nid {
+  [self setMethod:@"node.get"];
+  [self setRequestMethod:@"GET"];
+  [self setMethodUrl:[NSString stringWithFormat:@"node/%@", nid]];
+  [self runMethod];
+   return [self connResult];
+}
+-(NSDictionary *) nodeSave:(NSMutableDictionary *)node {
+  [self setMethod:@"node.save"];
+  [self setMethodUrl:@"node"];
+  if ([node objectForKey:@"nid"] != nil && ![[node objectForKey:@"nid"] isEqualToString:@""]) {
+    [self setMethodUrl:[NSString stringWithFormat:@"node/%@", [node objectForKey:@"nid"]]];
+    [self setRequestMethod:@"PUT"];
+  }
+  for (NSString *key in node) {
+    [self addParam:[node objectForKey:key] forKey:key]; 
+  } 
+  [self runMethod];
+  return [self connResult];
 }
 - (void) dealloc {
     [super dealloc];

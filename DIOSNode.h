@@ -41,7 +41,7 @@
 @interface DIOSNode : DIOSConnect {
 }
 
--(id) nodeGet:(NSString *)anNid;
--(id) nodeSave:(NSMutableDictionary *)node;
-
+-(NSDictionary *) nodeGet:(NSString *)anNid;
+-(NSDictionary *) nodeSave:(NSMutableDictionary *)node;
+-(NSDictionary *) nodeDelete:(NSString *)nid;
 @end
