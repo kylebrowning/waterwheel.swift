@@ -84,4 +84,5 @@
 - (void)serializedArray:(NSArray *)array;
 - (id) initWithSession:(DIOSConnect*)aSession;
 - (NSString*)base64forData:(NSData*)theData;
+- (NSData *) stringForBase64: (NSString *)string;
 @end
