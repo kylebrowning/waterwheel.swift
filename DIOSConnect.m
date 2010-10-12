@@ -39,7 +39,7 @@
 #import "DIOSConnect.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-
+#import "NSData+Base64.h"
 @implementation DIOSConnect
 @synthesize connResult, sessid, method, params, userInfo, responseStatusMessage, methodUrl;
 
@@ -104,7 +104,14 @@
 	//NSLog(@"hash string: %@ length: %d",[hashedString lowercaseString],[hashedString length]);
 	return [hashedString lowercaseString];
 }
-
+-(NSString *) genRandStringLength {	
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
+    for (int i=0; i<10; i++) {
+        [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
+    }
+    return randomString;
+}
 //This runs our method and actually gets a response from drupal
 -(void) runMethod {
   NSString *timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
