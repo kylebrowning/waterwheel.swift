@@ -17,6 +17,8 @@ What you need to get started
 
 Demo Code (note: does not represent all Drupal iOS SDK can do just examples I thought were important to see)
 ======================
+Example project  http://github.com/workhabitinc/drupal-ios-sdk-example
+--------------------
 Session
 --------------------
     DIOSConnect *session = [[DIOSConnect alloc] init];
