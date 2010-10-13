@@ -36,6 +36,7 @@ Views
 
 Node
 -----------------------
+#### Add
     DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
     NSMutableDictionary *nodeData = [[NSMutableDictionary alloc] init];
     [nodeData setObject:[bodySaveField text] forKey:@"body"];
@@ -47,7 +48,15 @@ Node
     [nodeData setObject:[[session userInfo] objectForKey:@"name"] forKey:@"name"];
     [node nodeSave:nodeData];
     [node release];
-
+#### Delete
+    DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
+    [node nodeDelete:[nidDeleteField text]];
+    [node release];
+    
+#### Get
+    DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
+    [node nodeGet:[nidGetField text]];
+    [node release]; 
 
 Comment
 -----------------------
@@ -67,9 +76,9 @@ User
     [user loginWithUsername:[usernameLoginField text] andPassword:[passwordLoginField text]];
     [user release];
 #### Logout
-  DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
-  [user logout];
-  [user release];
+    DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
+    [user logout];
+    [user release];
 #### Save    
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
     NSMutableDictionary *userData = [[NSMutableDictionary alloc] init];
@@ -82,13 +91,11 @@ User
 #### Get    
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
     [user userGet:[uidGetField text]];
-    [self displayDebugDIOS:user];
     [user release];
 
 #### Delete    
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
     [user userDelete:[uidDeleteField text]];
-    [self displayDebugDIOS:user];
     [user release];
     
 Taxonomy 
