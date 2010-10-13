@@ -15,10 +15,8 @@ What you need to get started
 * ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
 * Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN
 
-Demo Code (note: does not represent all Drupal iOS SDK can do just examples I thought were important to see)
-======================
-Example project  http://github.com/workhabitinc/drupal-ios-sdk-example
---------------------
+Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example)
+====================== 
 Session
 --------------------
     DIOSConnect *session = [[DIOSConnect alloc] init];
