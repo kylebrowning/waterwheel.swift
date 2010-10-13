@@ -26,73 +26,70 @@ Session
     
 Views
 -----------------------
-    - (NSMutableArray *) getViewDataWithName:(NSString*)viewName {
-      DIOSViews *views = [[DIOSViews alloc] initWithSession:session];
-      [views initViews];
-      [views addParam:viewName forKey:@"view_name"];
-      [views addParam:@"Defaults" forKey:@"display_id"];
-      [views runMethod];
-      id object;
-      NSEnumerator *e = [[[views connResult] objectForKey:@"#data"] objectEnumerator];
-      NSMutableArray *newArray = [[NSMutableArray alloc] init];
-      while (object = [e nextObject]) {
-        [newArray addObject:object];
-      }
-      return newArray;
-    }
+    DIOSViews *views = [[DIOSViews alloc] initWithSession:session];
+    [views initViews];
+    [views addParam:[viewNameField text] forKey:@"view_name"];
+    [views addParam:[NSArray arrayWithObjects:[argsField text], nil] forKey:@"args"];
+    [views addParam:[displayNameField text] forKey:@"display_id"];
+    [views runMethod];
+    [views release];
 
 Node
 -----------------------
     DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
-    NSMutableDictionary *node = [[NSMutableDictionary alloc] init];
-    [node setObject:@"story" forKey:@"type"];
-    [node setObject:@"A Title" forKey:@"title"];
-    [node setObject:@"Some Body Text" forKey:@"body"];
-    [node nodeSave:node];
+    NSMutableDictionary *nodeData = [[NSMutableDictionary alloc] init];
+    [nodeData setObject:[bodySaveField text] forKey:@"body"];
+    [nodeData setObject:[typeSaveField text] forKey:@"type"];
+    [nodeData setObject:[titleSaveField text] forKey:@"title"];
+    [nodeData setObject:[nidSaveField text] forKey:@"nid"];
+    [nodeData setObject:@"now" forKey:@"date"];
+    [nodeData setObject:@"1" forKey:@"status"];
+    [nodeData setObject:[[session userInfo] objectForKey:@"name"] forKey:@"name"];
+    [node nodeSave:nodeData];
+    [node release];
 
 
 Comment
 -----------------------
-    - (NSMutableArray *) getCommentsForNode:(NSString*)nid {
-      DIOSComment *comments = [[DIOSComment alloc] initWithSession:session];
-      [comments getComments:nid andStart:@"0" andCount:@"0"];
-      id object;
-      NSEnumerator *e = [[[comments connResult] objectForKey:@"#data"] objectEnumerator];
-      NSMutableArray *newArray = [[NSMutableArray alloc] init];
-      while (object = [e nextObject]) {
-        [newArray addObject:object];
-      }
-      return newArray;
-    }
-  
-    DIOSComment *comment = [[DIOSComment alloc] initWithSession:[delegate session]];
-    [comment addComment:[[nodeInfo objectForKey:@"nid"] stringValue] subject:[subject text] body:[body text]];
-  
+#### Add
+    DIOSComment *comment = [[DIOSComment alloc] initWithSession:session];
+    [comment addComment:[nidCommentAddField text] subject:[subjectCommentAddField text] body:[bodyCommentAddField text]];
+    [comment release]; 
+#### Get  
+    DIOSComment *comment = [[DIOSComment alloc] initWithSession:session];
+    [comment getComment:[nidCommentGetField text]];
+    [comment release]; 
   
 User
 -----------------------
+#### Login 
+    DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
+    [user loginWithUsername:[usernameLoginField text] andPassword:[passwordLoginField text]];
+    [user release];
+#### Logout
+  DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
+  [user logout];
+  [user release];
+#### Save    
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
     NSMutableDictionary *userData = [[NSMutableDictionary alloc] init];
-    [userData setObject:@"kyle2" forKey:@"name"];
-    [userData setObject:@"password" forKey:@"pass"];
-    [userData setObject:@"anemail@anyemail.com" forKey:@"mail"];
-    NSMutableDictionary *roles = [[NSMutableDictionary alloc] init];
-    [roles setObject:@"testRole" forKey:@"3"];
-    [userData setObject:roles forKey:@"roles"];
+    [userData setObject:[usernameSaveField text] forKey:@"name"];
+    [userData setObject:[passwordSaveField text] forKey:@"pass"];
+    [userData setObject:[emailSaveField text] forKey:@"mail"];
+    [userData setObject:[uidSaveField text] forKey:@"uid"];
     [user userSave:userData];
-
+    [user release];
+#### Get    
     DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
-    [user userDelete:@"14"];
-    
-    [user loginWithUsername:[username text] andPassword:[password text]];
-    
-    NSDictionary *result = [[user connResult] objectForKey:@"#data"];
-    if([result objectForKey:@"#error"]) {
-      UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Error" message:[result objectForKey:@"#message"] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] autorelease];
-      [alert show];
-    } else {
-      //Do some login Stuff
-    }
+    [user userGet:[uidGetField text]];
+    [self displayDebugDIOS:user];
+    [user release];
+
+#### Delete    
+    DIOSUser *user = [[DIOSUser alloc] initWithSession:session];
+    [user userDelete:[uidDeleteField text]];
+    [self displayDebugDIOS:user];
+    [user release];
     
 Taxonomy 
 ------------------------

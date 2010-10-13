@@ -145,16 +145,21 @@
   NSData *response;
   if (!error) {
     response = [requestBinary responseData];
+  } else {
+    NSAssert(NO, [error localizedDescription]);
   }
+
   NSPropertyListFormat format;
   id plist;
   [self setResponseStatusMessage:[requestBinary responseStatusMessage]];
-  plist = [NSPropertyListSerialization propertyListFromData:response
-                                           mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                                     format:&format
-                                           errorDescription:&errorStr];
-  
-  
+  if(response != nil) {
+    plist = [NSPropertyListSerialization propertyListFromData:response
+                                             mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                                       format:&format
+                                             errorDescription:&errorStr];
+  } else {
+    NSLog(@"I couldnt get a response, is the site down?");
+  } 
   
   [self setConnResult:plist];
   if([[self method] isEqualToString:@"system.connect"]) {
