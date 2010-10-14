@@ -201,7 +201,7 @@
     if([[self method] isEqualToString:@"system.connect"]) {
       if(plist != nil) {
         [self setSessid:[plist objectForKey:@"sessid"]];
-        [self setUserInfo:[plist objectForKey:@"user"]];
+        [self setUserInfo:plist];
       }
     }
     if([[self method] isEqualToString:@"user.login"]) {
