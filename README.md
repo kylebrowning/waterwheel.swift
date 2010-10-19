@@ -3,6 +3,7 @@
 
 What you need to get started
 ---------------------------------------
+####XCode
 * This library
 * the following frameworks
   - UIKit.Framework
@@ -11,9 +12,16 @@ What you need to get started
   - libz.1.2.3.dylib
   - SystemConfiguration.framework
   - MobileCoreServices.framework
-* Drupal 6.0 setup with [PLIST Server](http://drupal.org/project/plist_server)
-* ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
-* Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN
+  * ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
+* Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN (make sure you checkout the drupal-ios-sdk branch for your version of drupal eg. 6.x-2.x 6.x-3.x)
+
+####Drupal 6
+* [PLIST Server](http://drupal.org/project/plist_server)
+* [services 2.2](http://drupal.org/project/services)
+* 3.x is unstable but available
+####Drupal 7 (unstable)
+* [Services](http://github.com/kylebrowning/services)
+* [REST SERVER PLIST](http://drupal.org/project/rest_server_plist)
 
 Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
 ====================== 
