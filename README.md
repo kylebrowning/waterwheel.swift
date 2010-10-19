@@ -13,12 +13,11 @@ What you need to get started
   - SystemConfiguration.framework
   - MobileCoreServices.framework
   * ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
-* Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN (make sure you checkout the drupal-ios-sdk branch for your version of drupal eg. 6.x-2.x 6.x-3.x)
+* Update DIOSConnect.h with the correct API_KEYS SERVICES_URL and DOMAIN (make sure you checkout the drupal-ios-sdk branch for your version of drupal eg. 6.x-2.x, 6.x-3.x or 7.x-3.x)
 
 ####Drupal 6
 * [PLIST Server](http://drupal.org/project/plist_server)
-* [services 2.2](http://drupal.org/project/services)
-* 3.x is unstable but available
+* [services 2.2](http://drupal.org/project/services) (3.x is unstable but available)
 
 ####Drupal 7 (unstable)
 * [Services](http://github.com/kylebrowning/services)
