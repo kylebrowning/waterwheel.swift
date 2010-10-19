@@ -63,7 +63,7 @@
 //DIOSConnect should handle there rest.
 - (id) initWithSession:(DIOSConnect*)aSession {
   [super init];
-  if ([aSession isKindOfClass:[DIOSConnect class]]) {
+  if ([aSession respondsToSelector:@selector(userInfo)] && [aSession respondsToSelector:@selector(sessid)]) {
     [self setUserInfo:[aSession userInfo]];
     [self setSessid:[aSession sessid]];
   }
@@ -170,8 +170,14 @@
   }
   if([[self method] isEqualToString:@"user.login"]) {
     if(plist != nil) {
-      [self setSessid:[plist objectForKey:@"sessid"]];
-      [self setUserInfo:[plist objectForKey:@"user"]];
+      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+    }
+  }
+  if([[self method] isEqualToString:@"user.logout"]) {
+    if(plist != nil) {
+      [self setSessid:nil];
+      [self setUserInfo:nil];
     }
   }
   //Bug in ASIHTTPRequest, put here to stop activity indicator
