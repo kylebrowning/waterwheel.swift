@@ -69,6 +69,7 @@
 @property (nonatomic, retain) NSString *methodUrl;
 @property (nonatomic, retain) NSString *responseStatusMessage;
 @property (nonatomic, retain) NSString *requestMethod;
+
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;
 - (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId;

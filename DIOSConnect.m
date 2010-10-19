@@ -39,8 +39,9 @@
 #import "DIOSConnect.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-
+#import "NSData+Base64.h"
 @implementation DIOSConnect
+
 @synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod;
 
 /*
@@ -64,7 +65,7 @@
 //DIOSConnect should handle there rest.
 - (id) initWithSession:(DIOSConnect*)aSession {
   [super init];
-  if ([aSession isKindOfClass:[DIOSConnect class]]) {
+  if ([aSession respondsToSelector:@selector(userInfo)] && [aSession respondsToSelector:@selector(sessid)]) {
     [self setUserInfo:[aSession userInfo]];
     [self setSessid:[aSession sessid]];
   }
@@ -107,48 +108,14 @@
 	//NSLog(@"hash string: %@ length: %d",[hashedString lowercaseString],[hashedString length]);
 	return [hashedString lowercaseString];
 }
-
-- (NSString*)base64forData:(NSData*)theData {
-	
-	const uint8_t* input = (const uint8_t*)[theData bytes];
-	NSInteger length = [theData length];
-	
-  static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-	
-  NSMutableData* data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
-  uint8_t* output = (uint8_t*)data.mutableBytes;
-	
-	NSInteger i;
-  for (i=0; i < length; i += 3) {
-    NSInteger value = 0;
-		NSInteger j;
-    for (j = i; j < (i + 3); j++) {
-      value <<= 8;
-			
-      if (j < length) {
-        value |= (0xFF & input[j]);
-      }
+-(NSString *) genRandStringLength {	
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
+    for (int i=0; i<10; i++) {
+        [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
     }
-		
-    NSInteger theIndex = (i / 3) * 4;
-    output[theIndex + 0] =                    table[(value >> 18) & 0x3F];
-    output[theIndex + 1] =                    table[(value >> 12) & 0x3F];
-    output[theIndex + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
-    output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
-  }
-    return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+    return randomString;
 }
--(NSString *) genRandStringLength {
-  NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
-  NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
-  
-  for (int i=0; i<10; i++) {
-    [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
-  }
-  
-  return randomString;
-}
-
 //This runs our method and actually gets a response from drupal
 -(void) runMethod {
   //Key Auth doesnt work in REST services
@@ -188,30 +155,40 @@
   NSData *response;
   if (!error) {
     response = [requestBinary responseData];
+  } else {
+    NSAssert(NO, [error localizedDescription]);
   }
+
   NSPropertyListFormat format;
   id plist;
-  responseStatusMessage = [requestBinary responseStatusMessage];
-  if ([requestBinary responseStatusCode] == 200) {
+  [self setResponseStatusMessage:[requestBinary responseStatusMessage]];
+  if(response != nil) {
     plist = [NSPropertyListSerialization propertyListFromData:response
                                              mutabilityOption:NSPropertyListMutableContainersAndLeaves
                                                        format:&format
                                              errorDescription:&errorStr];
-    [self setConnResult:plist];
-    if([[self method] isEqualToString:@"system.connect"]) {
-      if(plist != nil) {
-        [self setSessid:[plist objectForKey:@"sessid"]];
-        [self setUserInfo:[plist objectForKey:@"user"]];
-      }
-    }
-    if([[self method] isEqualToString:@"user.login"]) {
-      if(plist != nil) {
-        [self setSessid:[plist objectForKey:@"sessid"]];
-        [self setUserInfo:[plist objectForKey:@"user"]];
-      }
-    }
   } else {
-    //Something WRONG happend
+    NSLog(@"I couldnt get a response, is the site down?");
+  } 
+  
+  [self setConnResult:plist];
+  if([[self method] isEqualToString:@"system.connect"]) {
+    if(plist != nil) {
+      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+    }
+  }
+  if([[self method] isEqualToString:@"user.login"]) {
+    if(plist != nil) {
+      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+    }
+  }
+  if([[self method] isEqualToString:@"user.logout"]) {
+    if(plist != nil) {
+      [self setSessid:nil];
+      [self setUserInfo:nil];
+    }
   }
   //Bug in ASIHTTPRequest, put here to stop activity indicator
   UIApplication* app = [UIApplication sharedApplication];
