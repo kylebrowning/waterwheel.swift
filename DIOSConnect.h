@@ -1,5 +1,5 @@
 //
-//  DIOSConnect.h
+// DIOSConnect.h
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -36,12 +36,30 @@
 // ***** END LICENSE BLOCK *****
 #import <Foundation/Foundation.h>
 
-#define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
-#define DRUPAL_SERVICES_URL  @"http://drupal6/services/plist"
-#define DRUPAL_URL  @"http://demo.kylebrowning.com/"
-#define DRUPAL_CELL_DEFAULT_IMAGE  @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
+//#define STAGE
+#define DEV
+
+
+#ifdef STAGE
+
+#define DRUPAL_API_KEY  @""
+#define DRUPAL_SERVICES_URL  @"http://stage.example.com/services/plist"
+#define DRUPAL_URL  @"http://stage.example.com"
+#define DRUPAL_DOMAIN @"stage.example.com" 
+
+#endif
+
+#ifdef DEV
+
+#define DRUPAL_API_KEY  @"00846a0503de07f3290186117ae84588"
+#define DRUPAL_SERVICES_URL  @"http://dev.example.com/services/plist"
+#define DRUPAL_URL  @"http://dev.example.com"
+#define DRUPAL_DOMAIN @"dev.example.com" 
+
+#endif
+
+#define DRUPAL_CELL_DEFAULT_IMAGE @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
 #define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
-#define DRUPAL_DOMAIN @"testing" 
 #define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
 #define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
 #define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
@@ -49,16 +67,17 @@
 #define DRUPAL_VIEWS_IMAGE_FIELD @"files_node_data_field_image_filepath"
 #define DRUPAL_NODE_IMAGE_FIELD @"field_image"
 @interface DIOSConnect : NSObject {
-  NSDictionary *connResult;
-  NSMutableDictionary *params;
-  NSDictionary *myDict;
-  NSString *sessid;
-  NSString *method;
-  NSDictionary *userInfo;
-  BOOL isRunning;
-  NSTimer *mainTimer;
-  NSString *responseStatusMessage;
-  NSString *methodUrl;
+	NSDictionary *connResult;
+	NSMutableDictionary *params;
+	NSDictionary *myDict;
+	NSString *sessid;
+	NSString *method;
+	NSDictionary *userInfo;
+	BOOL isRunning;
+	NSTimer *mainTimer;
+	NSString *responseStatusMessage;
+	NSString *methodUrl;
+	NSError *error;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
 @property (nonatomic, retain) NSString *sessid;
@@ -67,6 +86,8 @@
 @property (nonatomic, retain) NSDictionary *userInfo;
 @property (nonatomic, retain) NSString *responseStatusMessage;
 @property (nonatomic, retain) NSString *methodUrl;
+@property (nonatomic, readonly) NSError *error;
+
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;
 - (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId;
