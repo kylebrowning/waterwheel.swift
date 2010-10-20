@@ -170,6 +170,12 @@
 													 mutabilityOption:NSPropertyListMutableContainersAndLeaves
 															   format:&format
 													 errorDescription:&errorStr];
+      if (![errorStr isEqualToString:@""]) {
+        NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
+                                         code:1 
+                                     userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
+        [self setError:e];
+      }
 		} else {
 			NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
 											 code:1 
@@ -178,8 +184,7 @@
 		}
 		
 		
-		if (plist && !error)
-		{
+		if (plist && !error) {
 			[self setConnResult:plist];
 			if([[self method] isEqualToString:@"system.connect"]) {
 				if(plist != nil) {
