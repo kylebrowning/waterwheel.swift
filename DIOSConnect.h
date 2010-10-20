@@ -55,6 +55,7 @@
   NSString *methodUrl;
   NSString *responseStatusMessage;
   NSString *requestMethod;
+  NSError *error;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
 @property (nonatomic, retain) NSString *sessid;
@@ -64,6 +65,7 @@
 @property (nonatomic, retain) NSString *methodUrl;
 @property (nonatomic, retain) NSString *responseStatusMessage;
 @property (nonatomic, retain) NSString *requestMethod;
+@property (nonatomic, retain) NSError *error;
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;
 - (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId;
