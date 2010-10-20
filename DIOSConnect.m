@@ -170,7 +170,7 @@
 													 mutabilityOption:NSPropertyListMutableContainersAndLeaves
 															   format:&format
 													 errorDescription:&errorStr];
-      if (![errorStr isEqualToString:@""]) {
+      if (errorStr) {
         NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
                                          code:1 
                                      userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
