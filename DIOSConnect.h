@@ -36,12 +36,30 @@
 // ***** END LICENSE BLOCK *****
 #import <Foundation/Foundation.h>
 
+//#define STAGE
+#define DEV
+
+
+#ifdef STAGE
+
+#define DRUPAL_API_KEY  @""
+#define DRUPAL_SERVICES_URL  @"http://stage.example.com/services/plist"
+#define DRUPAL_URL  @"http://stage.example.com"
+#define DRUPAL_DOMAIN @"stage.example.com" 
+
+#endif
+
+#ifdef DEV
+
 #define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
 #define DRUPAL_SERVICES_URL  @"http://drupal6-services/services/plist"
 #define DRUPAL_URL  @"http://demo.kylebrowning.com/"
-#define DRUPAL_CELL_DEFAULT_IMAGE  @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
-#define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
 #define DRUPAL_DOMAIN @"testing" 
+
+#endif
+
+#define DRUPAL_CELL_DEFAULT_IMAGE @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
+#define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
 #define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
 #define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
 #define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
@@ -60,6 +78,7 @@
   NSString *methodUrl;
   NSString *responseStatusMessage;
   NSString *requestMethod;
+  NSError *error;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
 @property (nonatomic, retain) NSString *sessid;
@@ -69,6 +88,7 @@
 @property (nonatomic, retain) NSString *methodUrl;
 @property (nonatomic, retain) NSString *responseStatusMessage;
 @property (nonatomic, retain) NSString *requestMethod;
+@property (nonatomic, readonly) NSError *error;
 
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;

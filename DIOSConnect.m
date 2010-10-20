@@ -42,13 +42,14 @@
 #import "NSData+Base64.h"
 @implementation DIOSConnect
 
-@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod;
+@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
  */
 - (id) init {
   [super init];
+  error = nil;
   isRunning = NO;
   mainTimer = nil;
   if(params == nil) {
@@ -69,6 +70,7 @@
     [self setUserInfo:[aSession userInfo]];
     [self setSessid:[aSession sessid]];
   }
+  error = nil;
   isRunning = NO;
   mainTimer = nil;
   if(params == nil) {
@@ -116,6 +118,14 @@
     }
     return randomString;
 }
+- (void)setError:(NSError *)e
+{
+	if (e != error) {
+		[error release];
+		error = [e retain];
+	}
+}
+
 //This runs our method and actually gets a response from drupal
 -(void) runMethod {
   //Key Auth doesnt work in REST services
@@ -133,6 +143,7 @@
 //  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
 //  [self addParam:timestamp forKey:@"domain_time_stamp"];
 //  [self addParam:nonce forKey:@"nonce"];
+  [self setError:nil];
   [self removeParam:@"sessid"];
   [self addParam:[self sessid] forKey:@"sessid"];
   
@@ -151,48 +162,62 @@
   [requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
   [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
   [requestBinary startSynchronous];
-  NSError *error = [requestBinary error];
-  NSData *response;
-  if (!error) {
-    response = [requestBinary responseData];
-  } else {
-    NSAssert(NO, [error localizedDescription]);
-  }
-
-  NSPropertyListFormat format;
-  id plist;
-  [self setResponseStatusMessage:[requestBinary responseStatusMessage]];
-  if(response != nil) {
-    plist = [NSPropertyListSerialization propertyListFromData:response
-                                             mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                                       format:&format
-                                             errorDescription:&errorStr];
-  } else {
-    NSLog(@"I couldnt get a response, is the site down?");
-  } 
-  
-  [self setConnResult:plist];
-  if([[self method] isEqualToString:@"system.connect"]) {
-    if(plist != nil) {
-      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
-    }
-  }
-  if([[self method] isEqualToString:@"user.login"]) {
-    if(plist != nil) {
-      [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-      [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
-    }
-  }
-  if([[self method] isEqualToString:@"user.logout"]) {
-    if(plist != nil) {
-      [self setSessid:nil];
-      [self setUserInfo:nil];
-    }
-  }
-  //Bug in ASIHTTPRequest, put here to stop activity indicator
-  UIApplication* app = [UIApplication sharedApplication];
-  app.networkActivityIndicatorVisible = NO;
+  [self setError:[requestBinary error]];
+	
+	if (!error) {
+		NSData *response = [requestBinary responseData];
+		
+		NSPropertyListFormat format;
+		id plist = nil;
+		
+		[self setResponseStatusMessage:[requestBinary responseStatusMessage]];
+		
+		if(response != nil) {
+			plist = [NSPropertyListSerialization propertyListFromData:response
+                                               mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                                         format:&format
+                                               errorDescription:&errorStr];
+      if (errorStr) {
+        NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
+                                         code:1 
+                                     userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
+        [self setError:e];
+      }
+		} else {
+			NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
+                                       code:1 
+                                   userInfo:[NSDictionary dictionaryWithObject:@"I couldnt get a response, is the site down?" forKey:NSLocalizedDescriptionKey]];
+			[self setError:e];
+		}
+		
+		
+		if (plist && !error) {
+			[self setConnResult:plist];
+			if([[self method] isEqualToString:@"system.connect"]) {
+				if(plist != nil) {
+					[self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+					[self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+				}
+			}
+			if([[self method] isEqualToString:@"user.login"]) {
+				if(plist != nil) {
+					[self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+					[self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+				}
+			}
+			if([[self method] isEqualToString:@"user.logout"]) {
+				if(plist != nil) {
+					[self setSessid:nil];
+					[self setUserInfo:nil];
+				}
+			}
+		}
+	}
+	
+	
+	//Bug in ASIHTTPRequest, put here to stop activity indicator
+	UIApplication* app = [UIApplication sharedApplication];
+	app.networkActivityIndicatorVisible = NO;
 }
 
 - (void) setMethod:(NSString *)aMethod {
@@ -234,6 +259,7 @@
   return [NSString stringWithFormat:@"connresult = %@, userInfo = %@, params = %@, sessionid = %@, isRunning = %@", connResult, userInfo, params, sessid, (isRunning ? @"YES" : @"NO")];
 }
 - (void) dealloc {
+  [error release];
   [connResult release];
   [sessid release];
   [method release];
