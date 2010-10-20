@@ -51,10 +51,10 @@
 
 #ifdef DEV
 
-#define DRUPAL_API_KEY  @"00846a0503de07f3290186117ae84588"
-#define DRUPAL_SERVICES_URL  @"http://dev.example.com/services/plist"
-#define DRUPAL_URL  @"http://dev.example.com"
-#define DRUPAL_DOMAIN @"dev.example.com" 
+#define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
+#define DRUPAL_SERVICES_URL  @"http://drupal6/services/plist"
+#define DRUPAL_URL  @"http://demo.kylebrowning.com/"
+#define DRUPAL_DOMAIN @"testing" 
 
 #endif
 
