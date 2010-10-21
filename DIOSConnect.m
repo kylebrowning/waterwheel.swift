@@ -224,7 +224,7 @@
 }
 - (NSString *) buildParams {
 	NSString *finalParams;
-	NSMutableArray *arrayofParams = [[NSMutableArray alloc] init];
+	NSMutableArray *arrayofParams = nil;
 	NSEnumerator *enumerator = [params keyEnumerator];
 	NSString *aKey = nil;
 	NSString *value = nil;
@@ -272,12 +272,14 @@
 	NSAssert(NO, @"DIOSConnect initWithUserInfo is deprecated, use initWithSession");
 }
 //DEPRECATED -- use DIOSUser
-- (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
+- (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
 	NSAssert(NO, @"DIOSConnect loginWithUsername is deprecated, use DIOSUser");
+	return nil;
 }
 //DEPRECATED -- use DIOSUser
-- (void) logout {
+- (NSDictionary *) logout {
 	NSAssert(NO, @"DIOSConnect logout is deprecated, use DIOSUser");
+	return nil;
 }
 
 - (void)serializedObject:(NSMutableDictionary *)object {
