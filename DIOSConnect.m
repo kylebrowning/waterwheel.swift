@@ -39,8 +39,13 @@
 #import "DIOSConnect.h"
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
-
+#import "NSData+Base64.h"
+#import "DIOSConfig.h"
 @implementation DIOSConnect
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6.x-3.x
 @synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error;
 
 /*
@@ -65,7 +70,7 @@
 //DIOSConnect should handle there rest.
 - (id) initWithSession:(DIOSConnect*)aSession {
   [super init];
-  if ([aSession isKindOfClass:[DIOSConnect class]]) {
+  if ([aSession respondsToSelector:@selector(userInfo)] && [aSession respondsToSelector:@selector(sessid)]) {
     [self setUserInfo:[aSession userInfo]];
     [self setSessid:[aSession sessid]];
   }
@@ -109,50 +114,25 @@
 	//NSLog(@"hash string: %@ length: %d",[hashedString lowercaseString],[hashedString length]);
 	return [hashedString lowercaseString];
 }
-
-- (NSString*)base64forData:(NSData*)theData {
-	
-	const uint8_t* input = (const uint8_t*)[theData bytes];
-	NSInteger length = [theData length];
-	
-  static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-	
-  NSMutableData* data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
-  uint8_t* output = (uint8_t*)data.mutableBytes;
-	
-	NSInteger i;
-  for (i=0; i < length; i += 3) {
-    NSInteger value = 0;
-		NSInteger j;
-    for (j = i; j < (i + 3); j++) {
-      value <<= 8;
-			
-      if (j < length) {
-        value |= (0xFF & input[j]);
-      }
+-(NSString *) genRandStringLength {	
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
+    NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
+    for (int i=0; i<10; i++) {
+        [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
     }
-		
-    NSInteger theIndex = (i / 3) * 4;
-    output[theIndex + 0] =                    table[(value >> 18) & 0x3F];
-    output[theIndex + 1] =                    table[(value >> 12) & 0x3F];
-    output[theIndex + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
-    output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
-  }
-    return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
+    return randomString;
 }
--(NSString *) genRandStringLength {
-  NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
-  NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
-  
-  for (int i=0; i<10; i++) {
-    [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
-  }
-  
-  return randomString;
+- (void)setError:(NSError *)e
+{
+	if (e != error) {
+		[error release];
+		error = [e retain];
+	}
 }
 
 //This runs our method and actually gets a response from drupal
 -(void) runMethod {
+
   [self setError:nil];
   [self removeParam:@"sessid"];
   [self addParam:[self sessid] forKey:@"sessid"];
@@ -173,6 +153,7 @@
   [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
   [requestBinary startSynchronous];
   responseStatusMessage = [requestBinary responseStatusMessage];
+
   [self setError:[requestBinary error]];
 	
 	if (!error) {
@@ -242,7 +223,7 @@
 }
 - (NSString *) buildParams {
   NSString *finalParams;
-  NSMutableArray *arrayofParams = [[NSMutableArray alloc] init];
+  NSMutableArray *arrayofParams = nil;
   NSEnumerator *enumerator = [params keyEnumerator];
   NSString *aKey = nil;
   NSString *value = nil;
@@ -270,6 +251,7 @@
   return [NSString stringWithFormat:@"connresult = %@, userInfo = %@, params = %@, sessionid = %@, isRunning = %@", connResult, userInfo, params, sessid, (isRunning ? @"YES" : @"NO")];
 }
 - (void) dealloc {
+  [error release];
   [connResult release];
   [sessid release];
   [method release];
@@ -289,12 +271,14 @@
   NSAssert(NO, @"DIOSConnect initWithUserInfo is deprecated, use initWithSession");
 }
 //DEPRECATED -- use DIOSUser
-- (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
+- (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
   NSAssert(NO, @"DIOSConnect loginWithUsername is deprecated, use DIOSUser");
+  return nil;
 }
 //DEPRECATED -- use DIOSUser
-- (void) logout {
+- (NSDictionary *) logout {
   NSAssert(NO, @"DIOSConnect logout is deprecated, use DIOSUser");
+  return nil;
 }
 
 - (void)serializedObject:(NSMutableDictionary *)object {

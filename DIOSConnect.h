@@ -36,13 +36,6 @@
 // ***** END LICENSE BLOCK *****
 #import <Foundation/Foundation.h>
 
-#define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
-#define DRUPAL_SERVICES_URL  @"http://drupal7/test4"
-#define DRUPAL_URL  @"http://demo.kylebrowning.com/"
-#define DRUPAL_DOMAIN @"testing"
-//THis is the constant for none in Drupal7 http://api.drupal.org/api/constant/LANGUAGE_NONE/7
-#define DRUPAL_LANGUAGE @"und"
-
 @interface DIOSConnect : NSObject {
   NSDictionary *connResult;
   NSMutableDictionary *params;
@@ -65,7 +58,8 @@
 @property (nonatomic, retain) NSString *methodUrl;
 @property (nonatomic, retain) NSString *responseStatusMessage;
 @property (nonatomic, retain) NSString *requestMethod;
-@property (nonatomic, retain) NSError *error;
+@property (nonatomic, readonly) NSError *error;
+
 - (id) init;
 - (void) initWithSessId:(NSString*)aSessId;
 - (void) initWithUserInfo:(NSDictionary*)someUserInfo andSessId:(NSString*)sessId;
@@ -73,8 +67,8 @@
 - (void) addParam:(id)value forKey:(NSString *)key;
 - (void) removeParam:(NSString *)key;
 - (void) connect;
-- (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
-- (void) logout;
+- (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
+- (NSDictionary *) logout;
 - (void) connect;
 - (NSString *) buildParams;
 - (NSString *) genRandStringLength;
