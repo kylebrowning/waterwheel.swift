@@ -36,49 +36,26 @@
 // ***** END LICENSE BLOCK *****
 
 //#define STAGE
-//#define DEV
-//
-//
-//#ifdef STAGE
-//
-//#define DRUPAL_API_KEY  @""
-//#define DRUPAL_SERVICES_URL  @"http://stage.example.com/services/plist"
-//#define DRUPAL_URL  @"http://stage.example.com"
-//#define DRUPAL_DOMAIN @"stage.example.com" 
-//
-//#endif
-//
-//#ifdef DEV
-//
-//#define DRUPAL_API_KEY  @"00846a0503de07f3290186117ae84588"
-//#define DRUPAL_SERVICES_URL  @"http://dev.example.com/services/plist"
-//#define DRUPAL_URL  @"http://dev.example.com"
-//#define DRUPAL_DOMAIN @"dev.example.com" 
-//
-//#endif
-
-//#define NT_STAGE
-//#define NT_DEV
+#define DEV
 
 
-#ifdef NT_STAGE
+#ifdef STAGE
 
 #define DRUPAL_API_KEY  @""
-#define DRUPAL_SERVICES_URL  @"http://uscasc:apple@stage.neontommy.com/services/plist"
-#define DRUPAL_URL  @"http://uscasc:apple@stage.neontommy.com"
-#define DRUPAL_DOMAIN @"stage.neontommy.com"
+#define DRUPAL_SERVICES_URL  @"http://stage.example.com/services/plist"
+#define DRUPAL_URL  @"http://stage.example.com"
+#define DRUPAL_DOMAIN @"stage.example.com" 
 
 #endif
 
-#ifdef NT_DEV
+#ifdef DEV
 
 #define DRUPAL_API_KEY  @"00846a0503de07f3290186117ae84588"
-#define DRUPAL_SERVICES_URL  @"http://dev.neontommy.com/services/plist"
-#define DRUPAL_URL  @"http://dev.neontommy.com"
-#define DRUPAL_DOMAIN @"dev.neontommy.com"
+#define DRUPAL_SERVICES_URL  @"http://dev.example.com/services/plist"
+#define DRUPAL_URL  @"http://dev.example.com"
+#define DRUPAL_DOMAIN @"dev.example.com" 
 
 #endif
-
 
 #define DRUPAL_CELL_DEFAULT_IMAGE @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
 #define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
