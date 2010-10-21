@@ -57,11 +57,9 @@
 
 #endif
 
+//These are just constants I found myself defining and most likely do not reflect constants you may need.
 #define DRUPAL_CELL_DEFAULT_IMAGE @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
 #define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
-#define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
-#define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
-#define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
 #define DRUPAL_CATEGORY_VID @"1"
 #define DRUPAL_VIEWS_IMAGE_FIELD @"files_node_data_field_image_filepath"
 #define DRUPAL_NODE_IMAGE_FIELD @"field_image"
