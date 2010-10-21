@@ -79,8 +79,8 @@
     NSString *searchingForCommas = @",";
     NSRange tidRange = [tids rangeOfString:searchingForCommas];
     NSRange fieldsRange = [fields rangeOfString:searchingForCommas];
-    NSArray *newTids = [[NSArray alloc] init];
-    NSArray *newFields = [[NSArray alloc] init];
+    NSArray *newTids = nil;
+    NSArray *newFields = nil;
     if (tidRange.location != NSNotFound) {
       newTids = [tids componentsSeparatedByString:@","];
     } else {

@@ -36,36 +36,6 @@
 // ***** END LICENSE BLOCK *****
 #import <Foundation/Foundation.h>
 
-//#define STAGE
-#define DEV
-
-
-#ifdef STAGE
-
-#define DRUPAL_API_KEY  @""
-#define DRUPAL_SERVICES_URL  @"http://stage.example.com/services/plist"
-#define DRUPAL_URL  @"http://stage.example.com"
-#define DRUPAL_DOMAIN @"stage.example.com" 
-
-#endif
-
-#ifdef DEV
-
-#define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
-#define DRUPAL_SERVICES_URL  @"http://drupal6-services/services/plist"
-#define DRUPAL_URL  @"http://demo.kylebrowning.com/"
-#define DRUPAL_DOMAIN @"testing" 
-
-#endif
-
-#define DRUPAL_CELL_DEFAULT_IMAGE @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
-#define DRUPAL_IMAGECACHE_URL @"sites/default/files/imagecache/iphone/"
-#define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
-#define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
-#define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
-#define DRUPAL_CATEGORY_VID @"1"
-#define DRUPAL_VIEWS_IMAGE_FIELD @"files_node_data_field_image_filepath"
-#define DRUPAL_NODE_IMAGE_FIELD @"field_image"
 @interface DIOSConnect : NSObject {
   NSDictionary *connResult;
   NSMutableDictionary *params;
@@ -97,8 +67,8 @@
 - (void) addParam:(id)value forKey:(NSString *)key;
 - (void) removeParam:(NSString *)key;
 - (void) connect;
-- (void) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
-- (void) logout;
+- (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
+- (NSDictionary *) logout;
 - (void) connect;
 - (NSString *) buildParams;
 - (NSString *) genRandStringLength;
