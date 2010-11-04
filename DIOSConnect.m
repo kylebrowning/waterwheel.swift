@@ -42,10 +42,6 @@
 #import "NSData+Base64.h"
 #import "DIOSConfig.h"
 @implementation DIOSConnect
-<<<<<<< HEAD
-=======
-
->>>>>>> 6.x-3.x
 @synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error;
 
 /*
@@ -151,6 +147,8 @@
   [requestBinary setRequestMethod:requestMethod];
   [requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
   [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
+  [requestBinary setTimeOutSeconds:300];
+  [requestBinary setShouldRedirect:NO];
   [requestBinary startSynchronous];
   responseStatusMessage = [requestBinary responseStatusMessage];
 
@@ -174,6 +172,7 @@
                                          code:1 
                                      userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
         [self setError:e];
+        NSLog(@"error-response: %@", [requestBinary responseString]);
       }
 		} else {
 			NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
@@ -187,14 +186,14 @@
 			[self setConnResult:plist];
 			if([[self method] isEqualToString:@"system.connect"]) {
 				if(plist != nil) {
-					[self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-					[self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+					[self setSessid:[plist objectForKey:@"sessid"]];
+					[self setUserInfo:[plist objectForKey:@"user"]];
 				}
 			}
 			if([[self method] isEqualToString:@"user.login"]) {
-				if(plist != nil) {
-					[self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-					[self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+				if(plist != nil) {					
+          [self setSessid:[plist objectForKey:@"sessid"]];
+					[self setUserInfo:[plist objectForKey:@"user"]];
 				}
 			}
 			if([[self method] isEqualToString:@"user.logout"]) {
@@ -206,7 +205,9 @@
 		}
 	}
 	
-	
+	if(error) {
+    NSLog(@"%@", [error localizedDescription]);
+  }
 	//Bug in ASIHTTPRequest, put here to stop activity indicator
 	UIApplication* app = [UIApplication sharedApplication];
 	app.networkActivityIndicatorVisible = NO;
