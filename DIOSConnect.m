@@ -41,7 +41,7 @@
 #import "ASIFormDataRequest.h"
 #import "NSData+Base64.h"
 @implementation DIOSConnect
-@synthesize connResult, sessid, method, params, userInfo, responseStatusMessage, methodUrl, error;
+@synthesize connResult, sessid, method, params, userInfo, responseStatusMessage, methodUrl, error, progressDelegate;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
@@ -153,6 +153,7 @@
 	[requestBinary appendPostData:dataRep];
 	[requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
 	[requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
+  [requestBinary setUploadProgressDelegate:progressDelegate];
 	[requestBinary startSynchronous];
 	
 	[self setError:[requestBinary error]];
@@ -182,8 +183,6 @@
 										 userInfo:[NSDictionary dictionaryWithObject:@"I couldnt get a response, is the site down?" forKey:NSLocalizedDescriptionKey]];
 			[self setError:e];
 		}
-		
-		
 		if (plist && !error) {
 			[self setConnResult:plist];
 			if([[self method] isEqualToString:@"system.connect"]) {

@@ -49,8 +49,10 @@
 	NSString *responseStatusMessage;
 	NSString *methodUrl;
 	NSError *error;
+  id progressDelegate;
 }
 @property (nonatomic, retain) NSDictionary *connResult;
+@property (nonatomic, retain) id progressDelegate;
 @property (nonatomic, retain) NSString *sessid;
 @property (nonatomic, retain) NSString *method;
 @property (nonatomic, retain) NSMutableDictionary *params;
