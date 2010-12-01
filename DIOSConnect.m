@@ -42,11 +42,7 @@
 #import "NSData+Base64.h"
 #import "DIOSConfig.h"
 @implementation DIOSConnect
-<<<<<<< HEAD
-@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error;
-=======
 @synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error, progressDelegate;
->>>>>>> 85c06a3... Adds in support for the progress indicator
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
