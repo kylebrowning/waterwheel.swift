@@ -42,8 +42,7 @@
 #import "NSData+Base64.h"
 #import "DIOSConfig.h"
 @implementation DIOSConnect
-
-@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error;
+@synthesize connResult, sessid, method, params, userInfo, methodUrl, responseStatusMessage, requestMethod, error, progressDelegate;
 
 /*
  * This init function will automatically connect and setup the session for communicaiton with drupal
@@ -88,62 +87,62 @@
 }
 
 - (NSString*)stringWithHexBytes:(NSData *)theData {
-	NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([theData length] * 2)];
-	const unsigned char *dataBuffer = [theData bytes];
-	int i;
-	
-	for (i = 0; i < [theData length]; ++i)
-		[stringBuffer appendFormat:@"%02X", (unsigned long)dataBuffer[ i ]];
-	
-	return [[stringBuffer copy] autorelease];
+  NSMutableString *stringBuffer = [NSMutableString stringWithCapacity:([theData length] * 2)];
+  const unsigned char *dataBuffer = [theData bytes];
+  int i;
+  
+  for (i = 0; i < [theData length]; ++i)
+    [stringBuffer appendFormat:@"%02X", (unsigned long)dataBuffer[ i ]];
+  
+  return [[stringBuffer copy] autorelease];
 }
 
 - (NSString *)generateHash:(NSString *)inputString {
-	NSData *key = [DRUPAL_API_KEY dataUsingEncoding:NSUTF8StringEncoding];
-	NSData *clearTextData = [inputString dataUsingEncoding:NSUTF8StringEncoding];
-	uint8_t digest[CC_SHA256_DIGEST_LENGTH] = {0};
-	CCHmacContext hmacContext;
-	CCHmacInit(&hmacContext, kCCHmacAlgSHA256, key.bytes, key.length);
-	CCHmacUpdate(&hmacContext, clearTextData.bytes, clearTextData.length);
-	CCHmacFinal(&hmacContext, digest);
-	NSData *hashedData = [NSData dataWithBytes:digest length:32];
-	NSString *hashedString = [self stringWithHexBytes:hashedData];
-	//NSLog(@"hash string: %@ length: %d",[hashedString lowercaseString],[hashedString length]);
-	return [hashedString lowercaseString];
+  NSData *key = [DRUPAL_API_KEY dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *clearTextData = [inputString dataUsingEncoding:NSUTF8StringEncoding];
+  uint8_t digest[CC_SHA256_DIGEST_LENGTH] = {0};
+  CCHmacContext hmacContext;
+  CCHmacInit(&hmacContext, kCCHmacAlgSHA256, key.bytes, key.length);
+  CCHmacUpdate(&hmacContext, clearTextData.bytes, clearTextData.length);
+  CCHmacFinal(&hmacContext, digest);
+  NSData *hashedData = [NSData dataWithBytes:digest length:32];
+  NSString *hashedString = [self stringWithHexBytes:hashedData];
+  //NSLog(@"hash string: %@ length: %d",[hashedString lowercaseString],[hashedString length]);
+  return [hashedString lowercaseString];
 }
 -(NSString *) genRandStringLength {	
-    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
-    NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
-    for (int i=0; i<10; i++) {
-        [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
-    }
-    return randomString;
+  NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";    
+  NSMutableString *randomString = [NSMutableString stringWithCapacity: 10];
+  for (int i=0; i<10; i++) {
+    [randomString appendFormat: @"%c", [letters characterAtIndex: arc4random()%[letters length]]];
+  }
+  return randomString;
 }
 - (void)setError:(NSError *)e
 {
-	if (e != error) {
-		[error release];
-		error = [e retain];
-	}
+  if (e != error) {
+    [error release];
+    error = [e retain];
+  }
 }
 
 //This runs our method and actually gets a response from drupal
 -(void) runMethod {
   //Key Auth doesnt work in REST services
-//  NSString *timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
-//  NSString *nonce = [self genRandStringLength];
-//  //removed because we have to regen this every call
-//  [self removeParam:@"hash"];
-//  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
-//  [self removeParam:@"domain_name"];
-//  [self removeParam:@"domain_time_stamp"];
-//  [self removeParam:@"nonce"];
-
-//  NSString *hashParams = [NSString stringWithFormat:@"%@;%@;%@;%@",timestamp,DRUPAL_DOMAIN,nonce,[self method]];
-//  [self addParam:[self generateHash:hashParams] forKey:@"hash"];
-//  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
-//  [self addParam:timestamp forKey:@"domain_time_stamp"];
-//  [self addParam:nonce forKey:@"nonce"];
+  //  NSString *timestamp = [NSString stringWithFormat:@"%d", (long)[[NSDate date] timeIntervalSince1970]];
+  //  NSString *nonce = [self genRandStringLength];
+  //  //removed because we have to regen this every call
+  //  [self removeParam:@"hash"];
+  //  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
+  //  [self removeParam:@"domain_name"];
+  //  [self removeParam:@"domain_time_stamp"];
+  //  [self removeParam:@"nonce"];
+  
+  //  NSString *hashParams = [NSString stringWithFormat:@"%@;%@;%@;%@",timestamp,DRUPAL_DOMAIN,nonce,[self method]];
+  //  [self addParam:[self generateHash:hashParams] forKey:@"hash"];
+  //  [self addParam:DRUPAL_DOMAIN forKey:@"domain_name"];
+  //  [self addParam:timestamp forKey:@"domain_time_stamp"];
+  //  [self addParam:nonce forKey:@"nonce"];
   [self setError:nil];
   [self removeParam:@"sessid"];
   [self addParam:[self sessid] forKey:@"sessid"];
@@ -162,19 +161,21 @@
   [requestBinary setRequestMethod:requestMethod];
   [requestBinary addRequestHeader:@"Content-Type" value:@"application/plist"];
   [requestBinary addRequestHeader:@"Accept" value:@"application/plist"];
+  [requestBinary setUploadProgressDelegate:progressDelegate];
   [requestBinary startSynchronous];
   [self setError:[requestBinary error]];
-	
-	if (!error) {
-		NSData *response = [requestBinary responseData];
-		
-		NSPropertyListFormat format;
-		id plist = nil;
-		
-		[self setResponseStatusMessage:[requestBinary responseStatusMessage]];
-		
-		if(response != nil) {
-			plist = [NSPropertyListSerialization propertyListFromData:response
+  
+  
+  if (!error) {
+    NSData *response = [requestBinary responseData];
+    
+    NSPropertyListFormat format;
+    id plist = nil;
+    
+    [self setResponseStatusMessage:[requestBinary responseStatusMessage]];
+    
+    if(response != nil) {
+      plist = [NSPropertyListSerialization propertyListFromData:response
                                                mutabilityOption:NSPropertyListMutableContainersAndLeaves
                                                          format:&format
                                                errorDescription:&errorStr];
@@ -184,41 +185,39 @@
                                      userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
         [self setError:e];
       }
-		} else {
-			NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
+    } else {
+      NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
                                        code:1 
                                    userInfo:[NSDictionary dictionaryWithObject:@"I couldnt get a response, is the site down?" forKey:NSLocalizedDescriptionKey]];
-			[self setError:e];
-		}
-		
-		
-		if (plist && !error) {
-			[self setConnResult:plist];
-			if([[self method] isEqualToString:@"system.connect"]) {
-				if(plist != nil) {
-					[self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-					[self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
-				}
-			}
-			if([[self method] isEqualToString:@"user.login"]) {
-				if(plist != nil) {
-					[self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
-					[self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
-				}
-			}
-			if([[self method] isEqualToString:@"user.logout"]) {
-				if(plist != nil) {
-					[self setSessid:nil];
-					[self setUserInfo:nil];
-				}
-			}
-		}
-	}
-	
-	
-	//Bug in ASIHTTPRequest, put here to stop activity indicator
-	UIApplication* app = [UIApplication sharedApplication];
-	app.networkActivityIndicatorVisible = NO;
+      [self setError:e];
+    }
+    if (plist && !error) {
+      [self setConnResult:plist];
+      if([[self method] isEqualToString:@"system.connect"]) {
+        if(plist != nil) {
+          [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+          [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+        }
+      }
+      if([[self method] isEqualToString:@"user.login"]) {
+        if(plist != nil) {
+          [self setSessid:[[plist objectForKey:@"#data"] objectForKey:@"sessid"]];
+          [self setUserInfo:[[plist objectForKey:@"#data"]objectForKey:@"user"]];
+        }
+      }
+      if([[self method] isEqualToString:@"user.logout"]) {
+        if(plist != nil) {
+          [self setSessid:nil];
+          [self setUserInfo:nil];
+        }
+      }
+    }
+  }
+  
+  
+  //Bug in ASIHTTPRequest, put here to stop activity indicator
+  UIApplication* app = [UIApplication sharedApplication];
+  app.networkActivityIndicatorVisible = NO;
 }
 
 - (void) setMethod:(NSString *)aMethod {
