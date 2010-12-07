@@ -41,20 +41,24 @@
 
 @implementation DIOSComment
 - (id) init {
-    [super init];
-    return self;
+  [super init];
+  return self;
 }
 
 - (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count {
-    [self setMethod:@"comment.loadNodeComments"];
-    [self addParam:nid forKey:@"nid"];
-    [self addParam:start forKey:@"start"];
-    [self addParam:count forKey:@"count"];
-    [self runMethod];
-    return [self connResult];
+  [self setMethod:@"comment.loadNodeComments"];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"comment/loadNodeComments"];
+  [self addParam:nid forKey:@"nid"];
+  [self addParam:start forKey:@"start"];
+  [self addParam:count forKey:@"count"];
+  [self runMethod];
+  return [self connResult];
 }
 - (NSDictionary *) getComment:(NSString*)cid {
   [self setMethod:@"comment.load"];
+  [self setRequestMethod:@"GET"];
+  [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
   [self addParam:cid forKey:@"cid"];
   [self runMethod];
   return [self connResult];
@@ -62,38 +66,69 @@
 
 - (NSDictionary *) getCommentCountForNid:(NSString*)nid {
   [self setMethod:@"comment.countAll"];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"comment/countAll"];
   [self addParam:nid forKey:@"nid"];
   [self runMethod];
   return [self connResult];
 }
 - (NSDictionary *) getCommentCountNewForNid:(NSString*)nid {
   [self setMethod:@"comment.countNew"];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"comment/countNew"];
   [self addParam:nid forKey:@"nid"];
   [self runMethod];
   return [self connResult];
 }
 - (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
-    [self setMethod:@"comment.save"];
-    NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
-    if(nid != nil) 
-      [comment setObject:nid forKey:@"nid"];
-    if(aSubject != nil)
-      [comment setObject:aSubject forKey:@"subject"];
-    if(aBody != nil)
-      [comment setObject:aBody forKey:@"comment"];
-    
-    if([[self userInfo] objectForKey:@"uid"] != nil) {
-      id temp = [[self userInfo] objectForKey:@"uid"];
-      [comment setObject:[temp stringValue] forKey:@"uid"];
-    }    
-    if([[self userInfo] objectForKey:@"name"] != nil) {
-      id temp = [[self userInfo] objectForKey:@"name"];
-      [comment setObject:temp forKey:@"name"];
-    }
-    [self addParam:comment forKey:@"comment"];
-    [self addParam:nid forKey:@"nid"];
-    [self runMethod];
-    [comment release];
-    return;
+  [self setMethod:@"comment.save"];
+  [self setMethodUrl:@"comment"];
+  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
+  if(nid != nil) 
+    [comment setObject:nid forKey:@"nid"];
+  if(aSubject != nil)
+    [comment setObject:aSubject forKey:@"subject"];
+  if(aBody != nil)
+    [comment setObject:aBody forKey:@"comment"];
+  
+  if([[self userInfo] objectForKey:@"uid"] != nil) {
+    id temp = [[self userInfo] objectForKey:@"uid"];
+    [comment setObject:[temp stringValue] forKey:@"uid"];
+  }    
+  if([[self userInfo] objectForKey:@"name"] != nil) {
+    id temp = [[self userInfo] objectForKey:@"name"];
+    [comment setObject:temp forKey:@"name"];
+  }
+  [self addParam:comment forKey:@"comment"];
+  [self addParam:nid forKey:@"nid"];
+  [self runMethod];
+  [comment release];
+  return;
+}
+- (void) updateComment:(NSString*)cid subject:(NSString*)aSubject body:(NSString*)aBody {
+  [self setMethod:@"comment.save"];
+  [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
+  [self setRequestMethod:@"PUT"];
+  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
+  if(cid != nil) 
+    [comment setObject:cid forKey:@"cid"];
+  if(aSubject != nil)
+    [comment setObject:aSubject forKey:@"subject"];
+  if(aBody != nil)
+    [comment setObject:aBody forKey:@"comment"];
+  
+  if([[self userInfo] objectForKey:@"uid"] != nil) {
+    id temp = [[self userInfo] objectForKey:@"uid"];
+    [comment setObject:[temp stringValue] forKey:@"uid"];
+  }    
+  if([[self userInfo] objectForKey:@"name"] != nil) {
+    id temp = [[self userInfo] objectForKey:@"name"];
+    [comment setObject:temp forKey:@"name"];
+  }
+  [self addParam:comment forKey:@"comment"];
+  [self addParam:cid forKey:@"cid"];
+  [self runMethod];
+  [comment release];
+  return;
 }
 @end
