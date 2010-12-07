@@ -48,6 +48,8 @@
 }
 - (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth {
   [self setMethod:@"taxonomy.getTree"];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"taxonomy_vocabulary/getTree"];
   if (vid != nil) {
     [self addParam:vid forKey:@"vid"];
     
@@ -65,67 +67,39 @@
   //vid is required
   return nil;
 }
-- (NSDictionary *)selectNodes:(NSString*)tids {
-  return [self selectNodes:tids withFields:nil andOperator:nil andDepth:nil pager:NO andOrder:nil];
+- (NSDictionary *)selectNodes:(NSString*)tid {
+  return [self selectNodes:tid andLimit:0 pager:FALSE andOrder:nil];
 }
 /* 
  * selectNodes
  * see admin/build/services/browse/taxonomy.selectNodes
  * tids and fields should be comma seperated
  */
-- (NSDictionary *)selectNodes:(NSString*)tids withFields:(NSString*)fields andOperator:(NSString*)operator andDepth:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder {
+- (NSDictionary *)selectNodes:(NSString*)tid andLimit:(NSString*)limit pager:(BOOL)pager andOrder:(NSString*)anOrder {
   [self setMethod:@"taxonomy.selectNodes"];
-  if (tids != nil) {
-    NSString *searchingForCommas = @",";
-    NSRange tidRange = [tids rangeOfString:searchingForCommas];
-    NSRange fieldsRange = [fields rangeOfString:searchingForCommas];
-    NSArray *newTids = nil;
-    NSArray *newFields = nil;
-    if (tidRange.location != NSNotFound) {
-      newTids = [tids componentsSeparatedByString:@","];
-    } else {
-      newTids = [NSArray arrayWithObject:tids];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"taxonomy_term/selectNodes"];
+  if (tid != nil) {
+    [self addParam:tid forKey:@"tid"];
+
+    if (limit != nil) {
+      [self addParam:limit forKey:@"depth"];
     }
-    
-    [self addParam:newTids forKey:@"tids"];
-    
-    if (fields != nil) {
-      if (fieldsRange.location != NSNotFound) {
-        newFields = [tids componentsSeparatedByString:@","];
-      } else {
-        newFields = [NSArray arrayWithObject:fields];
-      }
-      [self addParam:newFields forKey:@"fields"];
-    } else {
-      [self addParam:[NSArray new] forKey:@"fields"];
+    if (anOrder != nil) {
+      [self addParam:limit forKey:@"order"];
     }
-    if (operator != nil) {
-      [self addParam:operator forKey:@"operator"];
-    } else {
-      [self addParam:@"or" forKey:@"operator"];
-    }
-    if (depth != nil) {
-      [self addParam:depth forKey:@"depth"];
-    } else {
-      [self addParam:@"0" forKey:@"depth"];
-    }
-    if (pager == YES) {
+    if (pager == NO) {
       [self addParam:[NSNumber numberWithInt:0]  forKey:@"pager"];
     } else {
       if (pager == YES) {
         [self addParam:[NSNumber numberWithInt:1]  forKey:@"pager"];
       }
     }
-    if (anOrder != nil) {
-      [self addParam:anOrder forKey:@"order"];
-    } else {
-      [self addParam:@"n.sticky DESC, n.created DESC" forKey:@"order"];
-    }
     [self runMethod];
     
     return [self connResult];
   }
-  //tids is required
+  //tid is required
   return nil;
 }
 @end
