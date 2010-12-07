@@ -48,6 +48,8 @@
 }
 - (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth {
   [self setMethod:@"taxonomy.getTree"];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"taxonomy_vocabulary/getTree"];
   if (vid != nil) {
     [self addParam:vid forKey:@"vid"];
     
@@ -75,6 +77,8 @@
  */
 - (NSDictionary *)selectNodes:(NSString*)tids withFields:(NSString*)fields andOperator:(NSString*)operator andDepth:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder {
   [self setMethod:@"taxonomy.selectNodes"];
+  [self setRequestMethod:@"POST"];
+  [self setMethodUrl:@"taxonomy_term/selectNodes"];
   if (tids != nil) {
     NSString *searchingForCommas = @",";
     NSRange tidRange = [tids rangeOfString:searchingForCommas];
