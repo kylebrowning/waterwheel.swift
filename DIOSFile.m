@@ -61,7 +61,9 @@
 }
 - (NSDictionary *) fileGetNodeFiles:(NSString *)nid {
   [self setMethod:@"file.getNodeFiles"];
+  [self setMethodUrl:@"file/nodeFiles"];
   [self addParam:nid forKey:@"nid"];
+  [self addParam:[NSNumber numberWithInt:0] forKey:@"file_contents"];
   [self runMethod];
   return [self connResult];
 }

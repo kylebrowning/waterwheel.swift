@@ -213,7 +213,7 @@
       }
     }
   }
-  
+  NSLog(@"%@", [error localizedDescription]);
   
   //Bug in ASIHTTPRequest, put here to stop activity indicator
   UIApplication* app = [UIApplication sharedApplication];
