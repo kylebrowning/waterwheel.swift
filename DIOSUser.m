@@ -63,10 +63,12 @@
   if ([userDict objectForKey:@"uid"] != nil && ![[userDict objectForKey:@"uid"] isEqualToString:@""]) {
     [self setMethodUrl:[NSString stringWithFormat:@"user/%@", [userDict objectForKey:@"uid"]]];
     [self setRequestMethod:@"PUT"];
+    [self addParam:userDict forKey:@"data"];
+    [self addParam:[userDict objectForKey:@"uid"] forKey:@"uid"];
+  } else {
+    [self addParam:userDict forKey:@"account"];
   }
-  for (NSString *key in userDict) {
-    [self addParam:[userDict objectForKey:key] forKey:key]; 
-  }
+  
   [self runMethod];
   return [self connResult];
 }
