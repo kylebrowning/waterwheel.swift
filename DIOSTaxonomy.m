@@ -68,7 +68,7 @@
   return nil;
 }
 - (NSDictionary *)selectNodes:(NSString*)tid {
-  return [self selectNodes:tid andLimit:0 pager:FALSE andOrder:nil];
+  return [self selectNodes:tid andLimit:nil pager:FALSE andOrder:nil];
 }
 /* 
  * selectNodes

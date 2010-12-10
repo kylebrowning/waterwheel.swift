@@ -83,52 +83,47 @@
 - (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
   [self setMethod:@"comment.save"];
   [self setMethodUrl:@"comment"];
-  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
   if(nid != nil) 
-    [comment setObject:nid forKey:@"nid"];
+    [self addParam:nid forKey:@"nid"];
   if(aSubject != nil)
-    [comment setObject:aSubject forKey:@"subject"];
+    [self addParam:aSubject forKey:@"subject"];
   if(aBody != nil)
-    [comment setObject:aBody forKey:@"comment"];
+    [self addParam:aBody forKey:@"comment"];
   
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
-    [comment setObject:[temp stringValue] forKey:@"uid"];
+    [self addParam:[temp stringValue] forKey:@"uid"];
   }    
   if([[self userInfo] objectForKey:@"name"] != nil) {
     id temp = [[self userInfo] objectForKey:@"name"];
-    [comment setObject:temp forKey:@"name"];
+    [self addParam:temp forKey:@"name"];
   }
-  [self addParam:comment forKey:@"comment"];
+  //  [self addParam:comment forKey:@"comment"];
   [self addParam:nid forKey:@"nid"];
   [self runMethod];
-  [comment release];
   return;
 }
 - (void) updateComment:(NSString*)cid subject:(NSString*)aSubject body:(NSString*)aBody {
   [self setMethod:@"comment.save"];
   [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
   [self setRequestMethod:@"PUT"];
-  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
   if(cid != nil) 
-    [comment setObject:cid forKey:@"cid"];
+    [self addParam:cid forKey:@"cid"];
   if(aSubject != nil)
-    [comment setObject:aSubject forKey:@"subject"];
+    [self addParam:aSubject forKey:@"subject"];
   if(aBody != nil)
-    [comment setObject:aBody forKey:@"comment"];
+    [self addParam:aBody forKey:@"comment"];
   
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
-    [comment setObject:[temp stringValue] forKey:@"uid"];
+    [self addParam:[temp stringValue] forKey:@"uid"];
   }    
   if([[self userInfo] objectForKey:@"name"] != nil) {
     id temp = [[self userInfo] objectForKey:@"name"];
-    [comment setObject:temp forKey:@"name"];
+    [self addParam:[temp stringValue] forKey:@"name"];
   }
-  [self addParam:comment forKey:@"comment"];
   [self addParam:cid forKey:@"cid"];
   [self runMethod];
-  [comment release];
   return;
 }
 @end
