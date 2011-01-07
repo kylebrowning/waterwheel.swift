@@ -23,7 +23,48 @@ What you need to get started
 * [Services](http://github.com/kylebrowning/services)
 * [REST SERVER PLIST](http://drupal.org/project/rest_server_plist)
 
-Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
+Rasputin's Changes - I have introduced Query Builders, Fast, Slow and Block Enumerators to DIOS
+======================
+// gets all the results
+DIOSViewsQB featuredMoviesQB = [[DIOSViewsQB alloc] initWithViewName:@"movie"
+                                                         displayID:@"page_2" 
+                                                              args:[NSArray arrayWithObjects:nil]];
+// test enumerators
+// slow and fast enumeration
+NSLog(@"------------------ Fast Enum Forward ---------------");
+for (id elem in featuredMoviesQB)   {
+    NSLog(@"%@", [elem objectForKey:@"title"]);
+}
+
+NSLog(@"-------------- Forward with objectEnum -------------");
+for (id elem in [featuredMoviesQB objectEnumerator])  {
+    NSLog(@"%@", [elem objectForKey:@"title"]);
+}
+
+NSLog(@"------------------ Reverse -------------------------");
+for (id elem in [featuredMoviesQB reverseObjectEnumerator]) {
+    NSLog(@"%@", [elem objectForKey:@"title"]);
+}
+
+id block = ^(id elem, NSUInteger idx, BOOL *stop){
+    NSLog(@"idx=%d is title = %@", idx, [elem objectForKey:@"title"]);
+};
+
+// block enumeration
+NSLog(@"------------------ Block forward -------------------------");
+[featuredMoviesQB enumerateAllObjectsUsingBlock:block];
+
+// 
+NSLog(@"------------------ Block all objects forward Concurrent -------------------------");
+[featuredMoviesQB enumerateAllObjectsWithOptions:NSEnumerationConcurrent usingBlock:block];
+
+NSLog(@"------------------ Block Forward Not Concurrent offset:0 limit:3 -------------------------");
+[featuredMoviesQB enumerateObjectsFromOffset:0 withLimit:3 usingBlock:block];
+
+NSLog(@"------------------ Block Forward Concurrent offset:2 limit:4 -------------------------");
+[featuredMoviesQB enumerateObjectsFromOffset:2 withLimit:1 withOptions:NSEnumerationConcurrent usingBlock:block];
+
+Demo DIOS Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
 ====================== 
 Session
 --------------------
