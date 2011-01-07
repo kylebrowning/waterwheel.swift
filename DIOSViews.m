@@ -48,4 +48,9 @@
 - (void) initViews {
     [self setMethod:@"views.get"];
 }
+
+-(void) setMethod:(NSString *)met
+{
+    [super setMethod:met];
+}
 @end
