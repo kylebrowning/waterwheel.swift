@@ -80,6 +80,9 @@
   [self runMethod];
   return [self connResult];
 }
+- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
+  [self addComment:nid subject:aSubject body:aBody parent:nil];
+}
 - (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody parent:(NSString*)pid  {
   [self setMethod:@"comment.save"];
   [self setMethodUrl:@"comment"];
@@ -91,7 +94,7 @@
   if(aBody != nil)
     [comment setObject:aBody forKey:@"comment"];
   if(pid != nil)
-	[comment setObject:pid forKey:@"pid"];
+    [comment setObject:pid forKey:@"pid"];
    
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
