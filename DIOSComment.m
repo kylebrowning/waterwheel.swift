@@ -80,7 +80,7 @@
   [self runMethod];
   return [self connResult];
 }
-- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
+- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody parent:(NSString*)pid  {
   [self setMethod:@"comment.save"];
   [self setMethodUrl:@"comment"];
   NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
@@ -90,7 +90,9 @@
     [comment setObject:aSubject forKey:@"subject"];
   if(aBody != nil)
     [comment setObject:aBody forKey:@"comment"];
-  
+  if(pid != nil)
+	[comment setObject:pid forKey:@"pid"];
+   
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
     [comment setObject:[temp stringValue] forKey:@"uid"];
