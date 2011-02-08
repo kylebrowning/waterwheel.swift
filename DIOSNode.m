@@ -58,6 +58,14 @@
 -(NSDictionary *) nodeSave:(NSMutableDictionary *)node {
   [self setMethod:@"node.save"];
   [self setMethodUrl:@"node"];
+  if([[self userInfo] objectForKey:@"uid"] != nil) {
+    id temp = [[self userInfo] objectForKey:@"uid"];
+    [node setObject:[temp stringValue] forKey:@"uid"];
+  }    
+  if([[self userInfo] objectForKey:@"name"] != nil) {
+    id temp = [[self userInfo] objectForKey:@"name"];
+    [node setObject:temp forKey:@"name"];
+  }
   if ([node objectForKey:@"nid"] != nil && ![[node objectForKey:@"nid"] isEqualToString:@""]) {
     [self setMethodUrl:[NSString stringWithFormat:@"node/%@", [node objectForKey:@"nid"]]];
     [self setRequestMethod:@"PUT"];

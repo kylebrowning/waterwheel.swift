@@ -45,8 +45,8 @@
 - (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
   [self setMethod:@"user.login"];
   [self setMethodUrl:@"user/login"];
-  [self addParam:userName forKey:@"name"];
-  [self addParam:password forKey:@"pass"];
+  [self addParam:userName forKey:@"username"];
+  [self addParam:password forKey:@"password"];
   [self runMethod];
   return [self connResult];
 }
