@@ -24,6 +24,7 @@ What you need to get started
 * [REST SERVER PLIST](https://github.com/kylebrowning/rest_server_plist)
 
 Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
+Demo Setup (Services 3.x) http://vimeo.com/22635252
 ====================== 
 Session
 --------------------
