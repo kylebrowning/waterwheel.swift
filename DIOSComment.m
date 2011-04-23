@@ -88,9 +88,12 @@
     [comment setObject:nid forKey:@"nid"];
   if(aSubject != nil)
     [comment setObject:aSubject forKey:@"subject"];
-  if(aBody != nil)
-    [comment setObject:aBody forKey:@"comment"];
-  
+  if(aBody != nil) {
+    NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
+    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:@"und"];
+    [comment setObject:languageDict forKey:@"comment_body"];
+    [comment setObject:@"und" forKey:@"language"];
+  }
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
     [comment setObject:[temp stringValue] forKey:@"uid"];
@@ -114,9 +117,12 @@
     [comment setObject:cid forKey:@"cid"];
   if(aSubject != nil)
     [comment setObject:aSubject forKey:@"subject"];
-  if(aBody != nil)
-    [comment setObject:aBody forKey:@"comment"];
-  
+  if(aBody != nil) {
+    NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
+    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:@"und"];
+    [comment setObject:languageDict forKey:@"comment_body"];
+    [comment setObject:@"und" forKey:@"language"];
+  }
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
     [comment setObject:[temp stringValue] forKey:@"uid"];
@@ -128,4 +134,5 @@
   [self runMethod];
   return;
 }
+
 @end
