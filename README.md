@@ -17,13 +17,15 @@ What you need to get started
 
 ####Drupal 6
 * [PLIST Server](http://drupal.org/project/plist_server)
-* [services 2.2](http://drupal.org/project/services) (3.x is unstable but available)
+* [services 2.2](http://drupal.org/project/services) (3.x is becoming more stable every day, but still use at your own risk)
 
-####Drupal 7 (unstable)
+####Drupal 7 (kind of stable, not yet in Code freeze)
 * [Services](http://github.com/kylebrowning/services)
-* [REST SERVER PLIST](http://drupal.org/project/rest_server_plist)
+* [REST SERVER PLIST](https://github.com/kylebrowning/rest_server_plist)
 
 Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
+======================
+Demo Setup (Services 3.x) http://vimeo.com/22635252
 ====================== 
 Session
 --------------------
