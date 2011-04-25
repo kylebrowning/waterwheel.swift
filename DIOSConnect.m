@@ -189,6 +189,7 @@
                                          code:1 
                                      userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
         [self setError:e];
+        [errorStr release];
         NSLog(@"error-response: %@", [requestBinary responseString]);
       }
     } else {
