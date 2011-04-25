@@ -176,6 +176,7 @@
                                          code:1 
                                      userInfo:[NSDictionary dictionaryWithObject:errorStr forKey:NSLocalizedDescriptionKey]];
         [self setError:e];
+        [errorStr release];
       }
 		} else {
 			NSError *e = [NSError errorWithDomain:@"DIOS-Error" 
