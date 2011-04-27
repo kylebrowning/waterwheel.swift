@@ -21,7 +21,7 @@ What you need to get started
 
 ####Drupal 7 (kind of stable, not yet in Code freeze)
 * [Services](http://github.com/kylebrowning/services)
-* [REST SERVER PLIST](https://github.com/kylebrowning/rest_server_plist)
+* [REST SERVER PLIST](http://drupal.org/project/rest_server_plist)
 
 Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
 ======================
