@@ -73,6 +73,13 @@
   [self runMethod];
   return [self connResult];
 }
+-(NSDictionary *) nodeGetIndex {
+  [self setMethod:@"node.get"];
+  [self setRequestMethod:@"GET"];
+  [self setMethodUrl:[NSString stringWithFormat:@"node"]];
+  [self runMethod];
+  return [self connResult];
+}
 - (void) dealloc {
     [super dealloc];
   
