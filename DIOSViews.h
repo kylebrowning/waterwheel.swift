@@ -42,4 +42,5 @@
 }
 - (id) init;
 - (void) initViews;
+-(NSDictionary *) viewsGet:(NSString *)viewName;
 @end
