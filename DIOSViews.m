@@ -48,4 +48,11 @@
 - (void) initViews {
     [self setMethod:@"views.get"];
 }
+-(NSDictionary *) viewsGet:(NSString *)viewName {
+  [self setMethod:@"views.get"];
+  [self setRequestMethod:@"GET"];
+  [self setMethodUrl:[NSString stringWithFormat:@"views/%@", viewName]];
+  [self runMethod];
+  return [self connResult];
+}
 @end
