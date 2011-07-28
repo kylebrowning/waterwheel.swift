@@ -1,8 +1,17 @@
-[Drupal iOS SDK](http://workhabit.com) - Connect your iOS/OS X app to Drupal
+
+Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 ================================
+What you need to know
+================================
+The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
+This GETs you a Drupal node and stores it in an NSDictionary, myNode.
+
+    DIOSNode *node = [[DIOSNode alloc] initWithSession:session];
+    NSDictionary *myNode = [node nodeGet:1];
+    [node release];
 
 What you need to get started
----------------------------------------
+================================
 ####XCode
 * This library
 * the following frameworks
@@ -15,13 +24,15 @@ What you need to get started
   * ASIHTTPRequest which can be found [here](http://github.com/pokeb/asi-http-request)
 * Update DIOSConfig.h with the correct API_KEYS SERVICES_URL and DOMAIN (make sure you checkout the drupal-ios-sdk branch for your version of drupal eg. 6.x-2.x, 6.x-3.x or 7.x-3.x)
 
-####Drupal 6
+####Drupal 6.x-2.x (NOT RECOMMENDED, Services 2.x is running 5 year old code. I would suggest using 3.x now that it is in RC stage.
 * [PLIST Server](http://drupal.org/project/plist_server)
-* [services 2.2](http://drupal.org/project/services) (3.x is becoming more stable every day, but still use at your own risk)
+* [services 2.4](http://drupal.org/project/services)
 
-####Drupal 7 (kind of stable, not yet in Code freeze)
+####Drupal 6.x-3.x and 7.x-3.x (RECOMMENDED)
 * [Services](http://github.com/kylebrowning/services)
 * [REST SERVER PLIST](http://drupal.org/project/rest_server_plist)
+
+####Note, Services 3.x does not have an API key, it doesn't use them, IT HAS BEEN REMOVED. Use oAuth if you need extra Security.
 
 Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
 ======================
