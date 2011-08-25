@@ -56,6 +56,7 @@
   [self setRequestMethod:@"GET"];
   [self setMethodUrl:[NSString stringWithFormat:@"file/%@", fid]];
   [self addParam:fid forKey:@"fid"];
+  [self addParam:@"1" forKey:@"file_contents"];
   [self runMethod];
   return [self connResult];
 }
