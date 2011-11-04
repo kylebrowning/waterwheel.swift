@@ -46,7 +46,7 @@
 }
 - (NSDictionary *) fileSave:(NSMutableDictionary *)fileDict {
   [self setMethod:@"file.save"];
-  [self addParam:fileDict forKey:@"file"];
+  [self setParams:fileDict];
   [self setMethodUrl:@"file"];
   [self runMethod];
   return [self connResult];
