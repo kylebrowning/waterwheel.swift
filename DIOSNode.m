@@ -69,7 +69,7 @@
     [self setMethodUrl:[NSString stringWithFormat:@"node/%@", [node objectForKey:@"nid"]]];
     [self setRequestMethod:@"PUT"];
   }
-  [self addParam:node forKey:@"node"]; 
+  [self setParams:node];
   [self runMethod];
   return [self connResult];
 }
