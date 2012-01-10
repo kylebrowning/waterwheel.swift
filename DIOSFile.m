@@ -46,9 +46,7 @@
 }
 - (NSDictionary *) fileSave:(NSMutableDictionary *)fileDict {
   [self setMethod:@"file.save"];
-  for (NSString*key in fileDict) {
-    [self addParam:[fileDict objectForKey:key] forKey:key];
-  }
+  [self setParams:fileDict];
   [self setMethodUrl:@"file"];
   [self runMethod];
   return [self connResult];
@@ -58,6 +56,7 @@
   [self setRequestMethod:@"GET"];
   [self setMethodUrl:[NSString stringWithFormat:@"file/%@", fid]];
   [self addParam:fid forKey:@"fid"];
+  [self addParam:@"1" forKey:@"file_contents"];
   [self runMethod];
   return [self connResult];
 }

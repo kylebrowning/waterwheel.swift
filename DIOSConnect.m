@@ -199,28 +199,32 @@
 			[self setError:e];
 		}
 		
-		
-		if (plist && !error) {
-			[self setConnResult:plist];
-			if([[self method] isEqualToString:@"system.connect"]) {
-				if(plist != nil) {
-					[self setSessid:[plist objectForKey:@"sessid"]];
-					[self setUserInfo:[plist objectForKey:@"user"]];
-				}
-			}
-			if([[self method] isEqualToString:@"user.login"]) {
-				if(plist != nil) {					
+    if([requestBinary responseStatusCode] != 200) {
+      NSMutableDictionary *errorDetail = [NSMutableDictionary dictionary];
+      [errorDetail setValue:[requestBinary responseStatusMessage] forKey:NSLocalizedDescriptionKey];
+      [self setError:[NSError errorWithDomain:@"DIOSConnect" code:[requestBinary responseStatusCode] userInfo:errorDetail]];
+    }
+    if (plist && !error) {
+      [self setConnResult:plist];
+      if([[self method] isEqualToString:@"system.connect"]) {
+        if(plist != nil) {
           [self setSessid:[plist objectForKey:@"sessid"]];
-					[self setUserInfo:[plist objectForKey:@"user"]];
-				}
-			}
-			if([[self method] isEqualToString:@"user.logout"]) {
-				if(plist != nil) {
-					[self setSessid:nil];
-					[self setUserInfo:nil];
-				}
-			}
-		}
+          [self setUserInfo:[plist objectForKey:@"user"]];
+        }
+      }
+      if([[self method] isEqualToString:@"user.login"]) {
+        if(plist != nil) {					
+          [self setSessid:[plist objectForKey:@"sessid"]];
+          [self setUserInfo:[plist objectForKey:@"user"]];
+        }
+      }
+      if([[self method] isEqualToString:@"user.logout"]) {
+        if(plist != nil) {
+          [self setSessid:nil];
+          [self setUserInfo:nil];
+        }
+      }
+    }
 	}
 	
 	if(error) {

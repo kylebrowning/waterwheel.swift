@@ -106,4 +106,12 @@
   //tid is required
   return nil;
 }
+
+- (NSDictionary *)getTerm:(NSString*)tid {
+    [self setMethod:@"taxonomy_term.get"];
+    [self setRequestMethod:@"GET"];
+    [self setMethodUrl:[NSString stringWithFormat:@"taxonomy_term/%@", tid]];
+    [self runMethod];
+    return [self connResult];
+}
 @end
