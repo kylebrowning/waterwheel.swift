@@ -67,7 +67,7 @@
   //vid is required
   return nil;
 }
-- (NSDictionary *)selectNodes:(NSString*)tid {
+- (NSArray *)selectNodes:(NSString*)tid {
   return [self selectNodes:tid andLimit:nil pager:FALSE andOrder:nil];
 }
 /* 
@@ -75,7 +75,7 @@
  * see admin/build/services/browse/taxonomy.selectNodes
  * tids and fields should be comma seperated
  */
-- (NSDictionary *)selectNodes:(NSString*)tid andLimit:(NSString*)limit pager:(BOOL)pager andOrder:(NSString*)anOrder {
+- (NSArray *)selectNodes:(NSString*)tid andLimit:(NSString*)limit pager:(BOOL)pager andOrder:(NSString*)anOrder {
   [self setMethod:@"taxonomy.selectNodes"];
   [self setRequestMethod:@"POST"];
   [self setMethodUrl:@"taxonomy_term/selectNodes"];
@@ -96,8 +96,12 @@
       }
     }
     [self runMethod];
-    
-    return [self connResult];
+    if([[self connResult] isKindOfClass:[NSString class]]) {
+      if([(NSString *)[self connResult] isEqualToString:@""]) {
+        return nil;
+      }
+    }
+    return (NSArray *)[self connResult];
   }
   //tid is required
   return nil;

@@ -37,7 +37,7 @@
 
 
 #import "DIOSComment.h"
-
+#import "DIOSConfig.h"
 
 @implementation DIOSComment
 - (id) init {
@@ -47,8 +47,9 @@
 
 - (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count {
   [self setMethod:@"comment.loadNodeComments"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"comment/loadNodeComments"];
+  [self setRequestMethod:@"GET"];
+  NSString *url = [NSString stringWithFormat:@"node/%@/comments", nid];
+  [self setMethodUrl:url];
   [self addParam:nid forKey:@"nid"];
   [self addParam:start forKey:@"start"];
   [self addParam:count forKey:@"count"];
@@ -83,29 +84,26 @@
 - (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
   [self setMethod:@"comment.save"];
   [self setMethodUrl:@"comment"];
-  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
   if(![nid isEqualToString:@""]) 
-    [comment setObject:nid forKey:@"nid"];
+  [self addParam:nid forKey:@"nid"];
   if(aSubject != nil)
-    [comment setObject:aSubject forKey:@"subject"];
+    [self addParam:aSubject forKey:@"subject"];
   if(aBody != nil) {
     NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
-    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:@"und"];
-    [comment setObject:languageDict forKey:@"comment_body"];
-    [comment setObject:@"und" forKey:@"language"];
+    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:DRUPAL_LANGUAGE];
+    [self addParam:languageDict forKey:@"comment_body"];
+    [self addParam:DRUPAL_LANGUAGE forKey:@"language"];
   }
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];
-    [comment setObject:[temp stringValue] forKey:@"uid"];
+    [self addParam:[temp stringValue] forKey:@"uid"];
   }    
   if([[self userInfo] objectForKey:@"name"] != nil) {
     id temp = [[self userInfo] objectForKey:@"name"];
-    [comment setObject:temp forKey:@"name"];
+    [self addParam:temp forKey:@"name"];
   }
-  [comment setObject:@"en" forKey:@"language"];
-  [self addParam:comment forKey:@"comment"];
+  [self addParam:@"en" forKey:@"language"];
   [self runMethod];
-  [comment release];
   return;
 }
 - (void) updateComment:(NSString*)cid subject:(NSString*)aSubject body:(NSString*)aBody {
@@ -119,9 +117,9 @@
     [comment setObject:aSubject forKey:@"subject"];
   if(aBody != nil) {
     NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
-    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:@"und"];
+    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:DRUPAL_LANGUAGE];
     [comment setObject:languageDict forKey:@"comment_body"];
-    [comment setObject:@"und" forKey:@"language"];
+    [comment setObject:DRUPAL_LANGUAGE forKey:@"language"];
   }
   if([[self userInfo] objectForKey:@"uid"] != nil) {
     id temp = [[self userInfo] objectForKey:@"uid"];

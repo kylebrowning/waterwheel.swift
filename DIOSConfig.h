@@ -51,9 +51,17 @@
 #ifdef DEV
 
 #define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
-#define DRUPAL_SERVICES_URL  @"http://dev.example.com/services/plist"
-#define DRUPAL_URL  @"http://dev.example.com"
-#define DRUPAL_DOMAIN @"dev.example.com" 
+#define DRUPAL_SERVICES_URL  @"http://publisherios.workhabit.com/api"
+#define DRUPAL_URL  @"http://publisherios.workhabit.com/"
+#define DRUPAL_DOMAIN @"publisherios.workhabit.com" 
 #endif
 //THis is the constant for none in Drupal7 http://api.drupal.org/api/constant/LANGUAGE_NONE/7
 #define DRUPAL_LANGUAGE @"und"
+#define DRUPAL_CELL_DEFAULT_IMAGE @"http://demo.kylebrowning.com/sites/default/files/imagecache/iphone/4986607783_45b49e2493_o.jpg"
+#define DRUPAL_IMAGECACHE_URL @"sites/default/files/"
+#define DRUPAL_NC_SYSTEM @"DRUPALNCSYSTEM"
+#define DRUPAL_METHOD_DONE @"DRUPALMETHODDONE"
+#define DRUPAL_NODE_METHOD_DONE @"DRUPALNODEMETHODDONE"
+#define DRUPAL_CATEGORY_VID @"1"
+#define DRUPAL_VIEWS_IMAGE_FIELD @"files_node_data_field_image_filepath"
+#define DRUPAL_NODE_IMAGE_FIELD @"field_image"

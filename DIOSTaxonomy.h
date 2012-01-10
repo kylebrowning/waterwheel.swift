@@ -43,6 +43,6 @@
 }
 - (NSDictionary *)getTree:(NSString*)vid;
 - (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth;
-- (NSDictionary *)selectNodes:(NSString*)tid;
-- (NSDictionary *)selectNodes:(NSString*)tid andLimit:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder;
+- (NSArray *)selectNodes:(NSString*)tid;
+- (NSArray *)selectNodes:(NSString*)tid andLimit:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder;
 @end
