@@ -35,8 +35,6 @@
 //
 // ***** END LICENSE BLOCK *****
 #import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
-
 #import "AFHTTPRequestOperation.h"
 #import "DIOSSession.h"
 @protocol DIOSFileDelegate;
