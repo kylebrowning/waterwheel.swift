@@ -1,5 +1,5 @@
 //
-//  DIOSViews.h
+//  DIOSNode.h
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -34,13 +34,22 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
+
 #import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
+#import "AFHTTPClient.h"
+#import "Settings.h"
+@protocol DIOSSessionDelegate;
 
-@interface DIOSViews : DIOSConnect {
-
-}
-- (id) init;
-- (void) initViews;
--(NSDictionary *) viewsGet:(NSString *)viewName;
+@protocol DIOSSessionDelegate <NSObject>
+- (void)callDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
 @end
+
+@interface DIOSSession : AFHTTPClient <DIOSSessionDelegate>{
+  id <DIOSSessionDelegate> delegate;
+  NSDictionary *user;
+}
+@property (strong, nonatomic) id <DIOSSessionDelegate> delegate;
+@property (strong, nonatomic) NSDictionary *user;
++ (DIOSSession *)sharedSession;
+@end
+

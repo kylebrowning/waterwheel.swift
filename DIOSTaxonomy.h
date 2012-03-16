@@ -35,15 +35,25 @@
 //
 // ***** END LICENSE BLOCK *****
 
-#import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
+#import "AFHTTPRequestOperation.h"
+#import "DIOSSession.h"
+@protocol DIOSTaxonomyDelegate;
 
-@interface DIOSTaxonomy : DIOSConnect {
+@protocol DIOSTaxonomyDelegate <NSObject>;
+- (void)getTreeDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
+- (void)selectNodesDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
+- (void)getTermDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
+@end
 
+@interface DIOSTaxonomy : NSObject <DIOSTaxonomyDelegate> {
+  id <DIOSTaxonomyDelegate> delegate;
 }
-- (NSDictionary *)getTree:(NSString*)vid;
-- (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth;
-- (NSDictionary *)selectNodes:(NSString*)tid;
-- (NSDictionary *)selectNodes:(NSString*)tid andLimit:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder;
-- (NSDictionary *)getTerm:(NSString*)tid;
+@property (weak, nonatomic) id <DIOSTaxonomyDelegate> delegate;
+- (id) init;
+- (id) initWithDelegate:(id<DIOSTaxonomyDelegate>)aDelegate;
+- (void)getTreeWithParams:(NSDictionary *)params;
+- (void)getTreeWithVid:(NSString *)vid withParent:(NSString *)parent andMaxDepth:(NSString *)maxDepth;
+- (void)selectNodesWithParams:(NSDictionary *)params;
+- (void)selectNodesWithTid:(NSString *)tid andLimit:(NSString *)limit andPager:(NSString *)pager andOrder:(NSString *)order;
+- (void)getTermWithTid:(NSString *)tid;
 @end

@@ -37,81 +37,92 @@
 
 #import "DIOSTaxonomy.h"
 
-
 @implementation DIOSTaxonomy
+@synthesize delegate = _delegate;
 - (id) init {
-  [super init];
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
+  [self setDelegate:self];
   return self;
 }
-- (NSDictionary *)getTree:(NSString*)vid {
-  return [self getTree:vid withParent:nil andMaxDepth:nil];
-}
-- (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth {
-  [self setMethod:@"taxonomy.getTree"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"taxonomy_vocabulary/getTree"];
-  if (vid != nil) {
-    [self addParam:vid forKey:@"vid"];
-    
-    if (parent != nil) {
-      [self addParam:parent forKey:@"parent"];
-    }
-    if (maxDepth != nil) {
-      [self addParam:maxDepth forKey:@"max_depth"];
-    }    
-    
-    [self runMethod];
-    
-    return [self connResult];
+- (id) initWithDelegate:(id<DIOSTaxonomyDelegate>)aDelegate {
+  self = [super init];
+  if (!self) {
+    return nil;
   }
-  //vid is required
-  return nil;
+  [self setDelegate:aDelegate];
+  return self;
 }
-- (NSArray *)selectNodes:(NSString*)tid {
-  return [self selectNodes:tid andLimit:nil pager:FALSE andOrder:nil];
-}
-/* 
- * selectNodes
- * see admin/build/services/browse/taxonomy.selectNodes
- * tids and fields should be comma seperated
- */
-- (NSArray *)selectNodes:(NSString*)tid andLimit:(NSString*)limit pager:(BOOL)pager andOrder:(NSString*)anOrder {
-  [self setMethod:@"taxonomy.selectNodes"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"taxonomy_term/selectNodes"];
-  if (tid != nil) {
-    [self addParam:tid forKey:@"tid"];
 
-    if (limit != nil) {
-      [self addParam:limit forKey:@"depth"];
-    }
-    if (anOrder != nil) {
-      [self addParam:limit forKey:@"order"];
-    }
-    if (pager == NO) {
-      [self addParam:[NSNumber numberWithInt:0]  forKey:@"pager"];
+- (void)getTreeWithVid:(NSString *)vid withParent:(NSString *)parent andMaxDepth:(NSString *)maxDepth {
+  NSMutableDictionary *params = [NSMutableDictionary new];
+  [params setValue:vid forKey:@"vid"];
+  [params setValue:parent forKey:@"parent"];
+  [params setValue:maxDepth forKey:@"max_depth"];
+  [self getTreeWithParams:params];
+}
+- (void)getTreeWithParams:(NSDictionary *)params {
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/getTree", kDiosEndpoint, kDiosBaseTaxonmyVocabulary] parameters:params success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(getTreeDidFinish:operation:response:error:)]) {
+      [_delegate getTreeDidFinish:YES operation:operation response:JSON error:nil];
     } else {
-      if (pager == YES) {
-        [self addParam:[NSNumber numberWithInt:1]  forKey:@"pager"];
-      }
+      DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
     }
-    [self runMethod];
-    if([[self connResult] isKindOfClass:[NSString class]]) {
-      if([(NSString *)[self connResult] isEqualToString:@""]) {
-        return nil;
-      }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(getTreeDidFinish:operation:response:error:)]) {
+      [_delegate getTreeDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
     }
-    return (NSArray *)[self connResult];
-  }
-  //tid is required
-  return nil;
+  }];
 }
-
-- (NSDictionary *)getTerm:(NSString*)tid {
-    [self setMethod:@"taxonomy_term.get"];
-    [self setRequestMethod:@"GET"];
-    [self setMethodUrl:[NSString stringWithFormat:@"taxonomy_term/%@", tid]];
-    [self runMethod];
-    return [self connResult];
+- (void)selectNodesWithTid:(NSString *)tid andLimit:(NSString *)limit andPager:(NSString *)pager andOrder:(NSString *)order {
+  NSMutableDictionary *params = [NSMutableDictionary new];
+  [params setValue:tid forKey:@"tid"];
+  [params setValue:limit forKey:@"limit"];
+  [params setValue:pager forKey:@"pager"];
+  [params setValue:order forKey:@"prder"];
+  [self selectNodesWithParams:params];
+}
+- (void)selectNodesWithParams:(NSDictionary *)params {
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/selectNodes", kDiosEndpoint, kDiosBaseTaxonmyTerm] parameters:params success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(selectNodesDidFinish:operation:response:error:)]) {
+      [_delegate selectNodesDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(selectNodesDidFinish:operation:response:error:)]) {
+      [_delegate selectNodesDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
+    }
+  }];
+}
+- (void)getTermWithTid:(NSString *)tid {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseTaxonmyTerm, tid] parameters:nil success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(getTreeDidFinish:operation:response:error:)]) {
+      [_delegate getTreeDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this get so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(getTreeDidFinish:operation:response:error:)]) {
+      [_delegate getTreeDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this get so my response will never be used.", _delegate);
+    }
+  }];
+}
+- (void)getTreeDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
+}
+- (void)selectNodesDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
+}
+- (void)getTermDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
 }
 @end
