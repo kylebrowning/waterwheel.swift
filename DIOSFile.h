@@ -37,10 +37,20 @@
 #import <Foundation/Foundation.h>
 #import "DIOSConnect.h"
 
-@interface DIOSFile : DIOSConnect {
+#import "AFHTTPRequestOperation.h"
+#import "DIOSSession.h"
+@protocol DIOSFileDelegate;
 
+@protocol DIOSFileDelegate <NSObject>;
+- (void)fileGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
+@end
+
+@interface DIOSFile : NSObject <DIOSFileDelegate> {
+  id <DIOSFileDelegate> delegate;
 }
-- (NSDictionary *) fileSave:(NSMutableDictionary *)fileDict;
-- (NSDictionary *) fileGet:(NSString *)fid;
-- (NSDictionary *) fileGetNodeFiles:(NSString *)nid;
+@property (weak, nonatomic) id <DIOSFileDelegate> delegate;
+- (id) init;
+- (id) initWithDelegate:(id<DIOSFileDelegate>)aDelegate;
+- (void) fileGet:(NSDictionary *)params;
+- (UIImageView *) getImageViewForFileImage:(NSDictionary *) file;
 @end

@@ -37,100 +37,134 @@
 
 
 #import "DIOSComment.h"
-#import "DIOSConfig.h"
 
 @implementation DIOSComment
+@synthesize delegate = _delegate;
 - (id) init {
-  [super init];
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
+  [self setDelegate:self];
+  return self;
+}
+- (id) initWithDelegate:(id<DIOSCommentDelegate>)aDelegate {
+  self = [super init];
+  if (!self) {
+    return nil;
+  }
+  [self setDelegate:aDelegate];
   return self;
 }
 
-- (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count {
-  [self setMethod:@"comment.loadNodeComments"];
-  [self setRequestMethod:@"GET"];
-  NSString *url = [NSString stringWithFormat:@"node/%@/comments", nid];
-  [self setMethodUrl:url];
-  [self addParam:nid forKey:@"nid"];
-  [self addParam:start forKey:@"start"];
-  [self addParam:count forKey:@"count"];
-  [self runMethod];
-  return [self connResult];
+#pragma mark CommentGets
+- (void)commentGet:(NSDictionary *)comment {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] parameters:nil success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(commentGetDidFinish:operation:response:error:)]) {
+      [_delegate commentGetDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this get so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(commentGetDidFinish:operation:response:error:)]) {
+      [_delegate commentGetDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this get so my response will never be used.", _delegate);
+    }
+  }];
 }
-- (NSDictionary *) getComment:(NSString*)cid {
-  [self setMethod:@"comment.load"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
-  [self addParam:cid forKey:@"cid"];
-  [self runMethod];
-  return [self connResult];
-}
-
-- (NSDictionary *) getCommentCountForNid:(NSString*)nid {
-  [self setMethod:@"comment.countAll"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"comment/countAll"];
-  [self addParam:nid forKey:@"nid"];
-  [self runMethod];
-  return [self connResult];
-}
-- (NSDictionary *) getCommentCountNewForNid:(NSString*)nid {
-  [self setMethod:@"comment.countNew"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"comment/countNew"];
-  [self addParam:nid forKey:@"nid"];
-  [self runMethod];
-  return [self connResult];
-}
-- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
-  [self setMethod:@"comment.save"];
-  [self setMethodUrl:@"comment"];
-  if(![nid isEqualToString:@""]) 
-  [self addParam:nid forKey:@"nid"];
-  if(aSubject != nil)
-    [self addParam:aSubject forKey:@"subject"];
-  if(aBody != nil) {
-    NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
-    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:DRUPAL_LANGUAGE];
-    [self addParam:languageDict forKey:@"comment_body"];
-    [self addParam:DRUPAL_LANGUAGE forKey:@"language"];
-  }
-  if([[self userInfo] objectForKey:@"uid"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"uid"];
-    [self addParam:[temp stringValue] forKey:@"uid"];
-  }    
-  if([[self userInfo] objectForKey:@"name"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"name"];
-    [self addParam:temp forKey:@"name"];
-  }
-  [self addParam:@"en" forKey:@"language"];
-  [self runMethod];
-  return;
-}
-- (void) updateComment:(NSString*)cid subject:(NSString*)aSubject body:(NSString*)aBody {
-  [self setMethod:@"comment.save"];
-  [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
-  [self setRequestMethod:@"PUT"];
-  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
-  if(![cid isEqualToString:@""]) 
-    [comment setObject:cid forKey:@"cid"];
-  if(aSubject != nil)
-    [comment setObject:aSubject forKey:@"subject"];
-  if(aBody != nil) {
-    NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
-    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:DRUPAL_LANGUAGE];
-    [comment setObject:languageDict forKey:@"comment_body"];
-    [comment setObject:DRUPAL_LANGUAGE forKey:@"language"];
-  }
-  if([[self userInfo] objectForKey:@"uid"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"uid"];
-    [comment setObject:[temp stringValue] forKey:@"uid"];
-  }    
-  if([[self userInfo] objectForKey:@"name"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"name"];
-    [comment setObject:temp forKey:@"name"];
-  }
-  [self runMethod];
-  return;
+- (void)commentGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  DIOSSession *session = [DIOSSession sharedSession];
+  [[session delegate] callDidFinish:status operation:operation response:response error:error];
 }
 
+#pragma mark commentSaves
+- (void)commentSave:(NSDictionary *)comment {
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] parameters:comment success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(commentSaveDidFinish:operation:response:error:)]) {
+      [_delegate commentSaveDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(commentSaveDidFinish:operation:response:error:)]) {
+      [_delegate commentSaveDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
+    }
+  }];
+}
+- (void)commentSaveDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
+}
+
+#pragma mark commentUpdate
+- (void)commentUpdate:(NSDictionary *)comment {
+  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] parameters:comment success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(commentUpdateDidFinish:operation:response:error:)]) {
+      [_delegate commentUpdateDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this put so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(commentUpdateDidFinish:operation:response:error:)]) {
+      [_delegate commentUpdateDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this put so my response will never be used.", _delegate);
+    }
+  }];
+}
+- (void)commentUpdateDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
+}
+
+#pragma mark CommentDelete
+- (void)commentDelete:(NSDictionary *)comment {
+  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] parameters:comment success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(commentDeleteDidFinish:operation:response:error:)]) {
+      [_delegate commentDeleteDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this delete so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(commentDeleteDidFinish:operation:response:error:)]) {
+      [_delegate commentDeleteDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this delete so my response will never be used.", _delegate);
+    }
+  }];
+}
+- (void)commentDeleteDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
+}
+
+#pragma mark commentIndex
+//Simpler method if you didnt want to build the params :)
+- (void)commentIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize {
+  NSMutableDictionary *commentIndexDict = [NSMutableDictionary new];
+  [commentIndexDict setValue:page forKey:@"page"];
+  [commentIndexDict setValue:fields forKey:@"fields"];
+  [commentIndexDict setValue:parameteres forKey:@"parameters"];
+  [commentIndexDict setValue:pageSize forKey:@"pagesize"];  
+  [self commentIndex:commentIndexDict];
+}
+
+- (void)commentIndex:(NSDictionary *)params {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] parameters:params success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
+    if ([_delegate respondsToSelector:@selector(commentIndexDidFinish:operation:response:error:)]) {
+      [_delegate commentIndexDidFinish:YES operation:operation response:JSON error:nil];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this delete so my response will never be used.", _delegate);
+    }
+  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+    if ([_delegate respondsToSelector:@selector(commentIndexDidFinish:operation:response:error:)]) {
+      [_delegate commentIndexDidFinish:NO operation:operation response:nil error:error];
+    } else {
+      DLog(@"I couldnt find the delegate and one was set %@ for this delete so my response will never be used.", _delegate);
+    }
+  }];
+}
+- (void)commentIndexDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
+  [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
+}
 @end
