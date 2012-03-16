@@ -1,5 +1,4 @@
 
-WORK IN PROGRESS README! DONT JUDGE THE MISTAKES AND THE LEFT OUT CONTENT :/
 Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 ================================
 What you need to know
