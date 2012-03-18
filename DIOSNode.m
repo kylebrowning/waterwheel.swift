@@ -76,17 +76,17 @@
   [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
 }
 
-#pragma mark nodeUpdates
+#pragma mark nodeSave
 - (void)nodeSave:(NSDictionary *)node {
   [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode] parameters:node success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
-    if ([_delegate respondsToSelector:@selector(nodeUpdateDidFinish:operation:response:error:)]) {
-      [_delegate nodeUpdateDidFinish:YES operation:operation response:JSON error:nil];
+    if ([_delegate respondsToSelector:@selector(nodeSaveDidFinish:operation:response:error:)]) {
+      [_delegate nodeSaveDidFinish:YES operation:operation response:JSON error:nil];
     } else {
       DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
     }
   } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
-    if ([_delegate respondsToSelector:@selector(nodeUpdateDidFinish:operation:response:error:)]) {
-      [_delegate nodeUpdateDidFinish:NO operation:operation response:nil error:error];
+    if ([_delegate respondsToSelector:@selector(nodeSaveDidFinish:operation:response:error:)]) {
+      [_delegate nodeSaveDidFinish:NO operation:operation response:nil error:error];
     } else {
       DLog(@"I couldnt find the delegate and one was set %@ for this post so my response will never be used.", _delegate);
     }
