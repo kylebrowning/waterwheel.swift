@@ -34,16 +34,16 @@
 //
 // ***** END LICENSE BLOCK *****
 #import "AFHTTPRequestOperation.h"
-#import "DIOSSession.h"
-@protocol DIOSViewDelegate;
-@protocol DIOSViewDelegate <NSObject>
-- (void)viewGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-@end
 
-@interface DIOSView : NSObject <DIOSViewDelegate>{
-  id <DIOSViewDelegate> delegate;
-}
-@property (weak, nonatomic) id <DIOSViewDelegate> delegate;
-- (id) initWithDelegate:(id<DIOSViewDelegate>)aDelegate;
-- (void)viewGet:(NSDictionary *)params;
+@interface DIOSView : NSObject
+
+/**
+ Returns the contents of the specified Drupal view. Implementation takes two blocks, one for success, and one for failure. Either parameter may be nil. 
+ 
+ @param success The block to be executed on the completion of a successful request. This block has no return value and takes two arguments: the receiver operation and the object constructed from the response data of the request.
+ @param failure The block to be executed on the completion of an unsuccessful request. This block has no return value and takes two arguments: the receiver operation and the error that occured during the request.
+ 
+ */
+- (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

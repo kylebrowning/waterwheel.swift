@@ -34,34 +34,10 @@
 //
 // ***** END LICENSE BLOCK *****
 #import "DIOSView.h"
-
+#import "DIOSSession.h"
 @implementation DIOSView
-@synthesize delegate = _delegate;
-
-- (id) initWithDelegate:(id<DIOSViewDelegate>)aDelegate {
-  self = [super init];
-  if (!self) {
-    return nil;
-  }
-  [self setDelegate:aDelegate];
-  return self;
-}
-- (void)viewGet:(NSDictionary *)params {
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]] parameters:params success:^(__unused AFHTTPRequestOperation *operation, id JSON) {
-    if ([_delegate respondsToSelector:@selector(viewGetDidFinish:operation:response:error:)]) {
-      [_delegate viewGetDidFinish:YES operation:operation response:JSON error:nil];
-    } else {
-      DLog(@"I couldnt find the delegate and one was set %@ for this get so my response will never be used.", _delegate);
-    }
-  } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
-    if ([_delegate respondsToSelector:@selector(viewGetDidFinish:operation:response:error:)]) {
-      [_delegate viewGetDidFinish:NO operation:operation response:nil error:error];
-    } else {
-      DLog(@"I couldnt find the delegate and one was set %@ for this get so my response will never be used.", _delegate);
-    }
-  }];
-}
-- (void)viewGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
-  
+- (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]] parameters:nil success:success failure:failure];
 }
 @end
