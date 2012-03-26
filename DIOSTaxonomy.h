@@ -36,24 +36,31 @@
 // ***** END LICENSE BLOCK *****
 
 #import "AFHTTPRequestOperation.h"
-#import "DIOSSession.h"
-@protocol DIOSTaxonomyDelegate;
 
-@protocol DIOSTaxonomyDelegate <NSObject>;
-- (void)getTreeDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)selectNodesDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)getTermDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-@end
+@interface DIOSTaxonomy : NSObject 
 
-@interface DIOSTaxonomy : NSObject <DIOSTaxonomyDelegate> {
-  id <DIOSTaxonomyDelegate> delegate;
-}
-@property (weak, nonatomic) id <DIOSTaxonomyDelegate> delegate;
-- (id) init;
-- (id) initWithDelegate:(id<DIOSTaxonomyDelegate>)aDelegate;
-- (void)getTreeWithParams:(NSDictionary *)params;
-- (void)getTreeWithVid:(NSString *)vid withParent:(NSString *)parent andMaxDepth:(NSString *)maxDepth;
-- (void)selectNodesWithParams:(NSDictionary *)params;
-- (void)selectNodesWithTid:(NSString *)tid andLimit:(NSString *)limit andPager:(NSString *)pager andOrder:(NSString *)order;
-- (void)getTermWithTid:(NSString *)tid;
+- (void)getTreeWithParams:(NSDictionary *)params  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)getTreeWithVid:(NSString *)vid 
+            withParent:(NSString *)parent 
+           andMaxDepth:(NSString *)maxDepth  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)selectNodesWithParams:(NSDictionary *)params  
+                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)selectNodesWithTid:(NSString *)tid 
+                  andLimit:(NSString *)limit 
+                  andPager:(NSString *)pager
+                  andOrder:(NSString *)order  
+                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)getTermWithTid:(NSString *)tid  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

@@ -36,25 +36,34 @@
 // ***** END LICENSE BLOCK *****
 
 #import "AFHTTPRequestOperation.h"
-#import "DIOSSession.h"
-@protocol DIOSCommentDelegate;
-@protocol DIOSCommentDelegate <NSObject>
-- (void)commentGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)commentSaveDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)commentUpdateDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)commentDeleteDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)commentIndexDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-@end
 
-@interface DIOSComment : NSObject <DIOSCommentDelegate>{
-  id <DIOSCommentDelegate> delegate;
-}
-@property (weak, nonatomic) id <DIOSCommentDelegate> delegate;
-- (id) initWithDelegate:(id<DIOSCommentDelegate>)aDelegate;
-- (void)commentGet:(NSDictionary *)comment;
-- (void)commentSave:(NSDictionary *)comment;
-- (void)commentUpdate:(NSDictionary *)comment;
-- (void)commentDelete:(NSDictionary *)comment;
-- (void)commentIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize;
-- (void)commentIndex:(NSDictionary *)params;
+
+@interface DIOSComment : NSObject
+
+- (void)commentGet:(NSDictionary *)comment 
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentSave:(NSDictionary *)comment 
+            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentUpdate:(NSDictionary *)comment  
+              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentDelete:(NSDictionary *)comment 
+              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentIndexWithPage:(NSString *)page 
+                      fields:(NSString *)fields 
+                  parameters:(NSArray *)parameteres 
+                    pageSize:(NSString *)pageSize
+                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentIndex:(NSDictionary *)params 
+             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

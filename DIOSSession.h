@@ -38,18 +38,12 @@
 #import <Foundation/Foundation.h>
 #import "AFHTTPClient.h"
 #import "Settings.h"
-@protocol DIOSSessionDelegate;
 
-@protocol DIOSSessionDelegate <NSObject>
-- (void)callDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-@end
-
-@interface DIOSSession : AFHTTPClient <DIOSSessionDelegate>{
-  id <DIOSSessionDelegate> delegate;
+@interface DIOSSession : AFHTTPClient {
   NSDictionary *user;
 }
-@property (strong, nonatomic) id <DIOSSessionDelegate> delegate;
 @property (strong, nonatomic) NSDictionary *user;
 + (DIOSSession *)sharedSession;
+
 @end
 

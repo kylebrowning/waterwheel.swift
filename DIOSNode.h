@@ -36,28 +36,34 @@
 // ***** END LICENSE BLOCK *****
 
 #import "AFHTTPRequestOperation.h"
-#import "DIOSSession.h"
-@protocol DIOSNodeDelegate;
-@protocol DIOSNodeDelegate <NSObject>
-- (void)nodeGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)nodeSaveDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)nodeUpdateDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)nodeDeleteDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)nodeIndexDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
-- (void)nodeAttachFileDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error;
 
-@end
-
-@interface DIOSNode : NSObject <DIOSNodeDelegate>{
-  id <DIOSNodeDelegate> delegate;
+@interface DIOSNode : NSObject {
 }
-@property (weak, nonatomic) id <DIOSNodeDelegate> delegate;
-- (id) initWithDelegate:(id<DIOSNodeDelegate>)aDelegate;
-- (void)nodeGet:(NSDictionary *)node;
-- (void)nodeSave:(NSDictionary *)node;
-- (void)nodeUpdate:(NSDictionary *)node;
-- (void)nodeDelete:(NSDictionary *)node;
-- (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize;
-- (void)nodeIndex:(NSDictionary *)params;
-- (void)nodeAttachFile:(NSDictionary *)params;
+- (void)nodeGet:(NSDictionary *)node  
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeSave:(NSDictionary *)node  
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeUpdate:(NSDictionary *)node  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeDelete:(NSDictionary *)node  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeIndex:(NSDictionary *)params  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeAttachFile:(NSDictionary *)params  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end
