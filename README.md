@@ -1,3 +1,4 @@
+You really shouldnt be using this code.
 
 Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 ================================
