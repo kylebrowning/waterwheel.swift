@@ -43,7 +43,7 @@ Branches
 --------------------
 6.x-2.x 6.x-3.x and 7.x-3.x are all going to be moved to a *DEPRECATED* version of their branch.
 The new dev branch will be the become the new master and as things are added, versions will be tagged and published.
-master will always be the latest and greatest for the moost up to date version of everything(Services, Drupal, Services Api, DIOS).
+master will always be the latest and greatest for the most up to date version of everything(Services, Drupal, Services Api, DIOS).
 
 Tags are in this format
 `2.1-1.0` Which breaks down as, DIOSVersion 2.1, Services Api Version 1.0
