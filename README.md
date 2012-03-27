@@ -1,43 +1,34 @@
-
 Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 ================================
 What you need to know
 ================================
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
-If you wanted to get a node and actually see the response you can do so by setting the delegate to yourself, (or any object you want)
-As long as it conforms to `<DIOSNodeDelegate>` you can see the response whether it is successful or not. Heres an example.
+If you wanted to get a node you can do so by instantiating a DIOSNode Object, creating an 
+NSDictionairy and running the nodeGet method.  Heres an example.
 
 ```obj-c
-    DIOSNode *node = [[DIOSNode alloc] initWithDelegate:self];
+    DIOSNode *node = [[DIOSNode alloc] init];
     NSMutableDictionary *nodeData = [NSMutableDictionary new];
     [nodeData setValue:@"12" forKey:@"nid"];
-    [node nodeGet:nodeData];
+    [node nodeGet:nodeData success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      //Do Something with the responseObject
+      NSLog(@"%@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      //we failed, uh-oh lets error log this.
+      NSLog(@"%@,  %@", [error localizedDescription], [operation responseString]);    
+    }];
     
 ```
-Once that nodeGet: method is called it will fetch the data from your Services 3.x enabled website. When the call is finished it will 
-call the method below and provide you with a couple of peices of information. You can see which methods certain DIOS classes respond to
-by examining their respective header files, or going to the section you are curious about in this README. There names
-should be pretty self-explanatory. 
-
-```obj-c
-    - (void)nodeGetDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
-      [[[DIOSSession sharedSession] delegate] callDidFinish:status operation:operation response:response error:error];
-    }
-```    
-There is a method called `callDidFinish:operation:response:error` from `[DIOSSession sharedSession]` that will just dump the contents of the requests and responses and errors
-This is a snippet from what that method prints out.
+For every DIOS Object you make, any method calls that are available to you use blocks. 
+This allows us to define what happens when we have a request that fails or succeeds. 
+If the request were successfully we will something like this.
 
     {"vid":"9","uid":"57","title":"testtitle","log":"","status":"1".......
     
-A more practical example might be
+However if it failed, the error might look like this.
 
-```obj-c
-    - (void)nodeSaveDidFinish:(BOOL)status operation:(AFHTTPRequestOperation *)operation response:(id)response error:(NSError*)error {
-        if([response objectForKey:"nid"]) {
-            //looks like our node was saved, lets stop our progress indicators and show the user whatever we need.
-        }
-    }
-```
+    Expected status code in (200-299), got 404,  "Node 5 could not be found"
+    
 What you need to get started
 ================================
 * This library :) 
