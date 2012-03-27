@@ -46,10 +46,10 @@ The new dev branch will be the become the new master and as things are added, ve
 master will always be the latest and greatest for the moost up to date version of everything(Services, Drupal, Services Api, DIOS).
 
 Tags are in this format
-`2.1-7-1.0` WHich breaks down as, DIOSVersion 2.1, Drupal version 7, Services Api Version 1.0
+`2.1-1.0` Which breaks down as, DIOSVersion 2.1, Services Api Version 1.0
 
 Branches are in this format
-`2.x-7-1.x`
+`2.x-1.x`
 
 OAuth
 --------------------
