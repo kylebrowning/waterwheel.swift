@@ -1,3 +1,5 @@
+THIS IS DEPRECATED. PLEASE USE THE MASTER BRANCH OR LATEST TAG.
+ONLY USE THIS IF YOU NEED TO SUPPORT NON ARC APPLICATIONS.
 
 Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 ================================
