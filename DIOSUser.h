@@ -34,15 +34,45 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
-#import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
 
-@interface DIOSUser : DIOSConnect {
+#import "AFHTTPRequestOperation.h"
 
-}
-- (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password;
-- (NSDictionary *) logout;
-- (NSDictionary *) userSave:(NSMutableDictionary *)userDict;
-- (NSDictionary *) userDelete:(NSString*)uid;
-- (NSDictionary *) userGet:(NSString*)uid;
+@interface DIOSUser : NSObject
+- (void)userGet:(NSDictionary *)user  
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userSave:(NSDictionary *)user  
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userUpdate:(NSDictionary *)user  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userDelete:(NSDictionary *)user  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userIndexWithPage:(NSString *)page 
+                   fields:(NSString *)fields 
+               parameters:(NSArray *)parameteres 
+                 pageSize:(NSString *)pageSize  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userIndex:(NSDictionary *)params  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userLogin:(NSDictionary *)user  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password  
+                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

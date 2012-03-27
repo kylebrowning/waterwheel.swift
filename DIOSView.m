@@ -1,5 +1,4 @@
-//
-//  DIOSFile.h
+//  DIOSNode.m
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -34,12 +33,11 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
-#import "AFHTTPRequestOperation.h"
-
-@interface DIOSFile : NSObject
-- (void) fileGet:(NSDictionary *)params  
-         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
-
-- (UIImageView *) getImageViewForFileImage:(NSDictionary *) file;
+#import "DIOSView.h"
+#import "DIOSSession.h"
+@implementation DIOSView
+- (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]] parameters:nil success:success failure:failure];
+}
 @end

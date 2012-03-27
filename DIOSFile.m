@@ -36,36 +36,27 @@
 // ***** END LICENSE BLOCK *****
 
 #import "DIOSFile.h"
-
-
+#import "UIImageView+AFNetworking.h"
+#import "DIOSSession.h"
 @implementation DIOSFile
 
--(id) init {
-  [super init];
-  return self;
+- (void) fileGet:(NSDictionary *)params  
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseFile, [params objectForKey:@"fid"]] 
+                            parameters:params 
+                               success:success
+                               failure:failure];
 }
-- (NSDictionary *) fileSave:(NSMutableDictionary *)fileDict {
-  [self setMethod:@"file.save"];
-  [self addParam:fileDict forKey:@"file"];  
-  [self setMethodUrl:@"file"];
-  [self runMethod];
-  return [self connResult];
+
+- (void) fileSave:(NSDictionary *)params {
+  //currently doesnt work :(
 }
-- (NSDictionary *) fileGet:(NSString *)fid {
-  [self setMethod:@"file.get"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"file/%@", fid]];
-  [self addParam:fid forKey:@"fid"];
-  [self runMethod];
-  return [self connResult];
-}
-- (NSDictionary *) fileGetNodeFiles:(NSString *)nid {
-  [self setMethod:@"file.getNodeFiles"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"file/nodeFiles"];
-  [self addParam:nid forKey:@"nid"];
-  [self addParam:[NSNumber numberWithInt:1] forKey:@"file_contents"];
-  [self runMethod];
-  return [self connResult];
+- (UIImageView *) getImageViewForFileImage:(NSDictionary *) file; { 
+  NSURL *url = [NSURL URLWithString:[file objectForKey:@"uri_full"]];
+  UIImageView *remoteImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+  [remoteImage setImageWithURL:url];
+  return remoteImage;
 }
 @end

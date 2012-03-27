@@ -33,55 +33,88 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
+
 #import "DIOSNode.h"
-
-
+#import "DIOSSession.h"
+#import "AFJSONUtilities.h"
 @implementation DIOSNode
--(id) init {
-    [super init];
-    return self;
-}
--(NSDictionary *) nodeDelete:(NSString *)nid {
-  [self setMethod:@"node.delete"];
-  [self setRequestMethod:@"DELETE"];
-  [self setMethodUrl:[NSString stringWithFormat:@"node/%@", nid]];
-  [self runMethod];
-  return [self connResult];
-}
--(NSDictionary *) nodeGet:(NSString *)nid {
-  [self setMethod:@"node.get"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"node/%@", nid]];
-  [self runMethod];
-   return [self connResult];
-}
--(NSDictionary *) nodeSave:(NSMutableDictionary *)node {
-  [self setMethod:@"node.save"];
-  [self setMethodUrl:@"node"];
-  if ([[[self userInfo] objectForKey:@"uid"] isEqualToNumber:[NSNumber numberWithInt:0]]) {
-    [node setObject:@"" forKey:@"name"];
-  } else if([self userInfo] == nil){
-    [node setObject:@"" forKey:@"name"];
-  } else {
-    [node setObject:[[self userInfo] objectForKey:@"name"] forKey:@"name"];
-  }
-  if ([node objectForKey:@"nid"] != nil && ![[node objectForKey:@"nid"] isEqualToString:@""]) {
-    [self setMethodUrl:[NSString stringWithFormat:@"node/%@", [node objectForKey:@"nid"]]];
-    [self setRequestMethod:@"PUT"];
-  }
-  [self addParam:node forKey:@"node"]; 
-  [self runMethod];
-  return [self connResult];
-}
--(NSDictionary *) nodeGetIndex {
-  [self setMethod:@"node.get"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"node"]];
-  [self runMethod];
-  return [self connResult];
-}
-- (void) dealloc {
-    [super dealloc];
+
+#pragma mark nodeGets
+- (void)nodeGet:(NSDictionary *)node  
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
+                            parameters:nil 
+                               success:success 
+                               failure:failure];
+}
+
+#pragma mark nodeSave
+   - (void)nodeSave:(NSDictionary *)node  
+                               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode] 
+                             parameters:node
+                                success:success 
+                                failure:failure];
+}
+
+#pragma mark nodeUpdate
+- (void)nodeUpdate:(NSDictionary *)node  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"cid"]] 
+                            parameters:node 
+                               success:success
+                               failure:failure];
+}
+
+#pragma mark nodeDelete
+- (void)nodeDelete:(NSDictionary *)node  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"cid"]] 
+                               parameters:node 
+                                  success:success 
+                                  failure:failure];
+}
+#pragma mark nodeIndex
+//Simpler method if you didnt want to build the params :)
+- (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  NSMutableDictionary *nodeIndexDict = [NSMutableDictionary new];
+  [nodeIndexDict setValue:page forKey:@"page"];
+  [nodeIndexDict setValue:fields forKey:@"fields"];
+  [nodeIndexDict setValue:parameteres forKey:@"parameters"];
+  [nodeIndexDict setValue:pageSize forKey:@"pagesize"];  
+  [self nodeIndex:nodeIndexDict success:success failure:failure];
+}
+
+- (void)nodeIndex:(NSDictionary *)params  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode] parameters:params success:success failure:failure];
+}
+
+#pragma mark nodeAttachFile
+- (void)nodeAttachFile:(NSDictionary *)params  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  NSMutableURLRequest *request = [[DIOSSession sharedSession] multipartFormRequestWithMethod:@"POST" path:[NSString stringWithFormat:@"%@/%@/%@/attach_file?field_name=%@", kDiosEndpoint, kDiosBaseNode, [params objectForKey:@"nid"], [params objectForKey:@"field_name"]] parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
+    [formData appendPartWithFileData:[params objectForKey:@"fileData"] name:[params objectForKey:@"name"] fileName:[params objectForKey:@"fileName"] mimeType:[params objectForKey:@"mimetype"]];
+  }];
+  
+  AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+  [operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
+    NSLog(@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite);
+  }];
+  [operation setCompletionBlockWithSuccess:success failure:failure];
+  [operation start];
 }
 @end

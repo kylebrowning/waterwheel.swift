@@ -35,16 +35,35 @@
 //
 // ***** END LICENSE BLOCK *****
 
-#import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
+#import "AFHTTPRequestOperation.h"
 
-@interface DIOSComment : DIOSConnect {
-}
 
-- (id) init;
-- (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count;
-- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody;
-- (NSDictionary *) getCommentCountNewForNid:(NSString*)nid;
-- (NSDictionary *) getCommentCountForNid:(NSString*)nid;
-- (NSDictionary *) getComment:(NSString*)cid;
+@interface DIOSComment : NSObject
+
+- (void)commentGet:(NSDictionary *)comment 
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentSave:(NSDictionary *)comment 
+            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentUpdate:(NSDictionary *)comment  
+              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentDelete:(NSDictionary *)comment 
+              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentIndexWithPage:(NSString *)page 
+                      fields:(NSString *)fields 
+                  parameters:(NSArray *)parameteres 
+                    pageSize:(NSString *)pageSize
+                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)commentIndex:(NSDictionary *)params 
+             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

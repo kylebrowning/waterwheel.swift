@@ -1,5 +1,5 @@
 //
-// DIOSConfig.h
+//  DIOSNode.h
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -35,25 +35,33 @@
 //
 // ***** END LICENSE BLOCK *****
 
-//#define STAGE
-#define DEV
+#import "DIOSSession.h"
+#import "AFJSONRequestOperation.h"
+#import "AFPropertyListRequestOperation.h"
 
+@implementation DIOSSession
+@synthesize user;
++ (DIOSSession *)sharedSession {
+  static dispatch_once_t once;
+  static DIOSSession *sharedSession;
+  dispatch_once(&once, ^ { 
+    sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:kDiosBaseUrl]];
+    [sharedSession setParameterEncoding:AFJSONParameterEncoding];
+  });
+  return sharedSession;
+}
 
-#ifdef STAGE
-
-#define DRUPAL_API_KEY  @""
-#define DRUPAL_SERVICES_URL  @"http://stage.example.com/services/plist"
-#define DRUPAL_URL  @"http://stage.example.com"
-#define DRUPAL_DOMAIN @"stage.example.com" 
-
-#endif
-
-#ifdef DEV
-
-#define DRUPAL_API_KEY  @"4b2d7ef98d720386e0d2022842847404"
-#define DRUPAL_SERVICES_URL  @"http://dev.example.com/services/plist"
-#define DRUPAL_URL  @"http://dev.example.com"
-#define DRUPAL_DOMAIN @"dev.example.com" 
-#endif
-//THis is the constant for none in Drupal7 http://api.drupal.org/api/constant/LANGUAGE_NONE/7
-#define DRUPAL_LANGUAGE @"und"
+- (id)initWithBaseURL:(NSURL *)url {
+  self = [super initWithBaseURL:url];
+  if (!self) {
+    return nil;
+  }
+  
+  [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+  // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+	[self setDefaultHeader:@"Accept" value:@"application/json"];
+  [self setDefaultHeader:@"Content-Type" value:@"application/json"];
+	
+  return self;
+}
+@end

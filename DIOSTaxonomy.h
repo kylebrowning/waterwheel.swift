@@ -35,15 +35,32 @@
 //
 // ***** END LICENSE BLOCK *****
 
-#import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
+#import "AFHTTPRequestOperation.h"
 
-@interface DIOSTaxonomy : DIOSConnect {
+@interface DIOSTaxonomy : NSObject 
 
-}
-- (NSDictionary *)getTree:(NSString*)vid;
-- (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth;
-- (NSDictionary *)selectNodes:(NSString*)tid;
-- (NSDictionary *)selectNodes:(NSString*)tid andLimit:(NSString*)depth pager:(BOOL)pager andOrder:(NSString*)anOrder;
-- (NSDictionary *)getTerm:(NSString*)tid;
+- (void)getTreeWithParams:(NSDictionary *)params  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)getTreeWithVid:(NSString *)vid 
+            withParent:(NSString *)parent 
+           andMaxDepth:(NSString *)maxDepth  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)selectNodesWithParams:(NSDictionary *)params  
+                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)selectNodesWithTid:(NSString *)tid 
+                  andLimit:(NSString *)limit 
+                  andPager:(NSString *)pager
+                  andOrder:(NSString *)order  
+                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)getTermWithTid:(NSString *)tid  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

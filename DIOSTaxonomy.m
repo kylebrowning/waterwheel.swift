@@ -36,78 +36,59 @@
 // ***** END LICENSE BLOCK *****
 
 #import "DIOSTaxonomy.h"
-
-
+#import "DIOSSession.h"
 @implementation DIOSTaxonomy
-- (id) init {
-  [super init];
-  return self;
-}
-- (NSDictionary *)getTree:(NSString*)vid {
-  return [self getTree:vid withParent:nil andMaxDepth:nil];
-}
-- (NSDictionary *)getTree:(NSString*)vid withParent:(NSString*)parent andMaxDepth:(NSString*)maxDepth {
-  [self setMethod:@"taxonomy.getTree"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"taxonomy_vocabulary/getTree"];
-  if (vid != nil) {
-    [self addParam:vid forKey:@"vid"];
-    
-    if (parent != nil) {
-      [self addParam:parent forKey:@"parent"];
-    }
-    if (maxDepth != nil) {
-      [self addParam:maxDepth forKey:@"max_depth"];
-    }    
-    
-    [self runMethod];
-    
-    return [self connResult];
-  }
-  //vid is required
-  return nil;
-}
-- (NSDictionary *)selectNodes:(NSString*)tid {
-  return [self selectNodes:tid andLimit:nil pager:FALSE andOrder:nil];
-}
-/* 
- * selectNodes
- * see admin/build/services/browse/taxonomy.selectNodes
- * tids and fields should be comma seperated
- */
-- (NSDictionary *)selectNodes:(NSString*)tid andLimit:(NSString*)limit pager:(BOOL)pager andOrder:(NSString*)anOrder {
-  [self setMethod:@"taxonomy.selectNodes"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"taxonomy_term/selectNodes"];
-  if (tid != nil) {
-    [self addParam:tid forKey:@"tid"];
 
-    if (limit != nil) {
-      [self addParam:limit forKey:@"depth"];
-    }
-    if (anOrder != nil) {
-      [self addParam:limit forKey:@"order"];
-    }
-    if (pager == NO) {
-      [self addParam:[NSNumber numberWithInt:0]  forKey:@"pager"];
-    } else {
-      if (pager == YES) {
-        [self addParam:[NSNumber numberWithInt:1]  forKey:@"pager"];
-      }
-    }
-    [self runMethod];
-    
-    return [self connResult];
-  }
-  //tid is required
-  return nil;
-}
 
-- (NSDictionary *)getTerm:(NSString*)tid {
-    [self setMethod:@"taxonomy_term.get"];
-    [self setRequestMethod:@"GET"];
-    [self setMethodUrl:[NSString stringWithFormat:@"taxonomy_term/%@", tid]];
-    [self runMethod];
-    return [self connResult];
+- (void)getTreeWithVid:(NSString *)vid 
+            withParent:(NSString *)parent 
+           andMaxDepth:(NSString *)maxDepth  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  NSMutableDictionary *params = [NSMutableDictionary new];
+  [params setValue:vid forKey:@"vid"];
+  [params setValue:parent forKey:@"parent"];
+  [params setValue:maxDepth forKey:@"max_depth"];
+  [self getTreeWithParams:params success:success failure:failure];
+}
+- (void)getTreeWithParams:(NSDictionary *)params  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/getTree", kDiosEndpoint, kDiosBaseTaxonmyVocabulary] 
+                             parameters:params 
+                                success:success
+                                failure:failure];
+}
+- (void)selectNodesWithTid:(NSString *)tid 
+                  andLimit:(NSString *)limit 
+                  andPager:(NSString *)pager
+                  andOrder:(NSString *)order  
+                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  NSMutableDictionary *params = [NSMutableDictionary new];
+  [params setValue:tid forKey:@"tid"];
+  [params setValue:limit forKey:@"limit"];
+  [params setValue:pager forKey:@"pager"];
+  [params setValue:order forKey:@"prder"];
+  [self selectNodesWithParams:params success:success failure:failure];
+}
+- (void)selectNodesWithParams:(NSDictionary *)params  
+                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/selectNodes", kDiosEndpoint, kDiosBaseTaxonmyTerm] 
+                             parameters:params 
+                                success:success 
+                                failure:failure];
+}
+- (void)getTermWithTid:(NSString *)tid  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseTaxonmyTerm, tid] 
+                            parameters:nil 
+                               success:success 
+                               failure:failure];
 }
 @end

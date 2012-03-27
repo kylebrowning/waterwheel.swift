@@ -1,5 +1,4 @@
-//
-//  DIOSViews.h
+//  DIOSNode.m
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -34,26 +33,17 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
+#import "AFHTTPRequestOperation.h"
 
+@interface DIOSView : NSObject
 
-#import "DIOSViews.h"
-
-
-@implementation DIOSViews
-- (id) init {
-    [super init];
-    [self setMethod:@"views.get"];
-    return self;
-}
-- (void) initViews {
-    [self setMethod:@"views.get"];
-    [self setMethodUrl:@"views"];
-}
--(NSDictionary *) viewsGet:(NSString *)viewName {
-  [self setMethod:@"views.get"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"views/%@", viewName]];
-  [self runMethod];
-  return [self connResult];
-}
+/**
+ Returns the contents of the specified Drupal view. Implementation takes two blocks, one for success, and one for failure. Either parameter may be nil. 
+ 
+ @param success The block to be executed on the completion of a successful request. This block has no return value and takes two arguments: the receiver operation and the object constructed from the response data of the request.
+ @param failure The block to be executed on the completion of an unsuccessful request. This block has no return value and takes two arguments: the receiver operation and the error that occured during the request.
+ 
+ */
+- (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

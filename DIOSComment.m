@@ -37,102 +37,72 @@
 
 
 #import "DIOSComment.h"
-
-
+#import "DIOSSession.h"
 @implementation DIOSComment
-- (id) init {
-  [super init];
-  return self;
+
+
+#pragma mark CommentGet
+- (void)commentGet:(NSDictionary *)comment 
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] 
+                            parameters:nil 
+                               success:success 
+                               failure:failure];
 }
 
-- (NSDictionary *) getComments:(NSString*)nid andStart:(NSString *)start andCount:(NSString *)count {
-  [self setMethod:@"comment.loadNodeComments"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"comment/loadNodeComments"];
-  [self addParam:nid forKey:@"nid"];
-  [self addParam:start forKey:@"start"];
-  [self addParam:count forKey:@"count"];
-  [self runMethod];
-  return [self connResult];
-}
-- (NSDictionary *) getComment:(NSString*)cid {
-  [self setMethod:@"comment.load"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
-  [self addParam:cid forKey:@"cid"];
-  [self runMethod];
-  return [self connResult];
+#pragma mark commentSave
+- (void)commentSave:(NSDictionary *)comment 
+            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] 
+                             parameters:comment 
+                                success:success 
+                                failure:failure];
 }
 
-- (NSDictionary *) getCommentCountForNid:(NSString*)nid {
-  [self setMethod:@"comment.countAll"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"comment/countAll"];
-  [self addParam:nid forKey:@"nid"];
-  [self runMethod];
-  return [self connResult];
-}
-- (NSDictionary *) getCommentCountNewForNid:(NSString*)nid {
-  [self setMethod:@"comment.countNew"];
-  [self setRequestMethod:@"POST"];
-  [self setMethodUrl:@"comment/countNew"];
-  [self addParam:nid forKey:@"nid"];
-  [self runMethod];
-  return [self connResult];
-}
-- (void) addComment:(NSString*)nid subject:(NSString*)aSubject body:(NSString*)aBody {
-  [self setMethod:@"comment.save"];
-  [self setMethodUrl:@"comment"];
-  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
-  if(![nid isEqualToString:@""]) 
-    [comment setObject:nid forKey:@"nid"];
-  if(aSubject != nil)
-    [comment setObject:aSubject forKey:@"subject"];
-  if(aBody != nil) {
-    NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
-    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:@"und"];
-    [comment setObject:languageDict forKey:@"comment_body"];
-    [comment setObject:@"und" forKey:@"language"];
-  }
-  if([[self userInfo] objectForKey:@"uid"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"uid"];
-    [comment setObject:[temp stringValue] forKey:@"uid"];
-  }    
-  if([[self userInfo] objectForKey:@"name"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"name"];
-    [comment setObject:temp forKey:@"name"];
-  }
-  [comment setObject:@"en" forKey:@"language"];
-  [self addParam:comment forKey:@"comment"];
-  [self runMethod];
-  [comment release];
-  return;
-}
-- (void) updateComment:(NSString*)cid subject:(NSString*)aSubject body:(NSString*)aBody {
-  [self setMethod:@"comment.save"];
-  [self setMethodUrl:[NSString stringWithFormat:@"comment/%@", cid]];
-  [self setRequestMethod:@"PUT"];
-  NSMutableDictionary *comment = [[NSMutableDictionary alloc] init];
-  if(![cid isEqualToString:@""]) 
-    [comment setObject:cid forKey:@"cid"];
-  if(aSubject != nil)
-    [comment setObject:aSubject forKey:@"subject"];
-  if(aBody != nil) {
-    NSDictionary *bodyValues = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aBody, nil] forKeys:[NSArray arrayWithObjects:@"value", nil]];
-    NSDictionary *languageDict = [NSDictionary dictionaryWithObject:[NSArray arrayWithObject:bodyValues] forKey:@"und"];
-    [comment setObject:languageDict forKey:@"comment_body"];
-    [comment setObject:@"und" forKey:@"language"];
-  }
-  if([[self userInfo] objectForKey:@"uid"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"uid"];
-    [comment setObject:[temp stringValue] forKey:@"uid"];
-  }    
-  if([[self userInfo] objectForKey:@"name"] != nil) {
-    id temp = [[self userInfo] objectForKey:@"name"];
-    [comment setObject:temp forKey:@"name"];
-  }
-  [self runMethod];
-  return;
+#pragma mark commentUpdate
+- (void)commentUpdate:(NSDictionary *)comment  
+              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] 
+                            parameters:comment 
+                               success:success
+                               failure:failure];
 }
 
+#pragma mark CommentDelete
+- (void)commentDelete:(NSDictionary *)comment 
+              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
+  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] parameters:comment success:success failure:failure];
+}
+
+#pragma mark commentIndex
+//Simpler method if you didnt want to build the params :)
+- (void)commentIndexWithPage:(NSString *)page 
+                      fields:(NSString *)fields 
+                  parameters:(NSArray *)parameteres 
+                    pageSize:(NSString *)pageSize
+                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  NSMutableDictionary *commentIndexDict = [NSMutableDictionary new];
+  [commentIndexDict setValue:page forKey:@"page"];
+  [commentIndexDict setValue:fields forKey:@"fields"];
+  [commentIndexDict setValue:parameteres forKey:@"parameters"];
+  [commentIndexDict setValue:pageSize forKey:@"pagesize"];  
+  [self commentIndex:commentIndexDict success:success failure:failure];
+}
+
+- (void)commentIndex:(NSDictionary *)params 
+             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
+  
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] 
+                            parameters:params 
+                               success:success 
+                               failure:failure];
+}
 @end

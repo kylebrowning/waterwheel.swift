@@ -34,57 +34,106 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
+
 #import "DIOSUser.h"
-
-
+#import "DIOSSession.h"
 @implementation DIOSUser
--(id) init {
-  [super init];
-  return self;
-}
-- (NSDictionary *) loginWithUsername:(NSString*)userName andPassword:(NSString*)password {
-  [self setMethod:@"user.login"];
-  [self setMethodUrl:@"user/login"];
-  [self addParam:userName forKey:@"username"];
-  [self addParam:password forKey:@"password"];
-  [self runMethod];
-  return [self connResult];
+
+
+#pragma mark UserGets
+- (void)userGet:(NSDictionary *)user  
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]] 
+                            parameters:nil 
+                               success:success 
+                               failure:failure];
 }
 
-- (NSDictionary *) logout {
-  [self setMethod:@"user.logout"];
-  [self setMethodUrl:@"user/logout"];
-  [self runMethod];
-  return [self connResult];
-}
-- (NSDictionary *) userSave:(NSMutableDictionary *)userDict {
-  [self setMethod:@"user.save"];
-  [self setMethodUrl:@"user"];
-  if ([userDict objectForKey:@"uid"] != nil && ![[userDict objectForKey:@"uid"] isEqualToString:@""]) {
-    [self setMethodUrl:[NSString stringWithFormat:@"user/%@", [userDict objectForKey:@"uid"]]];
-    [self setRequestMethod:@"PUT"];
-    [self addParam:userDict forKey:@"data"];
-    [self addParam:[userDict objectForKey:@"uid"] forKey:@"uid"];
-  } else {
-    [self addParam:userDict forKey:@"account"];
-  }
+
+#pragma mark userSaves
+- (void)userSave:(NSDictionary *)user  
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [self runMethod];
-  return [self connResult];
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser] 
+                             parameters:user 
+                                success:success 
+                                failure:failure];
 }
-- (NSDictionary *) userGet:(NSString*)uid {
-  [self setMethod:@"user.get"];
-  [self setRequestMethod:@"GET"];
-  [self setMethodUrl:[NSString stringWithFormat:@"user/%@", uid]];
-  [self runMethod];
+
+#pragma mark userUpdate
+- (void)userUpdate:(NSDictionary *)user  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  return [self connResult];
+  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]] 
+                            parameters:user 
+                               success:success 
+                               failure:failure];
 }
-- (NSDictionary *) userDelete:(NSString*)uid {
-  [self setMethod:@"user.delete"];
-  [self setRequestMethod:@"DELETE"];
-  [self setMethodUrl:[NSString stringWithFormat:@"user/%@", uid]];
-  [self runMethod];
-  return [self connResult];
+
+#pragma mark UserDelete
+- (void)userDelete:(NSDictionary *)user  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]] 
+                               parameters:user 
+                                  success:success
+                                  failure:failure];
+}
+
+
+#pragma mark userIndex
+//Simpler method if you didnt want to build the params :)
+- (void)userIndexWithPage:(NSString *)page 
+                   fields:(NSString *)fields 
+               parameters:(NSArray *)parameteres 
+                 pageSize:(NSString *)pageSize  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
+  NSMutableDictionary *userIndexDict = [NSMutableDictionary new];
+  [userIndexDict setValue:page forKey:@"page"];
+  [userIndexDict setValue:fields forKey:@"fields"];
+  [userIndexDict setValue:parameteres forKey:@"parameters"];
+  [userIndexDict setValue:pageSize forKey:@"pagesize"];  
+  [self userIndex:userIndexDict success:success failure:failure];
+}
+
+- (void)userIndex:(NSDictionary *)params  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser] 
+                            parameters:params 
+                               success:success 
+                               failure:failure];
+}
+
+#pragma mark userLogin
+- (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password  
+                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  NSDictionary *params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:username, password, nil] forKeys:[NSArray arrayWithObjects:@"username", @"password", nil]];
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/login", kDiosEndpoint, kDiosBaseUser] 
+                             parameters:params 
+                                success:success 
+                                failure:failure];
+}
+- (void)userLogin:(NSDictionary *)user  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [self userLoginWithUsername:[user objectForKey:@"name"] andPassword:[user objectForKey:@"pass"] success:success failure:failure];
+}
+
+#pragma mark userLogout
+- (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/logout", kDiosEndpoint, kDiosBaseUser] 
+                             parameters:nil 
+                                success:success 
+                                failure:failure];
 }
 @end

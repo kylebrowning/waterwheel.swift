@@ -35,14 +35,35 @@
 //
 // ***** END LICENSE BLOCK *****
 
-#import <Foundation/Foundation.h>
-#import "DIOSConnect.h"
+#import "AFHTTPRequestOperation.h"
 
-@interface DIOSNode : DIOSConnect {
+@interface DIOSNode : NSObject {
 }
+- (void)nodeGet:(NSDictionary *)node  
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
--(NSDictionary *) nodeGet:(NSString *)anNid;
--(NSDictionary *) nodeSave:(NSMutableDictionary *)node;
--(NSDictionary *) nodeDelete:(NSString *)nid;
--(NSDictionary *) nodeGetIndex;
+- (void)nodeSave:(NSDictionary *)node  
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeUpdate:(NSDictionary *)node  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeDelete:(NSDictionary *)node  
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize  
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeIndex:(NSDictionary *)params  
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void)nodeAttachFile:(NSDictionary *)params  
+               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end
