@@ -37,8 +37,13 @@ What you need to get started
 * Update Settings.h with the correct correct url and endpoints)
 * [Services](http://github.com/kylebrowning/services)
 
+
 A couple of things to note
 ================================
+Demo App (Work in progress)
+--------------------
+[http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example)
+
 Branches
 --------------------
 6.x-2.x 6.x-3.x and 7.x-3.x are all going to be moved to a *DEPRECATED* version of their branch.
@@ -55,10 +60,7 @@ OAuth
 --------------------
 its coming.
 
-<!-- 
-Demo Code (Code is pulled from [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example))
-======================
-Demo Setup (Services 3.x) http://vimeo.com/22635252 -->
+
 Documentation
 ===============
 [Can be found here](https://github.com/workhabitinc/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0)
