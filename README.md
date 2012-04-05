@@ -4,7 +4,7 @@ What you need to know
 ================================
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
 If you wanted to get a node you can do so by instantiating a DIOSNode Object, creating an 
-NSDictionairy and running the nodeGet method.  Heres an example.
+NSDictionairy and running the nodeGet method.  Heres an example:
 
 ```obj-c
     DIOSNode *node = [[DIOSNode alloc] init];
@@ -21,11 +21,11 @@ NSDictionairy and running the nodeGet method.  Heres an example.
 ```
 For every DIOS Object you make, any method calls that are available to you use blocks. 
 This allows us to define what happens when we have a request that fails or succeeds. 
-If the request were successfully we will something like this.
+If the request was successful the result would be something like this:
 
     {"vid":"9","uid":"57","title":"testtitle","log":"","status":"1".......
     
-However if it failed, the error might look like this.
+However if it failed, the error might look like this:
 
     Expected status code in (200-299), got 404,  "Node 5 could not be found"
     
@@ -37,16 +37,13 @@ What you need to get started
 * Update Settings.h with the correct correct url and endpoints)
 * [Services](http://github.com/kylebrowning/services)
 
-
-A couple of things to note
-================================
 Demo App (Work in progress)
 --------------------
 [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example)
 
 Branches
 --------------------
-6.x-2.x 6.x-3.x and 7.x-3.x are all going to be moved to a *DEPRECATED* version of their branch.
+6.x-2.x 6.x-3.x and 7.x-3.x have all been moved to a  *DEPRECATED* version of their branch.
 The new dev branch will be the become the new master and as things are added, versions will be tagged and published.
 master will always be the latest and greatest for the most up to date version of everything(Services, Drupal, Services Api, DIOS).
 
@@ -62,7 +59,7 @@ its coming.
 
 
 Documentation
-===============
+-----------
 [Can be found here](https://github.com/workhabitinc/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0)
 
 Troubleshooting
@@ -78,5 +75,5 @@ Use the issue queue here on github if you have questions.
 
 Questions
 ----------
-CHeckout the Issue queue, or email me
+Checkout the Issue queue, or email me
 Email kyle@workhabit.com
