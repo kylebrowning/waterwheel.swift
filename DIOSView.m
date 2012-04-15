@@ -38,6 +38,6 @@
 @implementation DIOSView
 - (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]] parameters:nil success:success failure:failure];
+  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@?display_id=%@&limit=%@&offset=%@", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"], [params objectForKey:@"display_id"], [params objectForKey:@"limit"], [params objectForKey:@"offset"]] parameters:nil success:success failure:failure];
 }
 @end
