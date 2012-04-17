@@ -38,10 +38,12 @@
 @implementation DIOSView
 - (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-        NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
+	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
 	for (NSString *key in params) {
 		id value = [params objectForKey:key];
-		[path appendFormat:@"%@=%@&", key, value];
+		if (![key isEqualToString:@"view_name"]) {
+			[path appendFormat:@"%@=%@&", key, value];
+		}
 	}
 	[[DIOSSession sharedSession] getPath:path parameters:nil success:success failure:failure];
 }
