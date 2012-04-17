@@ -63,6 +63,17 @@
                                 failure:failure];
 }
 
+#pragma mark userRegister
+- (void)userRegister:(NSDictionary *)user  
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/register", kDiosEndpoint, kDiosBaseUser] 
+                             parameters:user 
+                                success:success 
+                                failure:failure];
+}
+
 #pragma mark userUpdate
 - (void)userUpdate:(NSDictionary *)user  
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
