@@ -1,4 +1,5 @@
-//  DIOSNode.m
+//
+//  DIOSSystem.m
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -21,7 +22,8 @@
 // the Initial Developer. All Rights Reserved.
 //
 // Contributor(s):
-//
+// - Alexandru Badiu (andu@ctrlz.ro)
+// 
 // Alternatively, the contents of this file may be used under the terms of
 // the GNU General Public License Version 2 or later (the "GPL"), in which
 // case the provisions of the GPL are applicable instead of those above. If
@@ -33,18 +35,22 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
-#import "DIOSView.h"
+
+
+#import "DIOSSystem.h"
 #import "DIOSSession.h"
-@implementation DIOSView
-- (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+
+
+@implementation DIOSSystem
+
+#pragma mark UserGets
+- (void)systemConnectwithSuccess: (void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
-	for (NSString *key in params) {
-		id value = [params objectForKey:key];
-		if (![key isEqualToString:@"view_name"]) {
-			[path appendFormat:@"%@=%@&", key, value];
-		}
-	}
-	[[DIOSSession sharedSession] getPath:path parameters:nil success:success failure:failure];
+    
+    [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/system/connect", kDiosEndpoint] 
+                               parameters:nil 
+                               success:success 
+                               failure:failure];
 }
+
 @end
