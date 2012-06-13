@@ -38,45 +38,45 @@
 #import "AFHTTPRequestOperation.h"
 
 @interface DIOSUser : NSObject
-- (void)userGet:(NSDictionary *)user  
++ (void)userGet:(NSDictionary *)user
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userSave:(NSDictionary *)user  
++ (void)userSave:(NSDictionary *)user
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userRegister:(NSDictionary *)user  
++ (void)userRegister:(NSDictionary *)user
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userUpdate:(NSDictionary *)user  
++ (void)userUpdate:(NSDictionary *)user
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userDelete:(NSDictionary *)user  
++ (void)userDelete:(NSDictionary *)user
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userIndexWithPage:(NSString *)page 
++ (void)userIndexWithPage:(NSString *)page
                    fields:(NSString *)fields 
                parameters:(NSArray *)parameteres 
                  pageSize:(NSString *)pageSize  
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userIndex:(NSDictionary *)params  
++ (void)userIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userLogin:(NSDictionary *)user  
++ (void)userLogin:(NSDictionary *)user
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password  
++ (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
++ (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

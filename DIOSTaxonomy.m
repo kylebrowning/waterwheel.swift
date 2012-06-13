@@ -40,7 +40,7 @@
 @implementation DIOSTaxonomy
 
 
-- (void)getTreeWithVid:(NSString *)vid 
++ (void)getTreeWithVid:(NSString *)vid
             withParent:(NSString *)parent 
            andMaxDepth:(NSString *)maxDepth  
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
@@ -51,7 +51,7 @@
   [params setValue:maxDepth forKey:@"max_depth"];
   [self getTreeWithParams:params success:success failure:failure];
 }
-- (void)getTreeWithParams:(NSDictionary *)params  
++ (void)getTreeWithParams:(NSDictionary *)params
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -60,7 +60,7 @@
                                 success:success
                                 failure:failure];
 }
-- (void)selectNodesWithTid:(NSString *)tid 
++ (void)selectNodesWithTid:(NSString *)tid
                   andLimit:(NSString *)limit 
                   andPager:(NSString *)pager
                   andOrder:(NSString *)order  
@@ -74,7 +74,7 @@
   [params setValue:order forKey:@"prder"];
   [self selectNodesWithParams:params success:success failure:failure];
 }
-- (void)selectNodesWithParams:(NSDictionary *)params  
++ (void)selectNodesWithParams:(NSDictionary *)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -83,7 +83,7 @@
                                 success:success 
                                 failure:failure];
 }
-- (void)getTermWithTid:(NSString *)tid  
++ (void)getTermWithTid:(NSString *)tid
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseTaxonmyTerm, tid] 

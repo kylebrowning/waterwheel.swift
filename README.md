@@ -7,10 +7,9 @@ If you wanted to get a node you can do so by instantiating a DIOSNode Object, cr
 NSDictionairy and running the nodeGet method.  Heres an example:
 
 ```obj-c
-    DIOSNode *node = [[DIOSNode alloc] init];
     NSMutableDictionary *nodeData = [NSMutableDictionary new];
     [nodeData setValue:@"12" forKey:@"nid"];
-    [node nodeGet:nodeData success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [DIOSNode nodeGet:nodeData success:^(AFHTTPRequestOperation *operation, id responseObject) {
       //Do Something with the responseObject
       NSLog(@"%@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

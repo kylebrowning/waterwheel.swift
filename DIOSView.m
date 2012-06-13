@@ -36,7 +36,7 @@
 #import "DIOSView.h"
 #import "DIOSSession.h"
 @implementation DIOSView
-- (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
++ (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
 	for (NSString *key in params) {

@@ -41,7 +41,7 @@
 
 
 #pragma mark UserGets
-- (void)userGet:(NSDictionary *)user  
++ (void)userGet:(NSDictionary *)user
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -53,7 +53,7 @@
 
 
 #pragma mark userSaves
-- (void)userSave:(NSDictionary *)user  
++ (void)userSave:(NSDictionary *)user
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -64,7 +64,7 @@
 }
 
 #pragma mark userRegister
-- (void)userRegister:(NSDictionary *)user  
++ (void)userRegister:(NSDictionary *)user
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -75,7 +75,7 @@
 }
 
 #pragma mark userUpdate
-- (void)userUpdate:(NSDictionary *)user  
++ (void)userUpdate:(NSDictionary *)user
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -86,7 +86,7 @@
 }
 
 #pragma mark UserDelete
-- (void)userDelete:(NSDictionary *)user  
++ (void)userDelete:(NSDictionary *)user
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -99,7 +99,7 @@
 
 #pragma mark userIndex
 //Simpler method if you didnt want to build the params :)
-- (void)userIndexWithPage:(NSString *)page 
++ (void)userIndexWithPage:(NSString *)page
                    fields:(NSString *)fields 
                parameters:(NSArray *)parameteres 
                  pageSize:(NSString *)pageSize  
@@ -113,7 +113,7 @@
   [self userIndex:userIndexDict success:success failure:failure];
 }
 
-- (void)userIndex:(NSDictionary *)params  
++ (void)userIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser] 
@@ -123,7 +123,7 @@
 }
 
 #pragma mark userLogin
-- (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password  
++ (void)userLoginWithUsername:(NSString *)username andPassword:(NSString *)password
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -133,14 +133,14 @@
                                 success:success 
                                 failure:failure];
 }
-- (void)userLogin:(NSDictionary *)user  
++ (void)userLogin:(NSDictionary *)user
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   [self userLoginWithUsername:[user objectForKey:@"name"] andPassword:[user objectForKey:@"pass"] success:success failure:failure];
 }
 
 #pragma mark userLogout
-- (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
++ (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/logout", kDiosEndpoint, kDiosBaseUser] 
                              parameters:nil 
