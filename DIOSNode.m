@@ -40,7 +40,7 @@
 @implementation DIOSNode
 
 #pragma mark nodeGets
-- (void)nodeGet:(NSDictionary *)node  
++ (void)nodeGet:(NSDictionary *)node
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -51,7 +51,7 @@
 }
 
 #pragma mark nodeSave
-   - (void)nodeSave:(NSDictionary *)node  
++ (void)nodeSave:(NSDictionary *)node
                                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 
@@ -62,7 +62,7 @@
 }
 
 #pragma mark nodeUpdate
-- (void)nodeUpdate:(NSDictionary *)node  
++ (void)nodeUpdate:(NSDictionary *)node
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -73,7 +73,7 @@
 }
 
 #pragma mark nodeDelete
-- (void)nodeDelete:(NSDictionary *)node  
++ (void)nodeDelete:(NSDictionary *)node
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -84,7 +84,7 @@
 }
 #pragma mark nodeIndex
 //Simpler method if you didnt want to build the params :)
-- (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize  
++ (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   NSMutableDictionary *nodeIndexDict = [NSMutableDictionary new];
@@ -95,7 +95,7 @@
   [self nodeIndex:nodeIndexDict success:success failure:failure];
 }
 
-- (void)nodeIndex:(NSDictionary *)params  
++ (void)nodeIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -103,7 +103,7 @@
 }
 
 #pragma mark nodeAttachFile
-- (void)nodeAttachFile:(NSDictionary *)params  
++ (void)nodeAttachFile:(NSDictionary *)params
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   NSMutableURLRequest *request = [[DIOSSession sharedSession] multipartFormRequestWithMethod:@"POST" path:[NSString stringWithFormat:@"%@/%@/%@/attach_file?field_name=%@", kDiosEndpoint, kDiosBaseNode, [params objectForKey:@"nid"], [params objectForKey:@"field_name"]] parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {

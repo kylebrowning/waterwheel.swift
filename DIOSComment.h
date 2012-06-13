@@ -40,30 +40,30 @@
 
 @interface DIOSComment : NSObject
 
-- (void)commentGet:(NSDictionary *)comment 
++ (void)commentGet:(NSDictionary *)comment
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)commentSave:(NSDictionary *)comment 
++ (void)commentSave:(NSDictionary *)comment
             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)commentUpdate:(NSDictionary *)comment  
++ (void)commentUpdate:(NSDictionary *)comment
               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)commentDelete:(NSDictionary *)comment 
++ (void)commentDelete:(NSDictionary *)comment
               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)commentIndexWithPage:(NSString *)page 
++ (void)commentIndexWithPage:(NSString *)page
                       fields:(NSString *)fields 
                   parameters:(NSArray *)parameteres 
                     pageSize:(NSString *)pageSize
                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)commentIndex:(NSDictionary *)params 
++ (void)commentIndex:(NSDictionary *)params
              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

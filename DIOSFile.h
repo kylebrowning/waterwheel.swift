@@ -37,9 +37,9 @@
 #import "AFHTTPRequestOperation.h"
 
 @interface DIOSFile : NSObject
-- (void) fileGet:(NSDictionary *)params  
++ (void) fileGet:(NSDictionary *)params
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (UIImageView *) getImageViewForFileImage:(NSDictionary *) file;
++ (UIImageView *) getImageViewForFileImage:(NSDictionary *) file;
 @end
