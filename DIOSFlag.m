@@ -41,17 +41,17 @@
 #define kDiosFlagCountAll @"countall"
 
 @implementation DIOSFlag
-- (void)isFlagged:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
++ (void)isFlagged:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosFlag, kDiosFlagIsFlagged];
 	[[DIOSSession sharedSession] postPath:path parameters:params success:success failure:failure];
 }
 
-- (void)flag:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
++ (void)flag:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosFlag, kDiosFlagFlag];
 	[[DIOSSession sharedSession] postPath:path parameters:params success:success failure:failure];
 }
 
-- (void)countAll:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
++ (void)countAll:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosFlag, kDiosFlagCountAll];
 	[[DIOSSession sharedSession] postPath:path parameters:params success:success failure:failure];
 }
