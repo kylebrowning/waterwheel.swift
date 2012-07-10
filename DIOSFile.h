@@ -40,6 +40,8 @@
 + (void) fileGet:(NSDictionary *)params
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
-
++ (void) fileSave:(NSDictionary *)params
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 + (UIImageView *) getImageViewForFileImage:(NSDictionary *) file;
 @end
