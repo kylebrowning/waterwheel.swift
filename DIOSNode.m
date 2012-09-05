@@ -112,7 +112,7 @@
   
   AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
   [operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
-    NSLog(@"Sent %qi of %qi bytes", totalBytesWritten, totalBytesExpectedToWrite);
+    NSLog(@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite);
   }];
   [operation setCompletionBlockWithSuccess:success failure:failure];
   [operation start];
