@@ -3,20 +3,20 @@ Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 What you need to know
 ================================
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
-If you wanted to get a node you can do so by instantiating a DIOSNode Object, creating an 
-NSDictionairy and running the nodeGet method.  Heres an example:
+If you wanted to get some nodes in a view you can do so by calling class methods on the DIOSView Object.  
+Heres an example:
 
 ```obj-c
-    DIOSNode *node = [[DIOSNode alloc] init];
-    NSMutableDictionary *nodeData = [NSMutableDictionary new];
-    [nodeData setValue:@"12" forKey:@"nid"];
-    [node nodeGet:nodeData success:^(AFHTTPRequestOperation *operation, id responseObject) {
-      //Do Something with the responseObject
-      NSLog(@"%@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-      //we failed, uh-oh lets error log this.
-      NSLog(@"%@,  %@", [error localizedDescription], [operation responseString]);    
-    }];
+  NSDictionary *params = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:@"articles", nid, nil] forKeys:[NSArray arrayWithObjects:@"view_name", @"args", nil]];
+  [DIOSView viewGet:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self set_sites:responseObject];
+    [self.tableView reloadData];
+    [self stopLoading];
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    #warning We should let the user know rather than dumping a log
+    [self stopLoading];
+    NSLog(@"Something went wrong: %@", [error localizedDescription]);
+  }];
     
 ```
 For every DIOS Object you make, any method calls that are available to you use blocks. 
@@ -27,7 +27,7 @@ If the request was successful the result would be something like this:
     
 However if it failed, the error might look like this:
 
-    Expected status code in (200-299), got 404,  "Node 5 could not be found"
+    Expected status code in (200-299), got 404,  "View does not exist"
     
 What you need to get started
 ================================
