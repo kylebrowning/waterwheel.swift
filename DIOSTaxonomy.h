@@ -39,28 +39,28 @@
 
 @interface DIOSTaxonomy : NSObject 
 
-- (void)getTreeWithParams:(NSDictionary *)params  
++ (void)getTreeWithParams:(NSDictionary *)params
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)getTreeWithVid:(NSString *)vid 
++ (void)getTreeWithVid:(NSString *)vid
             withParent:(NSString *)parent 
            andMaxDepth:(NSString *)maxDepth  
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)selectNodesWithParams:(NSDictionary *)params  
++ (void)selectNodesWithParams:(NSDictionary *)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)selectNodesWithTid:(NSString *)tid 
++ (void)selectNodesWithTid:(NSString *)tid
                   andLimit:(NSString *)limit 
                   andPager:(NSString *)pager
                   andOrder:(NSString *)order  
                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void)getTermWithTid:(NSString *)tid  
++ (void)getTermWithTid:(NSString *)tid
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

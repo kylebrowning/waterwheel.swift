@@ -40,7 +40,7 @@
 #import "DIOSSession.h"
 @implementation DIOSFile
 
-- (void) fileGet:(NSDictionary *)params  
++ (void) fileGet:(NSDictionary *)params
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -50,10 +50,16 @@
                                failure:failure];
 }
 
-- (void) fileSave:(NSDictionary *)params {
-  //currently doesnt work :(
++ (void)fileSave:(NSDictionary *)file
+         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
+  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseFile]
+                             parameters:file
+                                success:success 
+                                failure:failure];
 }
-- (UIImageView *) getImageViewForFileImage:(NSDictionary *) file; { 
++ (UIImageView *) getImageViewForFileImage:(NSDictionary *) file; {
   NSURL *url = [NSURL URLWithString:[file objectForKey:@"uri_full"]];
   UIImageView *remoteImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
   [remoteImage setImageWithURL:url];

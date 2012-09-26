@@ -40,7 +40,7 @@
 @implementation DIOSNode
 
 #pragma mark nodeGets
-- (void)nodeGet:(NSDictionary *)node  
++ (void)nodeGet:(NSDictionary *)node
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -51,7 +51,7 @@
 }
 
 #pragma mark nodeSave
-   - (void)nodeSave:(NSDictionary *)node  
++ (void)nodeSave:(NSDictionary *)node
                                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 
@@ -62,29 +62,29 @@
 }
 
 #pragma mark nodeUpdate
-- (void)nodeUpdate:(NSDictionary *)node  
++ (void)nodeUpdate:(NSDictionary *)node
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"cid"]] 
+  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
                             parameters:node 
                                success:success
                                failure:failure];
 }
 
 #pragma mark nodeDelete
-- (void)nodeDelete:(NSDictionary *)node  
++ (void)nodeDelete:(NSDictionary *)node
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"cid"]] 
+  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
                                parameters:node 
                                   success:success 
                                   failure:failure];
 }
 #pragma mark nodeIndex
 //Simpler method if you didnt want to build the params :)
-- (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize  
++ (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   NSMutableDictionary *nodeIndexDict = [NSMutableDictionary new];
@@ -95,7 +95,7 @@
   [self nodeIndex:nodeIndexDict success:success failure:failure];
 }
 
-- (void)nodeIndex:(NSDictionary *)params  
++ (void)nodeIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -103,7 +103,7 @@
 }
 
 #pragma mark nodeAttachFile
-- (void)nodeAttachFile:(NSDictionary *)params  
++ (void)nodeAttachFile:(NSDictionary *)params
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   NSMutableURLRequest *request = [[DIOSSession sharedSession] multipartFormRequestWithMethod:@"POST" path:[NSString stringWithFormat:@"%@/%@/%@/attach_file?field_name=%@", kDiosEndpoint, kDiosBaseNode, [params objectForKey:@"nid"], [params objectForKey:@"field_name"]] parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
@@ -111,9 +111,10 @@
   }];
   
   AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-  [operation setUploadProgressBlock:^(NSInteger bytesWritten, NSInteger totalBytesWritten, NSInteger totalBytesExpectedToWrite) {
-    NSLog(@"Sent %d of %d bytes", totalBytesWritten, totalBytesExpectedToWrite);
+  [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+   NSLog(@"Sent %lld of %lld bytes", totalBytesWritten, totalBytesExpectedToWrite);
   }];
+  
   [operation setCompletionBlockWithSuccess:success failure:failure];
   [operation start];
 }

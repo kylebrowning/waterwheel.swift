@@ -42,7 +42,7 @@
 
 
 #pragma mark CommentGet
-- (void)commentGet:(NSDictionary *)comment 
++ (void)commentGet:(NSDictionary *)comment
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
@@ -53,7 +53,7 @@
 }
 
 #pragma mark commentSave
-- (void)commentSave:(NSDictionary *)comment 
++ (void)commentSave:(NSDictionary *)comment
             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] 
@@ -63,7 +63,7 @@
 }
 
 #pragma mark commentUpdate
-- (void)commentUpdate:(NSDictionary *)comment  
++ (void)commentUpdate:(NSDictionary *)comment
               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] 
@@ -73,7 +73,7 @@
 }
 
 #pragma mark CommentDelete
-- (void)commentDelete:(NSDictionary *)comment 
++ (void)commentDelete:(NSDictionary *)comment
               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
   [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] parameters:comment success:success failure:failure];
@@ -81,7 +81,7 @@
 
 #pragma mark commentIndex
 //Simpler method if you didnt want to build the params :)
-- (void)commentIndexWithPage:(NSString *)page 
++ (void)commentIndexWithPage:(NSString *)page
                       fields:(NSString *)fields 
                   parameters:(NSArray *)parameteres 
                     pageSize:(NSString *)pageSize
@@ -96,7 +96,7 @@
   [self commentIndex:commentIndexDict success:success failure:failure];
 }
 
-- (void)commentIndex:(NSDictionary *)params 
++ (void)commentIndex:(NSDictionary *)params
              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
   
