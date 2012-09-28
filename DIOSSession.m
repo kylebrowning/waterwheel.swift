@@ -40,14 +40,24 @@
 #import "AFPropertyListRequestOperation.h"
 
 @implementation DIOSSession
-@synthesize user;
+@synthesize user, accessTokens;
 + (DIOSSession *)sharedSession {
   static dispatch_once_t once;
   static DIOSSession *sharedSession;
-  dispatch_once(&once, ^ { 
+  dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:kDiosBaseUrl]];
     [sharedSession setParameterEncoding:AFJSONParameterEncoding];
   });
+  return sharedSession;
+}
++ (DIOSSession *)sharedSessionWithURL:(NSString*)url {
+  static dispatch_once_t once;
+  static DIOSSession *sharedSession;
+  dispatch_once(&once, ^ { 
+    sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
+    [sharedSession setParameterEncoding:AFJSONParameterEncoding];
+  });
+  [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
 }
 
@@ -63,5 +73,8 @@
   [self setDefaultHeader:@"Content-Type" value:@"application/json"];
 	
   return self;
+}
+- (void) addHeaderValue:(NSString*)value forKey:(NSString*)key {
+  [self setDefaultHeader:key value:value];
 }
 @end

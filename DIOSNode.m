@@ -76,8 +76,7 @@
 + (void)nodeDelete:(NSDictionary *)node
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
-  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
+  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]]
                                parameters:node 
                                   success:success 
                                   failure:failure];
@@ -93,6 +92,7 @@
   [nodeIndexDict setValue:parameteres forKey:@"parameters"];
   [nodeIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self nodeIndex:nodeIndexDict success:success failure:failure];
+  [nodeIndexDict release];
 }
 
 + (void)nodeIndex:(NSDictionary *)params
@@ -111,11 +111,11 @@
   }];
   
   AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-  [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-   NSLog(@"Sent %lld of %lld bytes", totalBytesWritten, totalBytesExpectedToWrite);
-  }];
-  
+//  [operation setUploadProgressBlock:^(NSInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+//    NSLog(@"Sent %qi of %qi bytes", totalBytesWritten, totalBytesExpectedToWrite);
+//  }];
   [operation setCompletionBlockWithSuccess:success failure:failure];
   [operation start];
+  [operation release];
 }
 @end

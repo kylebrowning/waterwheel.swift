@@ -94,6 +94,7 @@
   [commentIndexDict setValue:parameteres forKey:@"parameters"];
   [commentIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self commentIndex:commentIndexDict success:success failure:failure];
+  [commentIndexDict release];
 }
 
 + (void)commentIndex:(NSDictionary *)params

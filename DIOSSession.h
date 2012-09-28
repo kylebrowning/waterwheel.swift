@@ -41,9 +41,12 @@
 
 @interface DIOSSession : AFHTTPClient {
   NSDictionary *user;
+  NSMutableDictionary *accessTokens;
 }
 @property (strong, nonatomic) NSDictionary *user;
+@property (nonatomic, retain) NSMutableDictionary *accessTokens;
 + (DIOSSession *)sharedSession;
-
++ (DIOSSession *)sharedSessionWithURL:(NSString*)url;
+- (void) addHeaderValue:(NSString*)value forKey:(NSString*)key;
 @end
 
