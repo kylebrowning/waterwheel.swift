@@ -46,37 +46,84 @@
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] 
-                            parameters:nil 
-                               success:success 
-                               failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]];
+  
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:comment
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] getPath:path
+                              parameters:nil
+                                 success:success
+                                 failure:failure];
+  }
 }
 
 #pragma mark commentSave
 + (void)commentSave:(NSDictionary *)comment
             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] 
-                             parameters:comment 
-                                success:success 
-                                failure:failure];
+  
+  NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:comment
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:comment
+                                  success:success
+                                  failure:failure];
+  }
 }
 
 #pragma mark commentUpdate
 + (void)commentUpdate:(NSDictionary *)comment
               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] 
-                            parameters:comment 
-                               success:success
-                               failure:failure];
+  
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"PUT"
+                                                    params:comment
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] putPath:path
+                              parameters:comment
+                                 success:success
+                                 failure:failure];
+  }
+
 }
 
 #pragma mark CommentDelete
 + (void)commentDelete:(NSDictionary *)comment
               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
-  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]] parameters:comment success:success failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseComment, [comment objectForKey:@"cid"]];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"DELETE"
+                                                    params:comment
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] deletePath:path
+                              parameters:comment
+                                 success:success
+                                 failure:failure];
+  }
 }
 
 #pragma mark commentIndex
@@ -94,15 +141,26 @@
   [commentIndexDict setValue:parameteres forKey:@"parameters"];
   [commentIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self commentIndex:commentIndexDict success:success failure:failure];
+  [commentIndexDict release];
 }
 
 + (void)commentIndex:(NSDictionary *)params
              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure; {
-  
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment] 
-                            parameters:params 
-                               success:success 
-                               failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseComment];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] getPath:path
+                                 parameters:params
+                                    success:success
+                                    failure:failure];
+  }
 }
 @end

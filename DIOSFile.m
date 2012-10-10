@@ -44,25 +44,44 @@
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseFile, [params objectForKey:@"fid"]] 
-                            parameters:params 
-                               success:success
-                               failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseFile, [params objectForKey:@"fid"]];
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] getPath:path
+                              parameters:params
+                                 success:success
+                                 failure:failure];
+  }
+
 }
 
 + (void)fileSave:(NSDictionary *)file
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseFile]
-                             parameters:file
-                                success:success 
-                                failure:failure];
+           NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseFile];
+           if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:file
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:file
+                                  success:success
+                                  failure:failure];
+  }
 }
 + (UIImageView *) getImageViewForFileImage:(NSDictionary *) file; {
   NSURL *url = [NSURL URLWithString:[file objectForKey:@"uri_full"]];
   UIImageView *remoteImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
   [remoteImage setImageWithURL:url];
+  [remoteImage release];
   return remoteImage;
 }
 @end

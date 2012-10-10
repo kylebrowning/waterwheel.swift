@@ -44,11 +44,22 @@
 + (void)userGet:(NSDictionary *)user
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]] 
-                            parameters:nil 
-                               success:success 
-                               failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:user
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] getPath:path
+                               parameters:user
+                                  success:success
+                                  failure:failure];
+  }
 }
 
 
@@ -56,11 +67,22 @@
 + (void)userSave:(NSDictionary *)user
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser] 
-                             parameters:user 
-                                success:success 
-                                failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:user
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] postPath:path
+                              parameters:user
+                                 success:success
+                                 failure:failure];
+  }
 }
 
 #pragma mark userRegister
@@ -68,21 +90,43 @@
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/register", kDiosEndpoint, kDiosBaseUser] 
-                             parameters:user 
-                                success:success 
-                                failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@/register", kDiosEndpoint, kDiosBaseUser];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:user
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:user
+                                  success:success
+                                  failure:failure];
+  }
 }
 
 #pragma mark userUpdate
 + (void)userUpdate:(NSDictionary *)user
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
-  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]] 
-                            parameters:user 
-                               success:success 
-                               failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"PUT"
+                                                    params:user
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] putPath:path
+                              parameters:user
+                                 success:success
+                                 failure:failure];
+  }
 }
 
 #pragma mark UserDelete
@@ -90,10 +134,21 @@
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]] 
-                               parameters:user 
-                                  success:success
-                                  failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"DELETE"
+                                                    params:user
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] deletePath:path
+                                 parameters:user
+                                    success:success
+                                    failure:failure];
+  }
 }
 
 
@@ -111,15 +166,28 @@
   [userIndexDict setValue:parameteres forKey:@"parameters"];
   [userIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self userIndex:userIndexDict success:success failure:failure];
+  [userIndexDict release];
 }
 
 + (void)userIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser] 
-                            parameters:params 
-                               success:success 
-                               failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] getPath:path
+                              parameters:params
+                                 success:success
+                                 failure:failure];
+  }
 }
 
 #pragma mark userLogin
@@ -128,23 +196,50 @@
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
   NSDictionary *params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:username, password, nil] forKeys:[NSArray arrayWithObjects:@"username", @"password", nil]];
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/login", kDiosEndpoint, kDiosBaseUser] 
-                             parameters:params 
-                                success:success 
-                                failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/login", kDiosEndpoint, kDiosBaseUser];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:params
+                                  success:success
+                                  failure:failure];
+  }
 }
 + (void)userLogin:(NSDictionary *)user
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [self userLoginWithUsername:[user objectForKey:@"name"] andPassword:[user objectForKey:@"pass"] success:success failure:failure];
+  [self userLoginWithUsername:[user objectForKey:@"name"]
+                  andPassword:[user objectForKey:@"pass"]
+                      success:success
+                      failure:failure];
 }
 
 #pragma mark userLogout
 + (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/logout", kDiosEndpoint, kDiosBaseUser] 
-                             parameters:nil 
-                                success:success 
-                                failure:failure];
+  
+  NSString *path = [NSString stringWithFormat:@"%@/%@/logout", kDiosEndpoint, kDiosBaseUser];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:nil
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:nil
+                                  success:success
+                                  failure:failure];
+  }
 }
 @end

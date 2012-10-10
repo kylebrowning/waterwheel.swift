@@ -43,11 +43,21 @@
 + (void)nodeGet:(NSDictionary *)node
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]];
   
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
-                            parameters:nil 
-                               success:success 
-                               failure:failure];
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                    method:@"GET"
+                                    params:node
+                                   success:success
+                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] getPath:path
+                              parameters:nil
+                                 success:success
+                                 failure:failure];
+  }
 }
 
 #pragma mark nodeSave
@@ -55,10 +65,21 @@
                                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode] 
-                             parameters:node
-                                success:success 
-                                failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode];
+  
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:node
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:node
+                                  success:success 
+                                  failure:failure];
+  }
 }
 
 #pragma mark nodeUpdate
@@ -66,10 +87,22 @@
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] putPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
-                            parameters:node 
-                               success:success
-                               failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]];
+  
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"PUT"
+                                                    params:node
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] putPath:path
+                              parameters:node
+                                 success:success
+                                 failure:failure];
+  }
+
 }
 
 #pragma mark nodeDelete
@@ -77,14 +110,27 @@
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  [[DIOSSession sharedSession] deletePath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]] 
-                               parameters:node 
-                                  success:success 
-                                  failure:failure];
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseNode, [node objectForKey:@"nid"]];
+  
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"DELETE"
+                                                    params:node
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] deletePath:path
+                                 parameters:node
+                                    success:success
+                                    failure:failure];
+  }
 }
 #pragma mark nodeIndex
 //Simpler method if you didnt want to build the params :)
-+ (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize
++ (void)nodeIndexWithPage:(NSString *)page
+                   fields:(NSString *)fields
+               parameters:(NSArray *)parameteres
+                 pageSize:(NSString *)pageSize
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   NSMutableDictionary *nodeIndexDict = [NSMutableDictionary new];
@@ -93,29 +139,27 @@
   [nodeIndexDict setValue:parameteres forKey:@"parameters"];
   [nodeIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self nodeIndex:nodeIndexDict success:success failure:failure];
+  [nodeIndexDict release];
 }
 
 + (void)nodeIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode];
   
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseNode] parameters:params success:success failure:failure];
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"DELETE"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] getPath:path
+                                 parameters:params
+                                    success:success
+                                    failure:failure];
+  }
 }
 
-#pragma mark nodeAttachFile
-+ (void)nodeAttachFile:(NSDictionary *)params
-               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  NSMutableURLRequest *request = [[DIOSSession sharedSession] multipartFormRequestWithMethod:@"POST" path:[NSString stringWithFormat:@"%@/%@/%@/attach_file?field_name=%@", kDiosEndpoint, kDiosBaseNode, [params objectForKey:@"nid"], [params objectForKey:@"field_name"]] parameters:params constructingBodyWithBlock: ^(id <AFMultipartFormData>formData) {
-    [formData appendPartWithFileData:[params objectForKey:@"fileData"] name:[params objectForKey:@"name"] fileName:[params objectForKey:@"fileName"] mimeType:[params objectForKey:@"mimetype"]];
-  }];
-  
-  AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-  [operation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-   NSLog(@"Sent %lld of %lld bytes", totalBytesWritten, totalBytesExpectedToWrite);
-  }];
-  
-  [operation setCompletionBlockWithSuccess:success failure:failure];
-  [operation start];
-}
 @end

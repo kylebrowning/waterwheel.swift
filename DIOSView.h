@@ -44,6 +44,7 @@
  @param failure The block to be executed on the completion of an unsuccessful request. This block has no return value and takes two arguments: the receiver operation and the error that occured during the request.
  
  */
-+ (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
++ (void)viewGet:(NSDictionary *)params
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

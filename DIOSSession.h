@@ -41,9 +41,43 @@
 
 @interface DIOSSession : AFHTTPClient {
   NSDictionary *user;
+  NSMutableDictionary *accessTokens;
+  NSString *consumerKey;
+  NSString *consumerSecret;
+  NSString *tokenIdentifier;
+  NSString *tokenSecret;
 }
 @property (strong, nonatomic) NSDictionary *user;
+@property (nonatomic, retain) NSMutableDictionary *accessTokens;
+@property (nonatomic) BOOL signRequests;
+@property (nonatomic) BOOL threeLegged;
+@property (nonatomic, copy) NSString *realm;
+@property (nonatomic, retain) NSString *consumerKey;
+@property (nonatomic, retain) NSString *consumerSecret;
+@property (nonatomic, retain) NSString *tokenIdentifier;
+@property (nonatomic, retain) NSString *tokenSecret;
 + (DIOSSession *)sharedSession;
++ (DIOSSession *)sharedSessionWithURL:(NSString*)url;
++ (DIOSSession *)sharedOauthSessionWithURL:(NSString*)url consumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret;
++ (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
++ (void) getAccessTokensWithRequestTokens:(NSDictionary *)requesTokens
+                                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
+- (void) sendSignedRequestWithPath:(NSString*)path
+                      method:(NSString*)method
+                      params:(NSDictionary*)params
+                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
+- (void) addHeaderValue:(NSString*)value forKey:(NSString*)key;
+- (NSURLRequest *) signedRequestWithMethod:(NSString *)method
+                                      path:(NSString *)path
+                                parameters:(NSDictionary *)parameters;
+- (id) initWithBaseURL:(NSURL *)url consumerKey:(NSString *)consumerKey secret:(NSString *)consumerSecret;
+
+- (void) setAccessToken:(NSString *)accessToken secret:(NSString *)secret;
+- (void) setConsumerKey:(NSString *)consumerKey secret:(NSString *)secret;
 @end
 
