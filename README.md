@@ -3,23 +3,22 @@ Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 What you need to know
 ================================
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
-If you wanted to get some nodes in a view you can do so by calling class methods on the DIOSView Object.  
-Heres an example:
+If you wanted to get a node you can do so calling some class methods on DIOSNode, creating an 
+NSDictionary and running the nodeGet method.  Heres an example:
 
 ```obj-c
-  NSDictionary *params = [[NSDictionary alloc] initWithObjects:[NSArray arrayWithObjects:@"articles", nid, nil] forKeys:[NSArray arrayWithObjects:@"view_name", @"args", nil]];
-  [DIOSView viewGet:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    [self set_sites:responseObject];
-    [self.tableView reloadData];
-    [self stopLoading];
-  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-    #warning We should let the user know rather than dumping a log
-    [self stopLoading];
-    NSLog(@"Something went wrong: %@", [error localizedDescription]);
-  }];
+    NSMutableDictionary *nodeData = [NSMutableDictionary new];
+    [nodeData setValue:@"12" forKey:@"nid"];
+    [DIOSNode nodeGet:nodeData success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      //Do Something with the responseObject
+      NSLog(@"%@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+      //we failed, uh-oh lets error log this.
+      NSLog(@"%@,  %@", [error localizedDescription], [operation responseString]);    
+    }];
     
 ```
-For every DIOS Object you make, any method calls that are available to you use blocks. 
+For every DIOS call you make, any method calls that are available to you use blocks. 
 This allows us to define what happens when we have a request that fails or succeeds. 
 If the request was successful the result would be something like this:
 
@@ -27,7 +26,7 @@ If the request was successful the result would be something like this:
     
 However if it failed, the error might look like this:
 
-    Expected status code in (200-299), got 404,  "View does not exist"
+    Expected status code in (200-299), got 404,  "Node 5 could not be found"
     
 What you need to get started
 ================================
@@ -55,9 +54,75 @@ Branches are in this format
 
 OAuth
 --------------------
-its coming.
+If you want to use oAuth theres only one thing you need to do for 2-legged
+```obj-c
+  [DIOSSession sharedOauthSessionWithURL:@"http://d7.workhabit.com" consumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" secret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];
+```
+This will create your shared session with the baseURL and attach your consumer key and secret.
 
+3-legged requires that you get some request tokens, and convert them into access tokens.
+DIOS provides methods to do this, as an Example, this code will grab some request tokens and load a webview to be displayed
 
+```obj-c
+  [DIOSSession getRequestTokensWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    requestTokens = [NSMutableDictionary new];
+    NSArray *arr = [operation.responseString componentsSeparatedByCharactersInSet:
+                    [NSCharacterSet characterSetWithCharactersInString:@"=&"]];
+    if([arr count] == 4) {
+      [requestTokens setObject:[arr objectAtIndex:1] forKey:[arr objectAtIndex:0]];
+      [requestTokens setObject:[arr objectAtIndex:3] forKey:[arr objectAtIndex:2]];
+    } else {
+      NSLog(@"failed ahh");
+    }
+    [_window addSubview:oauthWebView];
+    NSString *urlToLoad = [NSString stringWithFormat:@"%@/oauth/authorize?%@", [[DIOSSession sharedSession] baseURL], operation.responseString];
+    NSURL *url = [NSURL URLWithString:urlToLoad];
+    NSLog(@"loading url :%@", urlToLoad);
+    //URL Requst Object
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+
+    //Load the request in the UIWebView.
+    [oauthWebView loadRequest:requestObj];
+  } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    NSLog(@"failed");
+  }];
+```
+
+If you want to get back a notificaiton when the request tokens have been authorized youll need to register a URL
+for your application and make sure it is defined in your oAuth consumer which you created on your Drupal website
+
+Again, another example here, we registered our app url and this method gets called when it does.
+
+```obj-c
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+  //If our request tokens were validated, this will get called.
+  if ([[url absoluteString] rangeOfString:[requestTokens objectForKey:@"oauth_token"]].location != NSNotFound) {
+    [DIOSSession getAccessTokensWithRequestTokens:requestTokens success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      NSArray *arr = [operation.responseString componentsSeparatedByCharactersInSet:
+                      [NSCharacterSet characterSetWithCharactersInString:@"=&"]];
+      if([arr count] == 4) {
+        //Lets set our access tokens now
+        [[DIOSSession sharedSession] setAccessToken:[arr objectAtIndex:1] secret:[arr objectAtIndex:3]];
+        NSDictionary *node = [NSDictionary dictionaryWithObject:@"1" forKey:@"nid"];
+        [DIOSNode nodeGet:node success:^(AFHTTPRequestOperation *operation, id responseObject) {
+          NSLog(@"%@", responseObject);
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+          NSLog(@"%@", [error localizedDescription]);
+        }];
+      } else {
+        NSLog(@"failed ahh");
+      }
+      NSLog(@"successfully added accessTokens");
+      [oauthWebView removeFromSuperview];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"getting access tokens failed");
+      [oauthWebView removeFromSuperview];
+    }];
+  }
+  return YES;
+}
+```
 Documentation
 -----------
 [Can be found here](https://github.com/workhabitinc/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0)

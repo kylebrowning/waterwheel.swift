@@ -55,11 +55,22 @@
 + (void)getTreeWithParams:(NSDictionary *)params
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/getTree", kDiosEndpoint, kDiosBaseTaxonmyVocabulary];
   
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/getTree", kDiosEndpoint, kDiosBaseTaxonmyVocabulary] 
-                             parameters:params 
-                                success:success
-                                failure:failure];
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:params
+                                  success:success
+                                  failure:failure];
+  }
+
 }
 + (void)selectNodesWithTid:(NSString *)tid
                   andLimit:(NSString *)limit 
@@ -79,18 +90,39 @@
 + (void)selectNodesWithParams:(NSDictionary *)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
-  [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/%@/selectNodes", kDiosEndpoint, kDiosBaseTaxonmyTerm] 
-                             parameters:params 
-                                success:success 
-                                failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/selectNodes", kDiosEndpoint, kDiosBaseTaxonmyTerm];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"POST"
+                                                    params:params
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] postPath:path
+                               parameters:params
+                                  success:success
+                                  failure:failure];
+  }
 }
 + (void)getTermWithTid:(NSString *)tid
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  [[DIOSSession sharedSession] getPath:[NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseTaxonmyTerm, tid] 
-                            parameters:nil 
-                               success:success 
-                               failure:failure];
+
+  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseTaxonmyTerm, tid];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:nil
+                                                   success:success
+                                                   failure:failure];
+  } else {
+    [[DIOSSession sharedSession] getPath:path
+                               parameters:nil
+                                  success:success
+                                  failure:failure];
+  }
 }
 @end

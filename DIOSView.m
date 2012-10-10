@@ -36,8 +36,10 @@
 #import "DIOSView.h"
 #import "DIOSSession.h"
 @implementation DIOSView
-+ (void)viewGet:(NSDictionary *)params success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
++ (void)viewGet:(NSDictionary *)params
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+  
 	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
 	for (NSString *key in params) {
 		id value = [params objectForKey:key];
@@ -45,6 +47,19 @@
 			[path appendFormat:@"%@=%@&", key, value];
 		}
 	}
-	[[DIOSSession sharedSession] getPath:path parameters:nil success:success failure:failure];
+
+  if ([[DIOSSession sharedSession] signRequests]) {
+    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
+                                                    method:@"GET"
+                                                    params:nil
+                                                   success:success
+                                                   failure:failure];
+  }
+  else {
+    [[DIOSSession sharedSession] getPath:path
+                               parameters:nil
+                                  success:success
+                                  failure:failure];
+  }
 }
 @end

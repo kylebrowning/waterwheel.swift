@@ -55,15 +55,15 @@
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-+ (void)nodeIndexWithPage:(NSString *)page fields:(NSString *)fields parameters:(NSArray *)parameteres pageSize:(NSString *)pageSize
++ (void)nodeIndexWithPage:(NSString *)page
+                   fields:(NSString *)fields
+               parameters:(NSArray *)parameteres
+                 pageSize:(NSString *)pageSize
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure ;
 
 + (void)nodeIndex:(NSDictionary *)params
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-+ (void)nodeAttachFile:(NSDictionary *)params
-               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-               failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end
