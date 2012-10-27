@@ -40,11 +40,20 @@
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
+	int x=0;
+
 	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
 	for (NSString *key in params) {
 		id value = [params objectForKey:key];
 		if (![key isEqualToString:@"view_name"]) {
-			[path appendFormat:@"%@=%@&", key, value];
+
+			//the code below was inserted because if there is only one argument, the "&" is not needed and the view doesn't work
+			if(x++) {
+                		[path appendFormat:@"&"];
+            		}
+			// end
+
+			[path appendFormat:@"%@=%@", key, value];
 		}
 	}
 
