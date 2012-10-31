@@ -34,7 +34,7 @@ What you need to get started
 * AFNetwork which can be found [here](https://github.com/AFNetworking/AFNetworking)
 * Be sure to follow the AFNetworking installation guide.
 * Update Settings.h with the correct correct url and endpoints)
-* [Services](http://github.com/kylebrowning/services)
+* [Services](http://drupal.org/project/services)
 
 Demo App (Work in progress)
 --------------------
