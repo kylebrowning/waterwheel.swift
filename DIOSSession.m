@@ -77,7 +77,7 @@ realm, signRequests, threeLegged;
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
     [sharedSession setParameterEncoding:AFJSONParameterEncoding];
   });
-  [sharedSession setBaseURL:[NSURL URLWithString:url]];
+  //[sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
 }
 
@@ -86,7 +86,7 @@ realm, signRequests, threeLegged;
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url] consumerKey:aConsumerKey secret:aConsumerSecret];
     [sharedSession setParameterEncoding:AFJSONParameterEncoding];
   });
-  [sharedSession setBaseURL:[NSURL URLWithString:url]];
+  //[sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
 }
 
@@ -284,7 +284,7 @@ realm, signRequests, threeLegged;
   NSString *timestamp = [NSString stringWithFormat:@"%d", epochTime];
   CFUUIDRef theUUID = CFUUIDCreate(NULL);
   CFStringRef string = CFUUIDCreateString(NULL, theUUID);
-  NSString *nonce = (NSString *)string;
+  NSString *nonce = (NSString *)CFBridgingRelease(string);
   CFRelease(theUUID);
 
   [dictionary setObject:nonce forKey:@"oauth_nonce"];
@@ -332,7 +332,7 @@ static NSString *URLEncodeString(NSString *string) {
   // Hyphen, Period, Understore & Tilde are expressly legal
   const CFStringRef legalURLCharactersToBeEscaped = CFSTR(":/=,!$&'()*+;[]@#?");
 
-  return ( NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, ( CFStringRef)string, NULL, legalURLCharactersToBeEscaped, kCFStringEncodingUTF8);
+  return ( NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, ( CFStringRef)string, NULL, legalURLCharactersToBeEscaped, kCFStringEncodingUTF8));
 }
 @end
 // The function below was inspired on
