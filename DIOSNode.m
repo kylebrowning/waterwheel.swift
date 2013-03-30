@@ -36,7 +36,7 @@
 
 #import "DIOSNode.h"
 #import "DIOSSession.h"
-#import "AFJSONUtilities.h"
+
 @implementation DIOSNode
 
 #pragma mark nodeGets
