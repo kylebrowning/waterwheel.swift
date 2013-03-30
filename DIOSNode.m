@@ -36,7 +36,7 @@
 
 #import "DIOSNode.h"
 #import "DIOSSession.h"
-#import "AFJSONUtilities.h"
+
 @implementation DIOSNode
 
 #pragma mark nodeGets
@@ -139,7 +139,6 @@
   [nodeIndexDict setValue:parameteres forKey:@"parameters"];
   [nodeIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self nodeIndex:nodeIndexDict success:success failure:failure];
-  [nodeIndexDict release];
 }
 
 + (void)nodeIndex:(NSDictionary *)params

@@ -166,7 +166,6 @@
   [userIndexDict setValue:parameteres forKey:@"parameters"];
   [userIndexDict setValue:pageSize forKey:@"pagesize"];  
   [self userIndex:userIndexDict success:success failure:failure];
-  [userIndexDict release];
 }
 
 + (void)userIndex:(NSDictionary *)params
