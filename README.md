@@ -37,6 +37,10 @@ What you need to get started
 * Update Settings.h with the correct correct url and endpoints)
 * [Services](http://drupal.org/project/services)
 
+
+Extras
+===============================
+[Drupal iOS SDK Addons](https://github.com/utneon/drupal-ios-sdk-addons)
 Demo App (Work in progress)
 --------------------
 [http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example)
@@ -137,7 +141,7 @@ X service doesnt exist in Drupal iOS SDK
 You no longer really need to subclass any existing DIOS classes, unless you want to override.
 `[DIOSSession shared]` ensures that session information is stored for as long as the cookies are valid
 If you do want to make your own object, just follow the pattern in the other files and everything should work fine.
-Use the issue queue here on github if you have questions.
+Use the issue queue here on github if you have questions. An addon library is [here](https://github.com/utneon/drupal-ios-sdk-addons)
 
 Questions
 ----------
