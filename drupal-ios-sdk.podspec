@@ -6,7 +6,7 @@
 #
 Pod::Spec.new do |s|
   s.name         = "drupal-ios-sdk"
-  s.version      = "2.0.1"
+  s.version      = "2.0.2"
   s.summary      = "A short description of drupal-ios-sdk."
   # s.description  = <<-DESC
   #                   An optional longer description of drupal-ios-sdk
@@ -34,7 +34,7 @@ Pod::Spec.new do |s|
 
   # Specify the location from where the source should be retrieved.
   #
-  s.source       = { :git => "https://github.com/workhabitinc/drupal-ios-sdk.git", :tag => "2.0.1" }
+  s.source       = { :git => "https://github.com/workhabitinc/drupal-ios-sdk.git", :tag => "2.0.2" }
 
 
   # If this Pod runs only on iOS or OS X, then specify the platform and
