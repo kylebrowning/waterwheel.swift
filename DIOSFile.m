@@ -81,7 +81,6 @@
   NSURL *url = [NSURL URLWithString:[file objectForKey:@"uri_full"]];
   UIImageView *remoteImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
   [remoteImage setImageWithURL:url];
-  [remoteImage release];
   return remoteImage;
 }
 @end

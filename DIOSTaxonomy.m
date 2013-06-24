@@ -50,7 +50,6 @@
   [params setValue:parent forKey:@"parent"];
   [params setValue:maxDepth forKey:@"max_depth"];
   [self getTreeWithParams:params success:success failure:failure];
-  [params release];
 }
 + (void)getTreeWithParams:(NSDictionary *)params
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
@@ -85,7 +84,6 @@
   [params setValue:pager forKey:@"pager"];
   [params setValue:order forKey:@"prder"];
   [self selectNodesWithParams:params success:success failure:failure];
-  [params release];
 }
 + (void)selectNodesWithParams:(NSDictionary *)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
