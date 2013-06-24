@@ -1,5 +1,5 @@
 //
-//  DIOSSystem.m
+//  DIOSEntity.h
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -22,8 +22,7 @@
 // the Initial Developer. All Rights Reserved.
 //
 // Contributor(s):
-// - Alexandru Badiu (andu@ctrlz.ro)
-// 
+//
 // Alternatively, the contents of this file may be used under the terms of
 // the GNU General Public License Version 2 or later (the "GPL"), in which
 // case the provisions of the GPL are applicable instead of those above. If
@@ -36,21 +35,30 @@
 //
 // ***** END LICENSE BLOCK *****
 
+#import "AFHTTPRequestOperation.h"
 
-#import "DIOSSystem.h"
-#import "DIOSSession.h"
-
-
-@implementation DIOSSystem
-
-#pragma mark UserGets
-+ (void)systemConnectwithSuccess: (void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-
-    [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/system/connect", kDiosEndpoint] 
-                               parameters:nil 
-                               success:success 
-                               failure:failure];
+@interface DIOSEntity : NSObject {
 }
++ (void)entityGet:(NSDictionary *)entity
+             name:(NSString*)eName
+              eid:(NSString*)eId
+          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
++ (void)entitySave:(NSDictionary *)entity
+              name:(NSString*)eName
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
++ (void)entityUpdate:(NSDictionary *)entity
+                name:(NSString*)eName
+                 eid:(NSString*)eId
+             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
++ (void)entityDelete:(NSDictionary *)entity
+                name:(NSString*)eName
+                 eid:(NSString*)eId
+           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
+           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end
