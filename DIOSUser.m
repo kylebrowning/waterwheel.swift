@@ -248,6 +248,9 @@ static NSInteger anonymous_user = 0;
               }
               failure:failure];
          }
+         else {
+             success(op, response);
+         }
      }
      failure:failure];
 }
