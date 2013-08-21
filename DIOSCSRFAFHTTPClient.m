@@ -18,6 +18,7 @@
   NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/services/session/token", kDiosBaseUrl]]];
   NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
   csrfToken = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  
   return csrfToken;
 }
 
