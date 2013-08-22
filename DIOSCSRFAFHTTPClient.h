@@ -11,4 +11,6 @@
 @interface DIOSCSRFAFHTTPClient : AFHTTPClient
 
 - (NSString*)getCSRFToken;
+-(void)getCSRFTokenWithSuccess:(void (^)(NSString *csrfToken))success
+                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 @end
