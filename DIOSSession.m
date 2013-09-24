@@ -77,7 +77,6 @@ realm, signRequests, threeLegged;
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
     [sharedSession setParameterEncoding:AFJSONParameterEncoding];
   });
-  [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
 }
 
@@ -86,7 +85,6 @@ realm, signRequests, threeLegged;
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url] consumerKey:aConsumerKey secret:aConsumerSecret];
     [sharedSession setParameterEncoding:AFJSONParameterEncoding];
   });
-  [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
 }
 
