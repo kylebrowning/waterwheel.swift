@@ -56,6 +56,7 @@
 @property (nonatomic, retain) NSString *consumerSecret;
 @property (nonatomic, retain) NSString *tokenIdentifier;
 @property (nonatomic, retain) NSString *tokenSecret;
+@property (readwrite, nonatomic, retain) NSURL *baseURL;
 + (DIOSSession *)sharedSession;
 + (DIOSSession *)sharedSessionWithURL:(NSString*)url;
 + (DIOSSession *)sharedOauthSessionWithURL:(NSString*)url consumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret;

@@ -61,7 +61,7 @@ static DIOSSession *sharedSession;
 @end
 
 @implementation DIOSSession
-@synthesize user, accessTokens, consumerKey, consumerSecret, tokenIdentifier, tokenSecret,
+@synthesize user, accessTokens, consumerKey, consumerSecret, tokenIdentifier, tokenSecret, baseURL,
 realm, signRequests, threeLegged;
 
 + (DIOSSession *)sharedSession {
