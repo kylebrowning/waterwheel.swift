@@ -38,6 +38,7 @@
 #import "DIOSFile.h"
 #import "UIImageView+AFNetworking.h"
 #import "DIOSSession.h"
+
 @implementation DIOSFile
 
 + (void) fileGet:(NSDictionary *)params
@@ -52,10 +53,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] getPath:path
-                              parameters:params
-                                 success:success
-                                 failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:params success:success failure:failure];
   }
 
 }
@@ -71,10 +69,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] postPath:path
-                               parameters:file
-                                  success:success
-                                  failure:failure];
+      [[DIOSSession sharedSession] POST:path parameters:file success:success failure:failure];
   }
 }
 + (UIImageView *) getImageViewForFileImage:(NSDictionary *) file; {

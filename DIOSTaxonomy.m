@@ -37,6 +37,7 @@
 
 #import "DIOSTaxonomy.h"
 #import "DIOSSession.h"
+
 @implementation DIOSTaxonomy
 
 
@@ -64,13 +65,11 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] postPath:path
-                               parameters:params
-                                  success:success
-                                  failure:failure];
+      [[DIOSSession sharedSession] POST:path parameters:params success:success failure:failure];
   }
 
 }
+
 + (void)selectNodesWithTid:(NSString *)tid
                   andLimit:(NSString *)limit 
                   andPager:(NSString *)pager
@@ -85,6 +84,7 @@
   [params setValue:order forKey:@"prder"];
   [self selectNodesWithParams:params success:success failure:failure];
 }
+
 + (void)selectNodesWithParams:(NSDictionary *)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
@@ -98,12 +98,10 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] postPath:path
-                               parameters:params
-                                  success:success
-                                  failure:failure];
+      [[DIOSSession sharedSession] POST:path parameters:params success:success failure:failure];
   }
 }
+
 + (void)getTermWithTid:(NSString *)tid
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
@@ -117,10 +115,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] getPath:path
-                               parameters:nil
-                                  success:success
-                                  failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
   }
 }
 @end

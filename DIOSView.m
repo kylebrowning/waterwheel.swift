@@ -1,4 +1,4 @@
-//  DIOSNode.m
+//  DIOSView.m
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -33,8 +33,10 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
+
 #import "DIOSView.h"
 #import "DIOSSession.h"
+
 @implementation DIOSView
 + (void)viewGet:(NSDictionary *)params
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
@@ -65,10 +67,7 @@
                                                    failure:failure];
   }
   else {
-    [[DIOSSession sharedSession] getPath:path
-                               parameters:nil
-                                  success:success
-                                  failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
   }
 }
 @end

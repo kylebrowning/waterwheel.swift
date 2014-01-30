@@ -37,7 +37,6 @@
 
 #import "AFHTTPRequestOperation.h"
 
-static NSUInteger USERNAME_MAX_LENGTH = 60;
 
 @interface DIOSUser : NSObject
 

@@ -38,6 +38,7 @@
 
 #import "DIOSComment.h"
 #import "DIOSSession.h"
+
 @implementation DIOSComment
 
 
@@ -55,10 +56,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] getPath:path
-                              parameters:nil
-                                 success:success
-                                 failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
   }
 }
 
@@ -76,10 +74,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] postPath:path
-                               parameters:comment
-                                  success:success
-                                  failure:failure];
+      [[DIOSSession sharedSession] POST:path parameters:comment success:success failure:failure];
   }
 }
 
@@ -97,10 +92,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] putPath:path
-                              parameters:comment
-                                 success:success
-                                 failure:failure];
+      [[DIOSSession sharedSession] PUT:path parameters:comment success:success failure:failure];
   }
 
 }
@@ -119,10 +111,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] deletePath:path
-                              parameters:comment
-                                 success:success
-                                 failure:failure];
+      [[DIOSSession sharedSession] DELETE:path parameters:comment success:success failure:failure];
   }
 }
 
@@ -156,10 +145,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] getPath:path
-                                 parameters:params
-                                    success:success
-                                    failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:params success:success failure:failure];
   }
 }
 @end

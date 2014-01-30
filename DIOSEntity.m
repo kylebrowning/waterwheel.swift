@@ -36,7 +36,8 @@
 
 #import "DIOSEntity.h"
 #import "DIOSSession.h"
-#import "AFJSONRequestOperation.h"
+#import "AFHTTPRequestOperation.h"
+
 @implementation DIOSEntity
 
 #pragma mark nodeGets
@@ -55,10 +56,7 @@
                                                        success:success
                                                        failure:failure];
     } else {
-        [[DIOSSession sharedSession] getPath:path
-                                  parameters:nil
-                                     success:success
-                                     failure:failure];
+        [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
     }
 }
 
@@ -78,10 +76,7 @@
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] postPath:path
-                                   parameters:entity
-                                      success:success
-                                      failure:failure];
+        [[DIOSSession sharedSession] POST:path parameters:entity success:success failure:failure];
     }
 }
 
@@ -102,10 +97,7 @@
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] putPath:path
-                                  parameters:entity
-                                     success:success
-                                     failure:failure];
+        [[DIOSSession sharedSession] PUT:path parameters:entity success:success failure:failure];
     }
     
 }
@@ -126,10 +118,7 @@
                                                        success:success
                                                        failure:failure];
     } else {
-        [[DIOSSession sharedSession] deletePath:path
-                                     parameters:entity
-                                        success:success
-                                        failure:failure];
+        [[DIOSSession sharedSession] DELETE:path parameters:entity success:success failure:failure];
     }
 }
 @end

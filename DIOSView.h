@@ -1,4 +1,4 @@
-//  DIOSNode.m
+//  DIOSView.h
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -33,6 +33,7 @@
 // file under either the MPL or the GPL.
 //
 // ***** END LICENSE BLOCK *****
+
 #import "AFHTTPRequestOperation.h"
 
 @interface DIOSView : NSObject

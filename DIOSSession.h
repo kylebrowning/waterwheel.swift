@@ -1,5 +1,5 @@
 //
-//  DIOSNode.h
+//  DIOSSession.h
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -36,10 +36,10 @@
 // ***** END LICENSE BLOCK *****
 
 #import <Foundation/Foundation.h>
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 #import "Settings.h"
 
-@interface DIOSSession : AFHTTPClient {
+@interface DIOSSession : AFHTTPRequestOperationManager {
   NSDictionary *user;
   NSMutableDictionary *accessTokens;
   NSString *consumerKey;
@@ -47,6 +47,7 @@
   NSString *tokenIdentifier;
   NSString *tokenSecret;
 }
+
 @property (strong, nonatomic) NSDictionary *user;
 @property (nonatomic, retain) NSMutableDictionary *accessTokens;
 @property (nonatomic) BOOL signRequests;
@@ -57,9 +58,11 @@
 @property (nonatomic, retain) NSString *tokenIdentifier;
 @property (nonatomic, retain) NSString *tokenSecret;
 @property (readwrite, nonatomic, retain) NSURL *baseURL;
+
 + (DIOSSession *)sharedSession;
 + (DIOSSession *)sharedSessionWithURL:(NSString*)url;
 + (DIOSSession *)sharedOauthSessionWithURL:(NSString*)url consumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret;
+
 + (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 + (void) getAccessTokensWithRequestTokens:(NSDictionary *)requesTokens
@@ -73,6 +76,7 @@
                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
 - (void) addHeaderValue:(NSString*)value forKey:(NSString*)key;
+
 - (NSURLRequest *) signedRequestWithMethod:(NSString *)method
                                       path:(NSString *)path
                                 parameters:(NSDictionary *)parameters;
@@ -80,5 +84,5 @@
 
 - (void) setAccessToken:(NSString *)accessToken secret:(NSString *)secret;
 - (void) setConsumerKey:(NSString *)consumerKey secret:(NSString *)secret;
-@end
 
+@end
