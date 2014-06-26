@@ -36,7 +36,8 @@
 
 #import "DIOSNode.h"
 #import "DIOSSession.h"
-#import "AFJSONRequestOperation.h"
+#import "AFHTTPRequestOperation.h"
+
 @implementation DIOSNode
 
 #pragma mark nodeGets
@@ -53,10 +54,7 @@
                                    success:success
                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] getPath:path
-                              parameters:nil
-                                 success:success
-                                 failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
   }
 }
 
@@ -75,10 +73,7 @@
                                                    failure:failure];
   }
   else {
-    [[DIOSSession sharedSession] postPath:path
-                               parameters:node
-                                  success:success 
-                                  failure:failure];
+      [[DIOSSession sharedSession] POST:path parameters:node success:success failure:failure];
   }
 }
 
@@ -97,10 +92,7 @@
                                                    failure:failure];
   }
   else {
-    [[DIOSSession sharedSession] putPath:path
-                              parameters:node
-                                 success:success
-                                 failure:failure];
+      [[DIOSSession sharedSession] PUT:path parameters:node success:success failure:failure];
   }
 
 }
@@ -119,10 +111,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] deletePath:path
-                                 parameters:node
-                                    success:success
-                                    failure:failure];
+      [[DIOSSession sharedSession] DELETE:path parameters:node success:success failure:failure];
   }
 }
 #pragma mark nodeIndex
@@ -154,10 +143,7 @@
                                                    success:success
                                                    failure:failure];
   } else {
-    [[DIOSSession sharedSession] getPath:path
-                                 parameters:params
-                                    success:success
-                                    failure:failure];
+      [[DIOSSession sharedSession] GET:path parameters:params success:success failure:failure];
   }
 }
 

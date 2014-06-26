@@ -6,9 +6,9 @@
 //  Copyright (c) 2013 Zoltán Váradi. All rights reserved.
 //
 
-#import "AFHTTPClient.h"
+#import "AFHTTPRequestOperationManager.h"
 
-@interface DIOSCSRFAFHTTPClient : AFHTTPClient
+@interface DIOSCSRFAFHTTPClient : AFHTTPRequestOperationManager
 
 - (NSString*)getCSRFToken;
 -(void)getCSRFTokenWithSuccess:(void (^)(NSString *csrfToken))success

@@ -1,5 +1,5 @@
 //
-//  DIOSNode.h
+//  DIOSSession.m
 //
 // ***** BEGIN LICENSE BLOCK *****
 // Version: MPL 1.1/GPL 2.0
@@ -36,10 +36,10 @@
 // ***** END LICENSE BLOCK *****
 
 #import "DIOSSession.h"
-#import "AFJSONRequestOperation.h"
-#import "AFPropertyListRequestOperation.h"
+#import "AFHTTPRequestOperation.h"
 #include <sys/time.h>
 #import <CommonCrypto/CommonHMAC.h>
+
 static NSString* Base64EncodedStringFromData(NSData *data);
 static NSString* URLEncodeString(NSString *string);
 static const NSString *kOAuthSignatureMethodKey = @"oauth_signature_method";
@@ -52,6 +52,7 @@ static const NSString *kOAuthSignatureTypeHMAC_SHA1 = @"HMAC-SHA1";
 static const NSString *kOAuthVersion1_0 = @"1.0";
 static dispatch_once_t once;
 static DIOSSession *sharedSession;
+
 @interface DIOSSession()
 
 - (id) initWithBaseURL:(NSURL *)url;
@@ -61,13 +62,14 @@ static DIOSSession *sharedSession;
 @end
 
 @implementation DIOSSession
+
 @synthesize user, accessTokens, consumerKey, consumerSecret, tokenIdentifier, tokenSecret, baseURL,
 realm, signRequests, threeLegged;
 
 + (DIOSSession *)sharedSession {
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:kDiosBaseUrl]];
-    [sharedSession setParameterEncoding:AFJSONParameterEncoding];
+    sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
   });
   return sharedSession;
 }
@@ -75,7 +77,7 @@ realm, signRequests, threeLegged;
 + (DIOSSession *)sharedSessionWithURL:(NSString*)url {
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
-    [sharedSession setParameterEncoding:AFJSONParameterEncoding];
+    sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
   });
   [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
@@ -84,37 +86,49 @@ realm, signRequests, threeLegged;
 + (DIOSSession *)sharedOauthSessionWithURL:(NSString*)url consumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret {
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url] consumerKey:aConsumerKey secret:aConsumerSecret];
-    [sharedSession setParameterEncoding:AFJSONParameterEncoding];
+    sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
+      
   });
   [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
 }
+
 
 + (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
   DIOSSession *client = [[DIOSSession alloc] initWithBaseURL:[[DIOSSession sharedSession] baseURL]];
   [client setConsumerKey:[[DIOSSession sharedSession] consumerKey] secret:[[DIOSSession sharedSession] consumerSecret]];
-  [client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
-  [client setDefaultHeader:@"Accept" value:@"text/html"];
-  [client setDefaultHeader:@"Content-Type" value:@"text/html"];
+    
+  //[client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+
+  [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Accept"];
+  [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
+
   NSMutableDictionary *params = [NSMutableDictionary new];
   [params setObject:[[DIOSSession sharedSession] consumerKey] forKey:kOAuthConsumerKey];
   [params setObject:[[DIOSSession sharedSession] consumerSecret] forKey:kOAuthTokenIdentifier];
   [client sendSignedRequestWithPath:@"/oauth/request_token" method:@"GET" params:params success:success failure:failure];
 }
+
+
 + (void) getAccessTokensWithRequestTokens:(NSDictionary *)requestTokens
                                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 
   DIOSSession *client = [[DIOSSession alloc] initWithBaseURL:[[DIOSSession sharedSession] baseURL]];
   [client setConsumerKey:[[DIOSSession sharedSession] consumerKey] secret:[[DIOSSession sharedSession] consumerSecret]];
-  [client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
-  [client setDefaultHeader:@"Accept" value:@"text/html"];
-  [client setDefaultHeader:@"Content-Type" value:@"text/html"];
+    
+  //[client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
+
+  [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Accept"];
+  [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
+    
   [client setAccessToken:[requestTokens objectForKey:@"oauth_token"] secret:[requestTokens objectForKey:@"oauth_token_secret"]];
   [client sendSignedRequestWithPath:@"/oauth/access_token" method:@"GET" params:requestTokens success:success failure:failure];
 }
+
+
 - (void) sendSignedRequestWithPath:(NSString*)path
                             method:(NSString*)method
                             params:(NSDictionary*)params
@@ -125,8 +139,8 @@ realm, signRequests, threeLegged;
     NSLog(@"send signedrequest #######REQUEST######## :%@", request);
     NSLog(@"params: %@", params);
     
-  AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-  [self enqueueHTTPRequestOperation:operation];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+    [self.operationQueue addOperation:operation];
 }
 
 - (id)initWithBaseURL:(NSURL *)url {
@@ -135,10 +149,11 @@ realm, signRequests, threeLegged;
     return nil;
   }
   
-  [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+  //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
   // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-	[self setDefaultHeader:@"Accept" value:@"application/json"];
-  [self setDefaultHeader:@"Content-Type" value:@"application/json"];
+    
+    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
 	
   return self;
 }
@@ -151,16 +166,17 @@ realm, signRequests, threeLegged;
     self.consumerKey = aConsumerKey;
     self.consumerSecret = aConsumerSecret;
 
-    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-    [self setDefaultHeader:@"Accept" value:@"application/json"];
-    [self setDefaultHeader:@"Content-Type" value:@"application/json"];
+      
+      [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+      [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   }
 
   return self;
 }
 - (NSURLRequest *) signedRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
-  NSMutableURLRequest *request = [super requestWithMethod:method path:path parameters:parameters];
+  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
 
   NSString *authorizationHeader = [self authorizationHeaderValueForRequest:request];
   [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
@@ -171,7 +187,7 @@ realm, signRequests, threeLegged;
                                        path:(NSString *)path
                                  parameters:(NSDictionary *)parameters {
 
-  NSMutableURLRequest *request = [super requestWithMethod:method path:path parameters:parameters];
+  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
 
   if (self.signRequests) {
     NSString *authorizationHeader = [self authorizationHeaderValueForRequest:request];
@@ -182,7 +198,7 @@ realm, signRequests, threeLegged;
 }
 
 - (NSURLRequest *) unsignedRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
-  NSMutableURLRequest *request = [super requestWithMethod:method path:path parameters:parameters];
+  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
 
   return request;
 }
@@ -198,7 +214,7 @@ realm, signRequests, threeLegged;
   self.consumerSecret = secret;
 }
 - (void) addHeaderValue:(NSString*)value forKey:(NSString*)key {
-  [self setDefaultHeader:key value:value];
+  [sharedSession.requestSerializer setValue:value forHTTPHeaderField:key];
 }
 
 - (NSMutableDictionary *) mutableDictionaryWithOAuthInitialData {

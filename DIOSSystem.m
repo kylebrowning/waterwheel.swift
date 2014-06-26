@@ -47,10 +47,7 @@
 + (void)systemConnectwithSuccess: (void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 
-    [[DIOSSession sharedSession] postPath:[NSString stringWithFormat:@"%@/system/connect", kDiosEndpoint] 
-                               parameters:nil 
-                               success:success 
-                               failure:failure];
+    [[DIOSSession sharedSession] POST:[NSString stringWithFormat:@"%@/system/connect", kDiosEndpoint] parameters:nil success:success failure:failure];
 }
 
 @end

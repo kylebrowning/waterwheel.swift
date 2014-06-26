@@ -42,6 +42,7 @@
 @implementation DIOSUser
 
 static NSInteger anonymous_user = 0;
+static NSUInteger USERNAME_MAX_LENGTH = 60;
 
 #pragma mark UserGets
 + (void)userGet:(NSDictionary *)user
@@ -58,10 +59,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] getPath:path
-                                  parameters:user
-                                     success:success
-                                     failure:failure];
+        [[DIOSSession sharedSession] GET:path parameters:user success:success failure:failure];
     }
 }
 
@@ -81,10 +79,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] postPath:path
-                                   parameters:user
-                                      success:success
-                                      failure:failure];
+        [[DIOSSession sharedSession] POST:path parameters:user success:success failure:failure];
     }
 }
 
@@ -103,10 +98,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] postPath:path
-                                   parameters:user
-                                      success:success
-                                      failure:failure];
+        [[DIOSSession sharedSession] POST:path parameters:user success:success failure:failure];
     }
 }
 
@@ -125,10 +117,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] putPath:path
-                                  parameters:user
-                                     success:success
-                                     failure:failure];
+        [[DIOSSession sharedSession] PUT:path parameters:user success:success failure:failure];
     }
 }
 
@@ -151,10 +140,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] deletePath:path
-                                     parameters:user
-                                        success:success
-                                        failure:failure];
+        [[DIOSSession sharedSession] DELETE:path parameters:user success:success failure:failure];
     }
 }
 
@@ -189,10 +175,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] getPath:path
-                                  parameters:params
-                                     success:success
-                                     failure:failure];
+        [[DIOSSession sharedSession] GET:path parameters:params success:success failure:failure];
     }
 }
 
@@ -213,10 +196,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] postPath:path
-                                   parameters:params
-                                      success:success
-                                      failure:failure];
+        [[DIOSSession sharedSession] POST:path parameters:params success:success failure:failure];
     }
 }
 + (void)userLogin:(NSDictionary *)user
@@ -269,10 +249,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] postPath:path
-                                   parameters:nil
-                                      success:success
-                                      failure:failure];
+        [[DIOSSession sharedSession] POST:path parameters:nil success:success failure:failure];
     }
 }
 
@@ -307,10 +284,7 @@ static NSInteger anonymous_user = 0;
                                                        failure:failure];
     }
     else {
-        [[DIOSSession sharedSession] postPath:path
-                                   parameters:nil
-                                      success:success
-                                      failure:failure];
+        [[DIOSSession sharedSession] POST:path parameters:nil success:success failure:failure];
     }
     
     

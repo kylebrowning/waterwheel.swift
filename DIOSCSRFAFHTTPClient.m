@@ -31,7 +31,7 @@
   } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
     failure(operation, error);
   }];
-  [self enqueueHTTPRequestOperation:operation];
+    [self.operationQueue addOperation:operation];
 }
 
 - (void)postPath:(NSString *)path
@@ -39,14 +39,14 @@
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
   [self getCSRFTokenWithSuccess:^(NSString *csrfToken) {
-    NSMutableURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
+      NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:path parameters:parameters error:nil];
     [request setValue: csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+      [self.operationQueue addOperation:operation];
   } failure:^(AFHTTPRequestOperation *csrfOperation, NSError *error) {
-    NSURLRequest *request = [self requestWithMethod:@"POST" path:path parameters:parameters];
+      NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST" URLString:path parameters:parameters error:nil];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+      [self.operationQueue addOperation:operation];
   }];
 }
 
@@ -55,14 +55,14 @@
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
   [self getCSRFTokenWithSuccess:^(NSString *csrfToken) {
-    NSMutableURLRequest *request = [self requestWithMethod:@"PUT" path:path parameters:parameters];
+      NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"PUT" URLString:path parameters:parameters error:nil];
     [request setValue: csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+      [self.operationQueue addOperation:operation];
   } failure:^(AFHTTPRequestOperation *csrfOperation, NSError *error) {
-    NSURLRequest *request = [self requestWithMethod:@"PUT" path:path parameters:parameters];
+      NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"PUT" URLString:path parameters:parameters error:nil];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+      [self.operationQueue addOperation:operation];
   }];
 }
 
@@ -71,14 +71,14 @@
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
   [self getCSRFTokenWithSuccess:^(NSString *csrfToken) {
-    NSMutableURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
+      NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"DELETE" URLString:path parameters:parameters error:nil];
     [request setValue: csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+      [self.operationQueue addOperation:operation];
   } failure:^(AFHTTPRequestOperation *csrfOperation, NSError *error) {
-    NSURLRequest *request = [self requestWithMethod:@"DELETE" path:path parameters:parameters];
+      NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"DELETE" URLString:path parameters:parameters error:nil];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self enqueueHTTPRequestOperation:operation];
+      [self.operationQueue addOperation:operation];
   }];
 }
 
