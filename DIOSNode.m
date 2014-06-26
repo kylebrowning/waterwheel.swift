@@ -138,7 +138,7 @@
   
   if ([[DIOSSession sharedSession] signRequests]) {
     [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                    method:@"DELETE"
+                                                    method:@"GET"
                                                     params:params
                                                    success:success
                                                    failure:failure];
