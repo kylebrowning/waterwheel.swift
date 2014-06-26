@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/workhabitinc/drupal-ios-sdk"
   s.author       = { "Kyle Browning" => "kylebrowning@me.com",
                      "Tom Kremer" => "tomkremer@me.com" }
-  s.source       = { :git => "https://github.com/tomkremer/drupal-ios-sdk.git", :tag => "2.0.4" }
+  s.source       = { :git => "https://github.com/kylebrowning/drupal-ios-sdk.git", :tag => "2.0.4" }
   s.source_files = "*.{h,m}"
   s.requires_arc = true
   s.ios.deployment_target = '7.0'
