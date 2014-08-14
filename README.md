@@ -146,4 +146,4 @@ Use the issue queue here on github if you have questions. An addon library is [h
 Questions
 ----------
 Checkout the Issue queue, or email me
-Email tomkremer@me.com
+Email kylebrowning@me.com
