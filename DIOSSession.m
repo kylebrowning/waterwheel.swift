@@ -70,6 +70,7 @@ realm, signRequests, threeLegged;
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:kDiosBaseUrl]];
     sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
+    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
   });
   return sharedSession;
 }
@@ -78,6 +79,7 @@ realm, signRequests, threeLegged;
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
     sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
+    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
   });
   [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
@@ -87,7 +89,7 @@ realm, signRequests, threeLegged;
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url] consumerKey:aConsumerKey secret:aConsumerSecret];
     sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
-      
+    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
   });
   [sharedSession setBaseURL:[NSURL URLWithString:url]];
   return sharedSession;
@@ -96,10 +98,10 @@ realm, signRequests, threeLegged;
 
 + (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  
+
   DIOSSession *client = [[DIOSSession alloc] initWithBaseURL:[[DIOSSession sharedSession] baseURL]];
   [client setConsumerKey:[[DIOSSession sharedSession] consumerKey] secret:[[DIOSSession sharedSession] consumerSecret]];
-    
+
   //[client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 
   [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Accept"];
@@ -118,12 +120,12 @@ realm, signRequests, threeLegged;
 
   DIOSSession *client = [[DIOSSession alloc] initWithBaseURL:[[DIOSSession sharedSession] baseURL]];
   [client setConsumerKey:[[DIOSSession sharedSession] consumerKey] secret:[[DIOSSession sharedSession] consumerSecret]];
-    
+
   //[client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 
   [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Accept"];
   [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
-    
+
   [client setAccessToken:[requestTokens objectForKey:@"oauth_token"] secret:[requestTokens objectForKey:@"oauth_token_secret"]];
   [client sendSignedRequestWithPath:@"/oauth/access_token" method:@"GET" params:requestTokens success:success failure:failure];
 }
@@ -138,7 +140,7 @@ realm, signRequests, threeLegged;
 
     NSLog(@"send signedrequest #######REQUEST######## :%@", request);
     NSLog(@"params: %@", params);
-    
+
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
     [self.operationQueue addOperation:operation];
 }
@@ -148,13 +150,13 @@ realm, signRequests, threeLegged;
   if (!self) {
     return nil;
   }
-  
+
   //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
   // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-    
+
     [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-	
+
   return self;
 }
 
@@ -168,7 +170,7 @@ realm, signRequests, threeLegged;
 
     //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-      
+
       [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
       [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   }
@@ -300,7 +302,7 @@ realm, signRequests, threeLegged;
 
 - (void)addGeneratedTimestampAndNonceInto:(NSMutableDictionary *)dictionary {
   NSUInteger epochTime = (NSUInteger)[[NSDate date] timeIntervalSince1970];
-  NSString *timestamp = [NSString stringWithFormat:@"%d", epochTime];
+  NSString *timestamp = [NSString stringWithFormat:@"%lu", (unsigned long)epochTime];
   CFUUIDRef theUUID = CFUUIDCreate(NULL);
   CFStringRef string = CFUUIDCreateString(NULL, theUUID);
   NSString *nonce = (NSString *)CFBridgingRelease(string);
