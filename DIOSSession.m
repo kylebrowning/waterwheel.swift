@@ -98,10 +98,10 @@ realm, signRequests, threeLegged;
 
 + (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-
+  
   DIOSSession *client = [[DIOSSession alloc] initWithBaseURL:[[DIOSSession sharedSession] baseURL]];
   [client setConsumerKey:[[DIOSSession sharedSession] consumerKey] secret:[[DIOSSession sharedSession] consumerSecret]];
-
+    
   //[client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 
   [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Accept"];
@@ -120,12 +120,12 @@ realm, signRequests, threeLegged;
 
   DIOSSession *client = [[DIOSSession alloc] initWithBaseURL:[[DIOSSession sharedSession] baseURL]];
   [client setConsumerKey:[[DIOSSession sharedSession] consumerKey] secret:[[DIOSSession sharedSession] consumerSecret]];
-
+    
   //[client registerHTTPOperationClass:[AFHTTPRequestOperation class]];
 
   [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Accept"];
   [sharedSession.requestSerializer setValue:@"text/html" forHTTPHeaderField:@"Content-Type"];
-
+    
   [client setAccessToken:[requestTokens objectForKey:@"oauth_token"] secret:[requestTokens objectForKey:@"oauth_token_secret"]];
   [client sendSignedRequestWithPath:@"/oauth/access_token" method:@"GET" params:requestTokens success:success failure:failure];
 }
@@ -140,7 +140,7 @@ realm, signRequests, threeLegged;
 
     NSLog(@"send signedrequest #######REQUEST######## :%@", request);
     NSLog(@"params: %@", params);
-
+    
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
     [self.operationQueue addOperation:operation];
 }
@@ -150,13 +150,13 @@ realm, signRequests, threeLegged;
   if (!self) {
     return nil;
   }
-
+  
   //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
   // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-
+    
     [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-
+	
   return self;
 }
 
@@ -170,7 +170,7 @@ realm, signRequests, threeLegged;
 
     //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
-
+      
       [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
       [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   }

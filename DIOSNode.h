@@ -57,7 +57,7 @@
 
 + (void)nodeIndexWithPage:(NSString *)page
                    fields:(NSString *)fields
-               parameters:(NSArray *)parameteres
+               parameters:(NSDictionary *)parameteres
                  pageSize:(NSString *)pageSize
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure ;
