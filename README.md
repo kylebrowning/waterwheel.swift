@@ -15,10 +15,11 @@ Then run `pod install`
 
 Configuration
 ================================
-You have three options for getting started, these will depend on how you plan on using DIOS
+You have *three* options for getting started, these will depend on how you plan on using DIOS
+
 
 Option #1
-
+=
 1. Create a file named `dios.plist` and place it in your workspace/project. Copy it from dios_example.plist
 
 2. Edit dios.plist and change the siteUrl and endpoint to be values that pertain to you.
@@ -29,13 +30,13 @@ Option #1
 
  
 Option #2
-
+=
 1. In your AppDelegate's didFinishLaunching method add `[DIOSSession setupDiosWithURL:@"http://local.drupal.com"];`
 
 2. Begin Coding!
 
 Option #3 (pertains only to Oauth)
-
+=
 1. In your AppDelegate's didFinishLaunching method add `[DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];;`
 
 2. Begin Coding!
