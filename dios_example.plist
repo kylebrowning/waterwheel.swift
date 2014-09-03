@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aliasTaxonomyTerm</key>
+	<string>taxonomy_term</string>
+	<key>aliasNode</key>
+	<string>node</string>
+	<key>endpoint</key>
+	<string>api</string>
+	<key>siteUrl</key>
+	<string>http://local.drupal7.acquia.com</string>
+</dict>
+</plist>
