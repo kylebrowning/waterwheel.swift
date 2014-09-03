@@ -76,7 +76,7 @@ OAuth
 --------------------
 If you want to use oAuth theres only one thing you need to do for 2-legged
 ```obj-c
-      [DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];
+[DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];
 ```
 This will create your shared session with the baseURL and attach your consumer key and secret.
 
