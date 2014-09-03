@@ -1,67 +1,81 @@
 Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 ================================
 ##### built by [Kyle Browning](http://kylebrowning.com) and modified by Tom Kremer to be AFNetworking 2.0.X compatible.
-What you need to know
+Introduction
 ================================
-The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
-If you wanted to get a node you can do so calling some class methods on DIOSNode, creating an 
-NSDictionary and running the nodeGet method.  Heres an example:
+The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with services and handles session managment for you(but it doesnt store passwords or persist CSRF/oAUTH tokens, you must do that)
 
+Installation
+================================
+Create a pod file with (this will keep you on the 2.1 releases) 
+```
+pod 'drupal-ios-sdk', '~> 2.1'
+```
+Then run `pod install`
+
+Configuration
+================================
+You have three options for getting started, these will depend on how you plan on using DIOS
+
+Option #1
+
+1. Create a file named `dios.plist` and place it in your workspace/project. Copy it from dios_example.plist
+
+2. Edit dios.plist and change the siteUrl and endpoint to be values that pertain to you.
+ 
+3. Add `[DIOSSession setupDios]` line to your AppDelegates didFinishLaunching method.
+
+4. Begin Coding!
+
+ 
+Option #2
+
+1. In your AppDelegate's didFinishLaunching method add `[DIOSSession setupDiosWithURL:@"http://local.drupal.com"];`
+
+2. Begin Coding!
+
+Option #3 (pertains only to Oauth)
+
+1. In your AppDelegate's didFinishLaunching method add `[DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];;`
+
+2. Begin Coding!
+
+Quick Example
+===============================
 ```obj-c
     NSMutableDictionary *nodeData = [NSMutableDictionary new];
     [nodeData setValue:@"12" forKey:@"nid"];
     [DIOSNode nodeGet:nodeData success:^(AFHTTPRequestOperation *operation, id responseObject) {
       //Do Something with the responseObject
-      NSLog(@"%@", responseObject);
+      [self setNodeData:responseObject];
+      [self setTitle:[responseObject objectForKey:@"title"];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-      //we failed, uh-oh lets error log this.
-      NSLog(@"%@,  %@", [error localizedDescription], [operation responseString]);    
+      [self alertUser:@"I failed to fetch the node"];   
     }];
     
 ```
-For every DIOS call you make, any method calls that are available to you use blocks. 
-This allows us to define what happens when we have a request that fails or succeeds. 
+For every DIOS call you make, any method calls that are available to you use blocks.
+All calls are logged to the console whether sucessfull or failed when in Debug
 If the request was successful the result would be something like this:
 
     {"vid":"9","uid":"57","title":"testtitle","log":"","status":"1".......
     
-However if it failed, the error might look like this:
-
-    Expected status code in (200-299), got 404,  "Node 5 could not be found"
-    
-What you need to get started
-================================
-* This library :) 
-* AFNetwork which can be found [here](https://github.com/AFNetworking/AFNetworking)
-* Be sure to follow the AFNetworking installation guide.
-* Update Settings.h with the correct correct url and endpoints)
-* [Services](http://drupal.org/project/services)
-
 
 Extras
 ===============================
 [Drupal iOS SDK Addons](https://github.com/utneon/drupal-ios-sdk-addons)
-Demo App (Work in progress)
---------------------
-[http://github.com/workhabitinc/drupal-ios-sdk-example](http://github.com/workhabitinc/drupal-ios-sdk-example)
 
-Branches
+Deprecations
 --------------------
 6.x-2.x 6.x-3.x and 7.x-3.x have all been moved to a  *DEPRECATED* version of their branch.
 The new dev branch will be the become the new master and as things are added, versions will be tagged and published.
-master will always be the latest and greatest for the most up to date version of everything(Services, Drupal, Services Api, DIOS).
-
-Tags are in this format
-`2.1-1.0` Which breaks down as, DIOSVersion 2.1, Services Api Version 1.0
-
-Branches are in this format
-`2.x-1.x`
+master will always be the latest and greatest for the most up to date version of everything(Services, Drupal, Services Api, DIOS). Use `pod update` to get the latest, and if you want to upgrade an API version change your podfile to reflect that
 
 OAuth
 --------------------
 If you want to use oAuth theres only one thing you need to do for 2-legged
 ```obj-c
-  [DIOSSession sharedOauthSessionWithURL:@"http://d7.workhabit.com" consumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" secret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];
+      [DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];
 ```
 This will create your shared session with the baseURL and attach your consumer key and secret.
 
@@ -130,7 +144,7 @@ Again, another example here, we registered our app url and this method gets call
 ```
 Documentation
 -----------
-[Can be found here](https://github.com/workhabitinc/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0)
+[Can be found here](https://github.com/kylebrowning/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0)
 
 Troubleshooting
 ----------
@@ -139,7 +153,7 @@ If you are getting Access denied, or API Key not valid, double check that your k
 X service doesnt exist in Drupal iOS SDK
 ----------
 You no longer really need to subclass any existing DIOS classes, unless you want to override.
-`[DIOSSession shared]` ensures that session information is stored for as long as the cookies are valid
+`[DIOSSession sharedSession]` ensures that session information is stored for as long as the cookies are valid
 If you do want to make your own object, just follow the pattern in the other files and everything should work fine.
 Use the issue queue here on github if you have questions. An addon library is [here](https://github.com/utneon/drupal-ios-sdk-addons)
 
