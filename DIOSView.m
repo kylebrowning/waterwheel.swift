@@ -44,7 +44,7 @@
   
 	int x=0;
 
-	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@/%@?", kDiosEndpoint, kDiosBaseView, [params objectForKey:@"view_name"]];
+	NSMutableString *path = [NSMutableString stringWithFormat:@"%@/%@?", [[DIOSSession sharedSession] aliasViews], [params objectForKey:@"view_name"]];
 	for (NSString *key in params) {
 		id value = [params objectForKey:key];
 		if (![key isEqualToString:@"view_name"]) {
@@ -59,15 +59,6 @@
 		}
 	}
 
-  if ([[DIOSSession sharedSession] signRequests]) {
-    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                    method:@"GET"
-                                                    params:nil
-                                                   success:success
-                                                   failure:failure];
-  }
-  else {
-      [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
-  }
+ [[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:params success:success failure:failure];
 }
 @end

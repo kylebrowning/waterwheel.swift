@@ -36,6 +36,7 @@
 // ***** END LICENSE BLOCK *****
 
 #import "DIOSSession.h"
+#import "DIOSSystem.h"
 #import "AFHTTPRequestOperation.h"
 #include <sys/time.h>
 #import <CommonCrypto/CommonHMAC.h>
@@ -50,6 +51,16 @@ static const NSString *kOAuthSignatureKey = @"oauth_signature";
 
 static const NSString *kOAuthSignatureTypeHMAC_SHA1 = @"HMAC-SHA1";
 static const NSString *kOAuthVersion1_0 = @"1.0";
+static const NSString *kDiosOptionsSiteUrlKey = @"siteUrl";
+static const NSString *kDiosOptionsEndpointKey = @"siteEndpoint";
+static const NSString *kDiosOptionsAliasNodeKey = @"aliasNode";
+static const NSString *kDiosOptionsAliasCommentKey = @"aliasComment";
+static const NSString *kDiosOptionsAliasUserKey = @"aliasUser";
+static const NSString *kDiosOptionsAliasFileKey = @"aliasFile";
+static const NSString *kDiosOptionsAliasViewsKey = @"aliasViews";
+static const NSString *kDiosOptionsAliasTaxonomyTermKey = @"aliasTaxonomyTerm";
+static const NSString *kDiosOptionsAliasTaxonomyVocabularyKey = @"aliasTaxonomyVocabulary";
+
 static dispatch_once_t once;
 static DIOSSession *sharedSession;
 
@@ -58,30 +69,43 @@ static DIOSSession *sharedSession;
 - (id) initWithBaseURL:(NSURL *)url;
 - (void) addGeneratedTimestampAndNonceInto:(NSMutableDictionary *)dictionary;
 
-- (NSString *) authorizationHeaderValueForRequest:(NSURLRequest *)request;
+- (NSString *) authorizationHeaderValueForRequest:(NSMutableURLRequest *)request;
 @end
 
 @implementation DIOSSession
 
 @synthesize user, accessTokens, consumerKey, consumerSecret, tokenIdentifier, tokenSecret, baseURL,
-realm, signRequests, threeLegged;
+realm, signRequests, threeLegged, endpoint, aliasNode, aliasComment, aliasUser, aliasFile, aliasViews,
+aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
+
+
++ (DIOSSession *)setupDios {
+    [DIOSSystem systemConnectwithSuccess:nil failure:nil];
+    return [DIOSSession sharedSession];
+}
 
 + (DIOSSession *)sharedSession {
-  dispatch_once(&once, ^ {
-    sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:kDiosBaseUrl]];
-    sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
-    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-  });
-  return sharedSession;
+    dispatch_once(&once, ^ {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"dios" ofType:@"plist"];
+        NSMutableDictionary *diosOptions = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+        NSString *url = [diosOptions objectForKey:kDiosOptionsSiteUrlKey];
+        sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
+        [sharedSession setRequestSerializer:[AFJSONRequestSerializer serializer]];
+        [sharedSession setResponseSerializer:[AFJSONResponseSerializer serializer]];
+        [sharedSession setBaseURL:[NSURL URLWithString:url]];
+        [sharedSession checkOptionsAndSetDefaultsWithSession:sharedSession];
+    });
+    return sharedSession;
 }
 
 + (DIOSSession *)sharedSessionWithURL:(NSString*)url {
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url]];
     sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
-    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    sharedSession.responseSerializer = [AFJSONResponseSerializer serializer];
   });
-  [sharedSession setBaseURL:[NSURL URLWithString:url]];
+    [sharedSession setBaseURL:[NSURL URLWithString:url]];
+    [sharedSession checkOptionsAndSetDefaultsWithSession:sharedSession];
   return sharedSession;
 }
 
@@ -89,12 +113,23 @@ realm, signRequests, threeLegged;
   dispatch_once(&once, ^ {
     sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url] consumerKey:aConsumerKey secret:aConsumerSecret];
     sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
-    [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    sharedSession.responseSerializer = [AFJSONResponseSerializer serializer];
   });
-  [sharedSession setBaseURL:[NSURL URLWithString:url]];
+  [sharedSession checkOptionsAndSetDefaultsWithSession:sharedSession];
   return sharedSession;
 }
-
++ (DIOSSession *)sharedOauthWithConsumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret {
+    dispatch_once(&once, ^ {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"dios" ofType:@"plist"];
+        NSMutableDictionary *diosOptions = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+        NSString *url = [diosOptions objectForKey:kDiosOptionsSiteUrlKey];
+        sharedSession = [[self alloc] initWithBaseURL:[NSURL URLWithString:url] consumerKey:aConsumerKey secret:aConsumerSecret];
+        sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
+        sharedSession.responseSerializer = [AFJSONResponseSerializer serializer];
+    });
+    [sharedSession checkOptionsAndSetDefaultsWithSession:sharedSession];
+    return sharedSession;
+}
 
 + (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
@@ -130,28 +165,95 @@ realm, signRequests, threeLegged;
   [client sendSignedRequestWithPath:@"/oauth/access_token" method:@"GET" params:requestTokens success:success failure:failure];
 }
 
+- (void)getCSRFTokenWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/services/session/token", [[DIOSSession sharedSession] baseURL]]]];
+    [request setValue:[NSString stringWithFormat:@"text/plain"] forHTTPHeaderField:@"Accept"];
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *aCsrfToken = [NSString stringWithUTF8String:[responseObject bytes]];
+        [[DIOSSession sharedSession] setCsrfToken:aCsrfToken];
+        success(operation, responseObject);
+    } failure:failure];
+    operation.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", nil];
+    operation.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [self.operationQueue addOperation:operation];
+}
 
 - (void) sendSignedRequestWithPath:(NSString*)path
                             method:(NSString*)method
                             params:(NSDictionary*)params
                            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-  NSURLRequest *request = [self signedRequestWithMethod:method path:path parameters:params];
-
-    NSLog(@"send signedrequest #######REQUEST######## :%@", request);
-    NSLog(@"params: %@", params);
-    
+  NSMutableURLRequest *request = [self signedRequestWithMethod:method path:path parameters:params];
+  if (csrfToken != nil) {
+        [request setValue:csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
+  }
+  AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+  [self.operationQueue addOperation:operation];
+}
+- (void) sendUnSignedRequestWithPath:(NSString*)path
+                            method:(NSString*)method
+                            params:(NSDictionary*)params
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+    NSMutableURLRequest *request = [self requestWithMethod:method path:path parameters:params];
+    [request setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Accept"];
+    if (csrfToken != nil) {
+        [request setValue:csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
+    }
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
     [self.operationQueue addOperation:operation];
 }
 
+- (void) sendRequestWithPath:(NSString*)path
+              method:(NSString*)method
+              params:(NSDictionary*)params
+             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+    if(self.signRequests) {
+        [self sendSignedRequestWithPath:path method:method params:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [DIOSSession logResponseSucccesstoConsole:operation withResponse:responseObject];
+            if (success != nil) {
+                success(operation, responseObject);
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [DIOSSession logRequestFailuretoConsole:operation withError:error];
+            if (failure != nil) {
+                failure(operation, error);
+            }
+        }];
+    } else {
+        [self sendUnSignedRequestWithPath:path method:method params:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [DIOSSession logResponseSucccesstoConsole:operation withResponse:responseObject];
+            if (success != nil) {
+                success(operation, responseObject);
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [DIOSSession logRequestFailuretoConsole:operation withError:error];
+            if (failure != nil) {
+                failure(operation, error);
+            }
+        }];
+    }
+}
++ (void) logResponseSucccesstoConsole:(AFHTTPRequestOperation *)operation withResponse:(id)responseObject {
+#ifdef DEBUG
+    NSLog(@"\n----- DIOS Success -----\nStatus code: %ld\nURL: %@\n----- Response ----- \n%@\n", (long)operation.response.statusCode, [operation.response.URL absoluteString],operation.responseString);
+#endif
+}
++ (void) logRequestFailuretoConsole:(AFHTTPRequestOperation *)operation withError:(NSError *)error {
+    #ifdef DEBUG
+    NSLog(@"\n----- DIOS Failure -----\nStatus code: %ld\nURL: %@\n----- Response ----- \n%@\n----- Error ----- \n%@", (long)operation.response.statusCode, [operation.response.URL absoluteString], operation.responseString, [error localizedDescription]);
+    #endif
+}
 - (id)initWithBaseURL:(NSURL *)url {
   self = [super initWithBaseURL:url];
   if (!self) {
     return nil;
   }
   
-  //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
   // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
     
     [sharedSession.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -177,7 +279,7 @@ realm, signRequests, threeLegged;
 
   return self;
 }
-- (NSURLRequest *) signedRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
+- (NSMutableURLRequest *) signedRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
   NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
 
   NSString *authorizationHeader = [self authorizationHeaderValueForRequest:request];
@@ -189,7 +291,9 @@ realm, signRequests, threeLegged;
                                        path:(NSString *)path
                                  parameters:(NSDictionary *)parameters {
 
-  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
+  NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@", [[self baseURL] absoluteString], [self endpoint], path];
+ [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
 
   if (self.signRequests) {
     NSString *authorizationHeader = [self authorizationHeaderValueForRequest:request];
@@ -199,19 +303,15 @@ realm, signRequests, threeLegged;
   return request;
 }
 
-- (NSURLRequest *) unsignedRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
-  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
-
-  return request;
-}
-
 - (void) setAccessToken:(NSString *)accessToken secret:(NSString *)secret {
+  self.signRequests = YES;
   self.tokenIdentifier = accessToken;
   self.tokenSecret = secret;
   self.threeLegged = YES;
 }
 
 - (void) setConsumerKey:(NSString *)aConsumerKey secret:(NSString *)secret {
+  self.signRequests = YES;    
   self.consumerKey = aConsumerKey;
   self.consumerSecret = secret;
 }
@@ -232,7 +332,83 @@ realm, signRequests, threeLegged;
 
   return  result;
 }
+- (void) checkOptionsAndSetDefaultsWithSession:(DIOSSession *) session {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"dios" ofType:@"plist"];
+    NSMutableDictionary *diosOptions = [[NSMutableDictionary alloc] initWithContentsOfFile:path];
+    NSString *diosOptionsAliasNode = [diosOptions objectForKey:kDiosOptionsAliasNodeKey];
+    if (diosOptionsAliasNode != nil) {
+        //Set loaded alias
+        [session setAliasNode:diosOptionsAliasNode];
+    } else {
+        //Set Default alias for node resource
+        [session setAliasNode:@"node"];
+    }
 
+    NSString *diosOptionsAliasComment = [diosOptions objectForKey:kDiosOptionsAliasCommentKey];
+    if (diosOptionsAliasComment != nil) {
+        //Set loaded alias
+        [session setAliasComment:diosOptionsAliasComment];
+    } else {
+        //Set Default alias for comment resource
+        [session setAliasComment:@"comment"];
+    }
+    NSString *diosOptionsAliasUser = [diosOptions objectForKey:kDiosOptionsAliasUserKey];
+    if (diosOptionsAliasUser != nil) {
+        //Set loaded alias
+        [session setAliasUser:diosOptionsAliasUser];
+    } else {
+        //Set Default alias for User resource
+        [session setAliasUser:@"user"];
+    }
+
+    NSString *diosOptionsAliasFile = [diosOptions objectForKey:kDiosOptionsAliasFileKey];
+    if (diosOptionsAliasFile != nil) {
+        //Set loaded alias
+        [session setAliasFile:diosOptionsAliasFile];
+    } else {
+        //Set Default alias for File resource
+        [session setAliasFile:@"file"];
+    }
+
+    NSString *diosOptionsAliasViews = [diosOptions objectForKey:kDiosOptionsAliasViewsKey];
+    if (diosOptionsAliasViews != nil) {
+        //Set loaded alias
+        [session setAliasViews:diosOptionsAliasViews];
+    } else {
+        //Set Default alias for Views resource
+        [session setAliasViews:@"views"];
+    }
+
+    NSString *diosOptionsAliasTaxonomyTerm = [diosOptions objectForKey:kDiosOptionsAliasTaxonomyTermKey];
+    if (diosOptionsAliasTaxonomyTerm != nil) {
+        //Set loaded alias
+        [session setAliasTaxonomyTerm:diosOptionsAliasTaxonomyTerm];
+    } else {
+        //Set Default alias for TaxonomyTerm resource
+        [session setAliasTaxonomyTerm:@"taxonomy_term"];
+    }
+
+    NSString *diosOptionsAliasTaxonomyVocabulary = [diosOptions objectForKey:kDiosOptionsAliasTaxonomyVocabularyKey];
+    if (diosOptionsAliasTaxonomyVocabulary != nil) {
+        //Set loaded alias
+        [session setAliasTaxonomyVocabulary:diosOptionsAliasTaxonomyVocabulary];
+    } else {
+        //Set Default alias for TaxonomyVocabulary resource
+        [session setAliasTaxonomyVocabulary:@"taxonomy_vocabulary"];
+    }
+
+    NSString *diosOptionsEndpoint = [diosOptions objectForKey:kDiosOptionsEndpointKey];
+    if (diosOptionsEndpoint != nil) {
+        //Set loaded endpoint
+        [session setEndpoint:diosOptionsEndpoint];
+    } else {
+        //Set Default endpoint
+        [session setEndpoint:@"api"];
+    }
+#ifdef DEBUG
+    NSLog(@"options that were found and set : %@", diosOptions);
+#endif
+}
 - (NSString *) stringWithOAuthParameters:(NSMutableDictionary *)oauthParams requestParameters:(NSDictionary *)parameters {
   NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary:oauthParams];
   [params addEntriesFromDictionary:parameters];
@@ -256,7 +432,7 @@ realm, signRequests, threeLegged;
   return [longListOfParameters componentsJoinedByString:@"&"];
 }
 
-- (NSString *) authorizationHeaderValueForRequest:(NSURLRequest *)request {
+- (NSString *) authorizationHeaderValueForRequest:(NSMutableURLRequest *)request {
   NSURL *url = request.URL;
   NSString *fixedURL = [self baseURLforAddress:url];
   NSMutableDictionary *oauthParams = [self mutableDictionaryWithOAuthInitialData];

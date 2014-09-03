@@ -37,7 +37,6 @@
 
 #import <Foundation/Foundation.h>
 #import "AFHTTPRequestOperationManager.h"
-#import "Settings.h"
 
 @interface DIOSSession : AFHTTPRequestOperationManager {
   NSDictionary *user;
@@ -49,25 +48,43 @@
 }
 
 @property (strong, nonatomic) NSDictionary *user;
-@property (nonatomic, retain) NSMutableDictionary *accessTokens;
+@property (nonatomic, strong) NSMutableDictionary *accessTokens;
 @property (nonatomic) BOOL signRequests;
 @property (nonatomic) BOOL threeLegged;
 @property (nonatomic, copy) NSString *realm;
-@property (nonatomic, retain) NSString *consumerKey;
-@property (nonatomic, retain) NSString *consumerSecret;
-@property (nonatomic, retain) NSString *tokenIdentifier;
-@property (nonatomic, retain) NSString *tokenSecret;
-@property (readwrite, nonatomic, retain) NSURL *baseURL;
+@property (nonatomic, strong) NSString *consumerKey;
+@property (nonatomic, strong) NSString *consumerSecret;
+@property (nonatomic, strong) NSString *tokenIdentifier;
+@property (nonatomic, strong) NSString *tokenSecret;
+@property (readwrite, nonatomic, strong) NSURL *baseURL;
+@property (nonatomic, strong) NSString *endpoint;
+@property (nonatomic, strong) NSString *aliasNode;
+@property (nonatomic, strong) NSString *aliasComment;
+@property (nonatomic, strong) NSString *aliasUser;
+@property (nonatomic, strong) NSString *aliasFile;
+@property (nonatomic, strong) NSString *aliasViews;
+@property (nonatomic, strong) NSString *aliasTaxonomyTerm;
+@property (nonatomic, strong) NSString *aliasTaxonomyVocabulary;
+@property (nonatomic, strong) NSString *csrfToken;
 
++ (DIOSSession *)setupDios;
 + (DIOSSession *)sharedSession;
 + (DIOSSession *)sharedSessionWithURL:(NSString*)url;
 + (DIOSSession *)sharedOauthSessionWithURL:(NSString*)url consumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret;
++ (DIOSSession *)sharedOauthWithConsumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret;
 
 + (void) getRequestTokensWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
 + (void) getAccessTokensWithRequestTokens:(NSDictionary *)requesTokens
                                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
++ (void) logRequestFailuretoConsole:(AFHTTPRequestOperation *)operation withError:(NSError *)error;
++ (void) logResponseSucccesstoConsole:(AFHTTPRequestOperation *)operation withResponse:(id)responseObject;
+- (void) addHeaderValue:(NSString*)value forKey:(NSString*)key;
+- (NSMutableURLRequest *) signedRequestWithMethod:(NSString *)method
+                                      path:(NSString *)path
+                                parameters:(NSDictionary *)parameters;
 
 - (void) sendSignedRequestWithPath:(NSString*)path
                       method:(NSString*)method
@@ -75,13 +92,21 @@
                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (void) addHeaderValue:(NSString*)value forKey:(NSString*)key;
+- (void) sendUnSignedRequestWithPath:(NSString*)path
+                              method:(NSString*)method
+                              params:(NSDictionary*)params
+                             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-- (NSURLRequest *) signedRequestWithMethod:(NSString *)method
-                                      path:(NSString *)path
-                                parameters:(NSDictionary *)parameters;
+- (void) sendRequestWithPath:(NSString*)path
+                              method:(NSString*)method
+                              params:(NSDictionary*)params
+                             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+- (void)getCSRFTokenWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
 - (id) initWithBaseURL:(NSURL *)url consumerKey:(NSString *)consumerKey secret:(NSString *)consumerSecret;
-
 - (void) setAccessToken:(NSString *)accessToken secret:(NSString *)secret;
 - (void) setConsumerKey:(NSString *)consumerKey secret:(NSString *)secret;
 

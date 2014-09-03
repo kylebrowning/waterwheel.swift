@@ -47,17 +47,9 @@
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, eName, [entity objectForKey:eId]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", eName, [entity objectForKey:eId]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"GET"
-                                                        params:entity
-                                                       success:success
-                                                       failure:failure];
-    } else {
-        [[DIOSSession sharedSession] GET:path parameters:nil success:success failure:failure];
-    }
+  [[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:entity success:success failure:failure];
 }
 
 #pragma mark nodeSave
@@ -65,19 +57,9 @@
               name:(NSString*)eName
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-    
-    NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, eName];
-    
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"POST"
-                                                        params:entity
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] POST:path parameters:entity success:success failure:failure];
-    }
+
+    NSString *path = [NSString stringWithFormat:@"%@", eName];
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:entity success:success failure:failure];
 }
 
 #pragma mark nodeUpdate
@@ -87,18 +69,9 @@
              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, eName, [entity objectForKey:eId]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", eName, [entity objectForKey:eId]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"PUT"
-                                                        params:entity
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] PUT:path parameters:entity success:success failure:failure];
-    }
+  [[DIOSSession sharedSession] sendRequestWithPath:path method:@"PUT" params:entity success:success failure:failure];
     
 }
 
@@ -109,16 +82,8 @@
              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, eName, [entity objectForKey:eId]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", eName, [entity objectForKey:eId]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"DELETE"
-                                                        params:entity
-                                                       success:success
-                                                       failure:failure];
-    } else {
-        [[DIOSSession sharedSession] DELETE:path parameters:entity success:success failure:failure];
-    }
+  [[DIOSSession sharedSession] sendRequestWithPath:path method:@"DELETE" params:entity success:success failure:failure];
 }
 @end

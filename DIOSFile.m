@@ -45,32 +45,16 @@
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   
-  NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseFile, [params objectForKey:@"fid"]];
-  if ([[DIOSSession sharedSession] signRequests]) {
-    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                    method:@"GET"
-                                                    params:params
-                                                   success:success
-                                                   failure:failure];
-  } else {
-      [[DIOSSession sharedSession] GET:path parameters:params success:success failure:failure];
-  }
+  NSString *path = [NSString stringWithFormat:@"%@/%@", [[DIOSSession sharedSession] aliasFile], [params objectForKey:@"fid"]];
+  [[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:params success:success failure:failure];
 
 }
 
 + (void)fileSave:(NSDictionary *)file
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-           NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseFile];
-           if ([[DIOSSession sharedSession] signRequests]) {
-    [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                    method:@"POST"
-                                                    params:file
-                                                   success:success
-                                                   failure:failure];
-  } else {
-      [[DIOSSession sharedSession] POST:path parameters:file success:success failure:failure];
-  }
+    NSString *path = [NSString stringWithFormat:@"%@", [[DIOSSession sharedSession] aliasFile]];
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:file success:success failure:failure];
 }
 + (UIImageView *) getImageViewForFileImage:(NSDictionary *) file; {
   NSURL *url = [NSURL URLWithString:[file objectForKey:@"uri_full"]];

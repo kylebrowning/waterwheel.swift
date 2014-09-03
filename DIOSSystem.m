@@ -46,8 +46,13 @@
 #pragma mark UserGets
 + (void)systemConnectwithSuccess: (void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-
-    [[DIOSSession sharedSession] POST:[NSString stringWithFormat:@"%@/system/connect", kDiosEndpoint] parameters:nil success:success failure:failure];
+    [[DIOSSession sharedSession] sendRequestWithPath:@"system/connect" method:@"POST" params:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
+        [[DIOSSession sharedSession] setUser:[responseObject objectForKey:@"user"]];
+        if (success != nil) {
+            success(operation, responseObject);
+        }
+    } failure:nil];
 }
 
 @end

@@ -49,18 +49,8 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
         success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]];
-    
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"GET"
-                                                        params:user
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] GET:path parameters:user success:success failure:failure];
-    }
+    NSString *path = [NSString stringWithFormat:@"%@/%@", [[DIOSSession sharedSession] aliasUser], [user objectForKey:@"uid"]];
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:user success:success failure:failure];
 }
 
 
@@ -69,18 +59,9 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser];
-    
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"POST"
-                                                        params:user
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] POST:path parameters:user success:success failure:failure];
-    }
+    NSString *path = [NSString stringWithFormat:@"%@", [[DIOSSession sharedSession] aliasUser]];
+
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:user success:success failure:failure];
 }
 
 #pragma mark userRegister
@@ -88,18 +69,9 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/register", kDiosEndpoint, kDiosBaseUser];
-    
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"POST"
-                                                        params:user
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] POST:path parameters:user success:success failure:failure];
-    }
+    NSString *path = [NSString stringWithFormat:@"%@/register", [[DIOSSession sharedSession] aliasUser]];
+
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:user success:success failure:failure];
 }
 
 #pragma mark userUpdate
@@ -107,18 +79,9 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", [[DIOSSession sharedSession] aliasUser], [user objectForKey:@"uid"]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"PUT"
-                                                        params:user
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] PUT:path parameters:user success:success failure:failure];
-    }
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"PUT" params:user success:success failure:failure];
 }
 
 #pragma mark UserDelete
@@ -130,18 +93,9 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
     if(!uid || [uid isEqualToNumber: [NSNumber numberWithInt:0]] || [uid isEqualToNumber: [NSNumber numberWithInt:1]])
         [NSException raise:@"Invalid value for user Id" format:@"You cannot delete user wit id: %d", [uid intValue]];
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/%@", kDiosEndpoint, kDiosBaseUser, [user objectForKey:@"uid"]];
+    NSString *path = [NSString stringWithFormat:@"%@/%@", [[DIOSSession sharedSession] aliasUser], [user objectForKey:@"uid"]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"DELETE"
-                                                        params:user
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] DELETE:path parameters:user success:success failure:failure];
-    }
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"DELETE" params:user success:success failure:failure];
 }
 
 
@@ -165,18 +119,9 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@", kDiosEndpoint, kDiosBaseUser];
+    NSString *path = [NSString stringWithFormat:@"%@", [[DIOSSession sharedSession] aliasUser]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"GET"
-                                                        params:params
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] GET:path parameters:params success:success failure:failure];
-    }
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:params success:success failure:failure];
 }
 
 #pragma mark userLogin
@@ -186,18 +131,15 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
     
     NSDictionary *params = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:username, password, nil] forKeys:[NSArray arrayWithObjects:@"username", @"password", nil]];
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/login", kDiosEndpoint, kDiosBaseUser];
+    NSString *path = [NSString stringWithFormat:@"%@/login", [[DIOSSession sharedSession] aliasUser]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"POST"
-                                                        params:params
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] POST:path parameters:params success:success failure:failure];
-    }
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[DIOSSession sharedSession] setUser:responseObject];
+        [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
+        if (success != nil) {
+            success(operation, responseObject);
+        }
+    } failure:failure];
 }
 + (void)userLogin:(NSDictionary *)user
           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
@@ -213,20 +155,16 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
                                    andPassword:(NSString *)password
                                        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-    [DIOSSystem
-     systemConnectwithSuccess:^(AFHTTPRequestOperation *op, id response) {
-         
-         NSDictionary* responseDict = response;
-         
-         if([[[responseDict objectForKey:@"user"]valueForKey:@"uid"]integerValue] == anonymous_user) {
+    [DIOSSystem systemConnectwithSuccess:^(AFHTTPRequestOperation *op, id response) {
+         NSDictionary *responseDict = response;
+
+         if([[[responseDict objectForKey:@"user"] valueForKey:@"uid"] integerValue] == anonymous_user) {
              [DIOSUser userLoginWithUsername:username andPassword:password success:success failure:failure];
-         }
-         else if(![[[responseDict objectForKey:@"user"]valueForKey:@"name"] isEqualToString:username]){
-             [DIOSUser
-              userLogoutWithSuccessBlock:^(AFHTTPRequestOperation *op, id response) {
-                  [self userMakeSureUserIsLoggedInWithUsername:username andPassword:password success:success failure:failure];
+         } else if(![[[responseDict objectForKey:@"user"] valueForKey:@"name"] isEqualToString:username]){
+             [DIOSUser userLogoutWithSuccessBlock:^(AFHTTPRequestOperation *op, id response) {
+                [self userMakeSureUserIsLoggedInWithUsername:username andPassword:password success:success failure:failure];
               }
-              failure:failure];
+            failure:failure];
          }
          else {
              success(op, response);
@@ -239,31 +177,17 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
 + (void)userLogoutWithSuccessBlock:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
     
-    NSString *path = [NSString stringWithFormat:@"%@/%@/logout", kDiosEndpoint, kDiosBaseUser];
+    NSString *path = [NSString stringWithFormat:@"%@/logout", [[DIOSSession sharedSession] aliasUser]];
     
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"POST"
-                                                        params:nil
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] POST:path parameters:nil success:success failure:failure];
-    }
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:nil success:success failure:failure];
 }
 
 + (void)userMakeSureUserIsLoggedOutWithSucess:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-                                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure
-{
-    
-    
-    [DIOSSystem
-     systemConnectwithSuccess:^(AFHTTPRequestOperation *op, id response) {
-         
-         NSDictionary* responseDict = response;
-         
-         if([[[responseDict objectForKey:@"user"]valueForKey:@"uid"]integerValue] != anonymous_user)
+                                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+    [DIOSSystem systemConnectwithSuccess:^(AFHTTPRequestOperation *op, id response) {
+         NSDictionary *responseDict = response;
+         if([[[responseDict objectForKey:@"user"] valueForKey:@"uid"] integerValue] != anonymous_user)
              [DIOSUser userLogoutWithSuccessBlock:success failure:failure];
          
      }
@@ -272,29 +196,16 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
 
 + (void)userSendPasswordRecoveryEmailWithEmailAddress: (NSString*) email
                                               success:(void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
-                                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure
-{
-    NSString *path = [NSString stringWithFormat:@"%@/resetpassword/%@", kDiosEndpoint, email];
-    
-    if ([[DIOSSession sharedSession] signRequests]) {
-        [[DIOSSession sharedSession] sendSignedRequestWithPath:path
-                                                        method:@"POST"
-                                                        params:nil
-                                                       success:success
-                                                       failure:failure];
-    }
-    else {
-        [[DIOSSession sharedSession] POST:path parameters:nil success:success failure:failure];
-    }
-    
-    
+                                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+    NSString *path = [NSString stringWithFormat:@"resetpassword/%@", email];
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:nil success:success failure:failure];
 }
 
 
 #pragma mark username validation
-+ (BOOL)userValidateUserName:(NSString*)name error:(NSError**)error
-{
-    NSMutableDictionary* details = [[NSMutableDictionary alloc]init];
++ (BOOL)userValidateUserName:(NSString*)name error:(NSError**) error {
+    NSMutableDictionary* details = [NSMutableDictionary new];
     
     if(name == nil)
         [details setValue:@"You must enter a username." forKey:@"NSLocalizedRecoverySuggestion"];
@@ -317,7 +228,7 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
         [details setValue: [NSString stringWithFormat:@"The username %@ is too long: it must be %lu characters or less.", name, (unsigned long)USERNAME_MAX_LENGTH]  forKey:@"NSLocalizedRecoverySuggestion"];
     
     if([details objectForKey:@"NSLocalizedRecoverySuggestion"]) {
-        
+
         [details setValue:@"Invalid value for username" forKey:NSLocalizedDescriptionKey];
         
         if (error != NULL)
@@ -330,9 +241,9 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
 }
 
 #pragma mark user email validation
-+ (BOOL)userValidateUserEmail:(NSString*)email error:(NSError**)error
-{
-    NSMutableDictionary* details = [[NSMutableDictionary alloc]init];
++ (BOOL)userValidateUserEmail:(NSString*)email error:(NSError**)error {
+
+    NSMutableDictionary *details = [NSMutableDictionary new];
     
     if(email == nil)
         [details setValue:@"You must enter an e-mail address." forKey:@"NSLocalizedRecoverySuggestion"];
@@ -345,6 +256,7 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
     @"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
     @"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
     @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     
     if(![emailTest evaluateWithObject:email])
