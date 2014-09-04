@@ -85,27 +85,17 @@
 + (void) logRequestFailuretoConsole:(AFHTTPRequestOperation *)operation withError:(NSError *)error;
 + (void) logResponseSucccesstoConsole:(AFHTTPRequestOperation *)operation withResponse:(id)responseObject;
 - (void) addHeaderValue:(NSString*)value forKey:(NSString*)key;
-- (NSMutableURLRequest *) signedRequestWithMethod:(NSString *)method
-                                      path:(NSString *)path
-                                parameters:(NSDictionary *)parameters;
-
-- (void) sendSignedRequestWithPath:(NSString*)path
-                      method:(NSString*)method
-                      params:(NSDictionary*)params
-                     success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
-
-- (void) sendUnSignedRequestWithPath:(NSString*)path
-                              method:(NSString*)method
-                              params:(NSDictionary*)params
-                             success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                             failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
 - (void) sendRequestWithPath:(NSString*)path
                               method:(NSString*)method
                               params:(NSDictionary*)params
                              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+- (void) sendBasicRequestWithPath:(NSString*)path
+                           method:(NSString*)method
+                           params:(NSDictionary*)params
+                          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 + (void)getCSRFToken;
 - (void)getCSRFTokenWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
