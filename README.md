@@ -18,7 +18,7 @@ Configuration
 You have *three* options for getting started, these will depend on how you plan on using DIOS
 
 
-Option #1
+##Option #1
 =
 1. Create a file named `dios.plist` and place it in your workspace/project. Copy it from dios_example.plist
 
@@ -29,13 +29,13 @@ Option #1
 4. Begin Coding!
 
  
-Option #2
+##Option #2
 =
 1. In your AppDelegate's didFinishLaunching method add `[DIOSSession setupDiosWithURL:@"http://local.drupal.com"];`
 
 2. Begin Coding!
 
-Option #3 (pertains only to Oauth)
+##Option #3 (pertains only to Oauth)
 =
 1. In your AppDelegate's didFinishLaunching method add `[DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];;`
 
@@ -61,7 +61,12 @@ If the request was successful the result would be something like this:
 
     {"vid":"9","uid":"57","title":"testtitle","log":"","status":"1".......
     
+## Requirements
 
+| DIOS Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
+|:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
+|          [3.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/master)         |            Drupal 8            |           iOS 7.0          | . |
+|          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7            |         iOS 5.0        |                                                                           |
 Extras
 ===============================
 [Drupal iOS SDK Addons](https://github.com/utneon/drupal-ios-sdk-addons)
