@@ -46,13 +46,20 @@
 #pragma mark UserGets
 + (void)systemConnectwithSuccess: (void (^)(AFHTTPRequestOperation *operation, id responseObject)) success
         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-    [[DIOSSession sharedSession] sendRequestWithPath:@"system/connect" method:@"POST" params:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
-        [[DIOSSession sharedSession] setUser:[responseObject objectForKey:@"user"]];
-        if (success != nil) {
-            success(operation, responseObject);
-        }
-    } failure:nil];
+    DIOSSession *session = [DIOSSession sharedSession];
+    [session getCSRFTokenWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[DIOSSession sharedSession] sendRequestWithPath:@"system/connect" method:@"POST" params:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
+            [[DIOSSession sharedSession] setUser:[responseObject objectForKey:@"user"]];
+            [[DIOSSession sharedSession] setSystemConnected:YES];
+            if (success != nil) {
+                success(operation, responseObject);
+            }
+        } failure:nil];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+
+    }];
+
 }
 
 @end

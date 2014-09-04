@@ -66,8 +66,11 @@
 @property (nonatomic, strong) NSString *aliasTaxonomyTerm;
 @property (nonatomic, strong) NSString *aliasTaxonomyVocabulary;
 @property (nonatomic, strong) NSString *csrfToken;
-
+@property (nonatomic) BOOL systemConnected;
+@property (nonatomic, strong) NSMutableArray *timers;
 + (DIOSSession *)setupDios;
++ (DIOSSession *)setupDiosWithURL:(NSString *)url;
++ (DIOSSession *)setupDiosWithURL:(NSString *)url andConsumerKey:(NSString*)aConsumerKey andConsumerSecret:(NSString*)aConsumerSecret;
 + (DIOSSession *)sharedSession;
 + (DIOSSession *)sharedSessionWithURL:(NSString*)url;
 + (DIOSSession *)sharedOauthSessionWithURL:(NSString*)url consumerKey:(NSString *)aConsumerKey secret:(NSString *)aConsumerSecret;
@@ -103,6 +106,7 @@
                               params:(NSDictionary*)params
                              success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                              failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
++ (void)getCSRFToken;
 - (void)getCSRFTokenWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 

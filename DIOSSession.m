@@ -76,12 +76,22 @@ static DIOSSession *sharedSession;
 
 @synthesize user, accessTokens, consumerKey, consumerSecret, tokenIdentifier, tokenSecret, baseURL,
 realm, signRequests, threeLegged, endpoint, aliasNode, aliasComment, aliasUser, aliasFile, aliasViews,
-aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
+aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken, systemConnected, timers;
 
 
 + (DIOSSession *)setupDios {
     [DIOSSystem systemConnectwithSuccess:nil failure:nil];
     return [DIOSSession sharedSession];
+}
++ (DIOSSession *)setupDiosWithURL:(NSString *)url {
+    DIOSSession *sharedSession = [DIOSSession sharedSessionWithURL:url];
+    [DIOSSystem systemConnectwithSuccess:nil failure:nil];
+    return sharedSession;
+}
++ (DIOSSession *)setupDiosWithURL:(NSString *)url andConsumerKey:(NSString*)aConsumerKey andConsumerSecret:(NSString*)aConsumerSecret {
+    DIOSSession *sharedSession = [DIOSSession sharedOauthSessionWithURL:url consumerKey:aConsumerKey secret:aConsumerSecret];
+    [DIOSSystem systemConnectwithSuccess:nil failure:nil];
+    return sharedSession;
 }
 
 + (DIOSSession *)sharedSession {
@@ -165,6 +175,10 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
   [client sendSignedRequestWithPath:@"/oauth/access_token" method:@"GET" params:requestTokens success:success failure:failure];
 }
 
++ (void)getCSRFToken {
+    DIOSSession *sharedSession = [DIOSSession sharedSession];
+    [sharedSession getCSRFTokenWithSuccess:nil failure:nil];
+}
 - (void)getCSRFTokenWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure {
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/services/session/token", [[DIOSSession sharedSession] baseURL]]]];
@@ -172,8 +186,13 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *aCsrfToken = [NSString stringWithUTF8String:[responseObject bytes]];
         [[DIOSSession sharedSession] setCsrfToken:aCsrfToken];
-        success(operation, responseObject);
-    } failure:failure];
+        if (success != nil) {
+            success(operation, responseObject);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DIOSSession logRequestFailuretoConsole:operation withError:error];
+
+    }];
     operation.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/plain", @"application/json", nil];
     operation.responseSerializer = [AFHTTPResponseSerializer serializer];
     [self.operationQueue addOperation:operation];
@@ -185,11 +204,25 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
                            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
   NSMutableURLRequest *request = [self signedRequestWithMethod:method path:path parameters:params];
+  [request setValue:[NSString stringWithFormat:@"application/json"] forHTTPHeaderField:@"Accept"];
   if (csrfToken != nil) {
         [request setValue:csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
   }
   AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-  [self.operationQueue addOperation:operation];
+    if ([self systemConnected] || ([path rangeOfString:@"system/connect"].location != NSNotFound)) {
+        [self.operationQueue addOperation:operation];
+    } else {
+        NSMutableDictionary *temp = [NSMutableDictionary new];
+        [temp setValue:success forKey:@"success"];
+        [temp setValue:request forKey:@"request"];
+        [temp setValue:failure forKey:@"failure"];
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                          target:self
+                                                        selector:@selector(tryOperationAgainAfterSystemConnect:)
+                                                        userInfo:temp
+                                                         repeats:YES];
+        [timers addObject:timer];
+    }
 }
 - (void) sendUnSignedRequestWithPath:(NSString*)path
                             method:(NSString*)method
@@ -202,9 +235,39 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
         [request setValue:csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
     }
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
-    [self.operationQueue addOperation:operation];
-}
 
+    if ([self systemConnected] || ([path rangeOfString:@"system/connect"].location != NSNotFound)) {
+        [self.operationQueue addOperation:operation];
+    } else {
+        NSMutableDictionary *temp = [NSMutableDictionary new];
+        [temp setValue:success forKey:@"success"];
+        [temp setValue:request forKey:@"request"];
+        [temp setValue:failure forKey:@"failure"];
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                          target:self
+                                                        selector:@selector(tryOperationAgainAfterSystemConnect:)
+                                                        userInfo:temp
+                                                         repeats:YES];
+        [timers addObject:timer];
+    }
+}
+- (void) tryOperationAgainAfterSystemConnect:(NSTimer *)theTimer {
+    if ([self systemConnected] && [timers count] != 0) {
+        NSUInteger index = [timers indexOfObject:theTimer];
+        NSTimer *timerInArray =[timers objectAtIndex:index];
+        id userInfo = [timerInArray userInfo];
+        NSMutableURLRequest *request = [userInfo objectForKey:@"request"];
+        void(^success)() = [userInfo objectForKey:@"success"];
+        void(^failure)() = [userInfo objectForKey:@"failure"];
+        if (csrfToken != nil) {
+            [request setValue:csrfToken forHTTPHeaderField:@"X-CSRF-Token"];
+        }
+        AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
+        [self.operationQueue addOperation:operation];
+        [timerInArray invalidate];
+        [timers removeObjectAtIndex:index];
+    }
+}
 - (void) sendRequestWithPath:(NSString*)path
               method:(NSString*)method
               params:(NSDictionary*)params
@@ -280,8 +343,10 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
   return self;
 }
 - (NSMutableURLRequest *) signedRequestWithMethod:(NSString *)method path:(NSString *)path parameters:(NSDictionary *)parameters {
-  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:path parameters:parameters error:nil];
-
+  NSString *urlString = [NSString stringWithFormat:@"%@/%@/%@", [[self baseURL] absoluteString], [self endpoint], path];
+  NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
+  [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+  [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   NSString *authorizationHeader = [self authorizationHeaderValueForRequest:request];
   [request setValue:authorizationHeader forHTTPHeaderField:@"Authorization"];
 
@@ -405,6 +470,22 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken;
         //Set Default endpoint
         [session setEndpoint:@"api"];
     }
+
+    NSString *diosOptionsConsumerKey = [diosOptions objectForKey:kOAuthConsumerKey];
+    if (diosOptionsConsumerKey != nil) {
+        //Set loaded consumerKey
+        [session setConsumerKey:diosOptionsConsumerKey];
+    }
+    NSString *diosOptionsConsumerSecret = [diosOptions objectForKey:kOAuthTokenIdentifier];
+    if (diosOptionsConsumerSecret != nil) {
+        //Set loaded consumerSecret
+        [session setConsumerSecret:diosOptionsConsumerSecret];
+    }
+    //If we have both a consumer key and secret we should sign the requests.
+    if(diosOptionsConsumerKey != nil && diosOptionsConsumerSecret != nil) {
+        [self setSignRequests:YES];
+    }
+    [self setTimers:[NSMutableArray new]];
 #ifdef DEBUG
     NSLog(@"options that were found and set : %@", diosOptions);
 #endif
