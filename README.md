@@ -66,7 +66,7 @@ If the request was successful the result would be something like this:
 | DIOS Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
 |          [3.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/master)         |            Drupal 8            |           iOS 7.0          | . |
-|          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7            |         iOS 7.0        |                                                                           |
+|          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7            |         iOS 5.0        |                                                                           |
 Extras
 ===============================
 [Drupal iOS SDK Addons](https://github.com/utneon/drupal-ios-sdk-addons)
