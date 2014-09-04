@@ -1,120 +1,137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Drupal-ios-sdk by kylebrowning</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
+    <meta name="viewport" content="width=640">
+
+    <link rel="stylesheet" href="stylesheets/core.css" media="screen">
+    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <script type="text/javascript" src="javascripts/modernizr.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function () {
+        $('#main_content').headsmart()
+      })
+    </script>
+    <title>Drupal-ios-sdk by kylebrowning</title>
   </head>
+
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/kylebrowning/drupal-ios-sdk">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/kylebrowning/drupal-ios-sdk/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <a id="forkme_banner" href="https://github.com/kylebrowning/drupal-ios-sdk">View on GitHub</a>
+    <div class="shell">
 
-    <div class="wrapper">
+      <header>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <h1>Drupal-ios-sdk</h1>
+            <h2>The Drupal iOS iPhone &amp; iPad Software Development Kit provides a full suite of iOS features to natively connect iOS applications to Drupal. Formerly KBDrupalConnect</h2>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+      </header>
 
-      <section>
-        <div id="title">
-          <h1>Drupal-ios-sdk</h1>
-          <p>The Drupal iOS iPhone &amp; iPad Software Development Kit provides a full suite of iOS features to natively connect iOS applications to Drupal. Formerly KBDrupalConnect</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/kylebrowning">kylebrowning</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
+      <section id="downloads">
+        <span class="inner">
+          <a href="https://github.com/kylebrowning/drupal-ios-sdk/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/kylebrowning/drupal-ios-sdk/tarball/master" class="tgz"><em>download</em> .TGZ</a>
+        </span>
+      </section>
 
+
+      <span class="banner-fix"></span>
+
+
+      <section id="main_content">
         <h1>
 <a name="drupal-ios-sdk---connect-your-iosos-x-app-to-drupal" class="anchor" href="#drupal-ios-sdk---connect-your-iosos-x-app-to-drupal"><span class="octicon octicon-link"></span></a>Drupal iOS SDK - Connect your iOS/OS X app to Drupal</h1>
 
 <h5>
-<a name="originally-sponsored-by-httpworkhabitcom-built-by-kyle-browning" class="anchor" href="#originally-sponsored-by-httpworkhabitcom-built-by-kyle-browning"><span class="octicon octicon-link"></span></a>Originally Sponsored by <a href="http://workhabit.com">http://workhabit.com</a> built by <a href="http://kylebrowning.com">Kyle Browning</a>
-</h5>
+<a name="built-by-kyle-browning-and-modified-by-tom-kremer-to-be-afnetworking-20x-compatible" class="anchor" href="#built-by-kyle-browning-and-modified-by-tom-kremer-to-be-afnetworking-20x-compatible"><span class="octicon octicon-link"></span></a>built by <a href="http://kylebrowning.com">Kyle Browning</a> and modified by Tom Kremer to be AFNetworking 2.0.X compatible.</h5>
 
 <h1>
-<a name="what-you-need-to-know" class="anchor" href="#what-you-need-to-know"><span class="octicon octicon-link"></span></a>What you need to know</h1>
+<a name="introduction" class="anchor" href="#introduction"><span class="octicon octicon-link"></span></a>Introduction</h1>
 
-<p>The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple.
-If you wanted to get a node you can do so calling some class methods on DIOSNode, creating an 
-NSDictionary and running the nodeGet method.  Heres an example:</p>
+<p>The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with services and handles session managment for you(but it doesnt store passwords or persist CSRF/oAUTH tokens, you must do that)</p>
 
-<div class="highlight highlight-obj-c"><pre>    <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">nodeData</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
-    <span class="p">[</span><span class="n">nodeData</span> <span class="n">setValue</span><span class="o">:</span><span class="s">@"12"</span> <span class="n">forKey</span><span class="o">:</span><span class="s">@"nid"</span><span class="p">];</span>
-    <span class="p">[</span><span class="n">DIOSNode</span> <span class="n">nodeGet</span><span class="o">:</span><span class="n">nodeData</span> <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+<h1>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>Create a pod file with (this will keep you on the 2.1 releases) </p>
+
+<pre><code>pod 'drupal-ios-sdk', '~&gt; 2.1'
+</code></pre>
+
+<p>Then run <code>pod install</code></p>
+
+<h1>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h1>
+
+<p>You have <em>three</em> options for getting started, these will depend on how you plan on using DIOS</p>
+
+<h1>
+<a name="option-1" class="anchor" href="#option-1"><span class="octicon octicon-link"></span></a>Option #1</h1>
+
+<ol>
+<li><p>Create a file named <code>dios.plist</code> and place it in your workspace/project. Copy it from dios_example.plist</p></li>
+<li><p>Edit dios.plist and change the siteUrl and endpoint to be values that pertain to you.</p></li>
+<li><p>Add <code>[DIOSSession setupDios]</code> line to your AppDelegates didFinishLaunching method.</p></li>
+<li><p>Begin Coding!</p></li>
+</ol><h1>
+<a name="option-2" class="anchor" href="#option-2"><span class="octicon octicon-link"></span></a>Option #2</h1>
+
+<ol>
+<li><p>In your AppDelegate's didFinishLaunching method add <code>[DIOSSession setupDiosWithURL:@"http://local.drupal.com"];</code></p></li>
+<li><p>Begin Coding!</p></li>
+</ol><h1>
+<a name="option-3-pertains-only-to-oauth" class="anchor" href="#option-3-pertains-only-to-oauth"><span class="octicon octicon-link"></span></a>Option #3 (pertains only to Oauth)</h1>
+
+<ol>
+<li><p>In your AppDelegate's didFinishLaunching method add <code>[DIOSSession setupDiosWithURL:@"http://local.drupal.com" andConsumerKey:@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP" andConsumerSecret:@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"];;</code></p></li>
+<li><p>Begin Coding!</p></li>
+</ol><h1>
+<a name="quick-example" class="anchor" href="#quick-example"><span class="octicon octicon-link"></span></a>Quick Example</h1>
+
+<div class="highlight highlight-obj-c"><pre>    <span class="bp">NSMutableDictionary</span> <span class="o">*</span><span class="n">nodeData</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">nodeData</span> <span class="nl">setValue</span><span class="p">:</span><span class="s">@"12"</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@"nid"</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">DIOSNode</span> <span class="nl">nodeGet</span><span class="p">:</span><span class="n">nodeData</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">//Do Something with the responseObject</span>
-      <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
-    <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">//we failed, uh-oh lets error log this.</span>
-      <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@,  %@"</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">],</span> <span class="p">[</span><span class="n">operation</span> <span class="n">responseString</span><span class="p">]);</span>    
+      <span class="p">[</span><span class="nb">self</span> <span class="nl">setNodeData</span><span class="p">:</span><span class="n">responseObject</span><span class="p">];</span>
+      <span class="p">[</span><span class="nb">self</span> <span class="nl">setTitle</span><span class="p">:[</span><span class="n">responseObject</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@"title"</span><span class="p">];</span>
+    <span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+      <span class="p">[</span><span class="nb">self</span> <span class="nl">alertUser</span><span class="p">:</span><span class="s">@"I failed to fetch the node"</span><span class="p">];</span>   
     <span class="p">}];</span>
 
 </pre></div>
 
-<p>For every DIOS call you make, any method calls that are available to you use blocks. 
-This allows us to define what happens when we have a request that fails or succeeds. 
+<p>For every DIOS call you make, any method calls that are available to you use blocks.
+All calls are logged to the console whether sucessfull or failed when in Debug
 If the request was successful the result would be something like this:</p>
 
 <pre><code>{"vid":"9","uid":"57","title":"testtitle","log":"","status":"1".......
 </code></pre>
 
-<p>However if it failed, the error might look like this:</p>
-
-<pre><code>Expected status code in (200-299), got 404,  "Node 5 could not be found"
-</code></pre>
-
 <h1>
-<a name="what-you-need-to-get-started" class="anchor" href="#what-you-need-to-get-started"><span class="octicon octicon-link"></span></a>What you need to get started</h1>
-
-<ul>
-<li>This library :) </li>
-<li>AFNetwork which can be found <a href="https://github.com/AFNetworking/AFNetworking">here</a>
-</li>
-<li>Be sure to follow the AFNetworking installation guide.</li>
-<li>Update Settings.h with the correct correct url and endpoints)</li>
-<li><a href="http://drupal.org/project/services">Services</a></li>
-</ul><h1>
 <a name="extras" class="anchor" href="#extras"><span class="octicon octicon-link"></span></a>Extras</h1>
 
 <p><a href="https://github.com/utneon/drupal-ios-sdk-addons">Drupal iOS SDK Addons</a></p>
 
 <h2>
-<a name="demo-app-work-in-progress" class="anchor" href="#demo-app-work-in-progress"><span class="octicon octicon-link"></span></a>Demo App (Work in progress)</h2>
-
-<p><a href="http://github.com/workhabitinc/drupal-ios-sdk-example">http://github.com/workhabitinc/drupal-ios-sdk-example</a></p>
-
-<h2>
-<a name="branches" class="anchor" href="#branches"><span class="octicon octicon-link"></span></a>Branches</h2>
+<a name="deprecations" class="anchor" href="#deprecations"><span class="octicon octicon-link"></span></a>Deprecations</h2>
 
 <p>6.x-2.x 6.x-3.x and 7.x-3.x have all been moved to a  <em>DEPRECATED</em> version of their branch.
 The new dev branch will be the become the new master and as things are added, versions will be tagged and published.
-master will always be the latest and greatest for the most up to date version of everything(Services, Drupal, Services Api, DIOS).</p>
-
-<p>Tags are in this format
-<code>2.1-1.0</code> Which breaks down as, DIOSVersion 2.1, Services Api Version 1.0</p>
-
-<p>Branches are in this format
-<code>2.x-1.x</code></p>
+master will always be the latest and greatest for the most up to date version of everything(Services, Drupal, Services Api, DIOS). Use <code>pod update</code> to get the latest, and if you want to upgrade an API version change your podfile to reflect that</p>
 
 <h2>
 <a name="oauth" class="anchor" href="#oauth"><span class="octicon octicon-link"></span></a>OAuth</h2>
 
 <p>If you want to use oAuth theres only one thing you need to do for 2-legged</p>
 
-<div class="highlight highlight-obj-c"><pre>  <span class="p">[</span><span class="n">DIOSSession</span> <span class="n">sharedOauthSessionWithURL</span><span class="o">:</span><span class="s">@"http://d7.workhabit.com"</span> <span class="n">consumerKey</span><span class="o">:</span><span class="s">@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP"</span> <span class="n">secret</span><span class="o">:</span><span class="s">@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"</span><span class="p">];</span>
+<div class="highlight highlight-obj-c"><pre><span class="p">[</span><span class="n">DIOSSession</span> <span class="nl">setupDiosWithURL</span><span class="p">:</span><span class="s">@"http://local.drupal.com"</span> <span class="nl">andConsumerKey</span><span class="p">:</span><span class="s">@"yTkyapFEPAdjkW7G2euvJHhmmsURaYJP"</span> <span class="nl">andConsumerSecret</span><span class="p">:</span><span class="s">@"ZzJymFtvgCbXwFeEhivtF67M5Pcj4NwJ"</span><span class="p">];</span>
 </pre></div>
 
 <p>This will create your shared session with the baseURL and attach your consumer key and secret.</p>
@@ -122,26 +139,26 @@ master will always be the latest and greatest for the most up to date version of
 <p>3-legged requires that you get some request tokens, and convert them into access tokens.
 DIOS provides methods to do this, as an Example, this code will grab some request tokens and load a webview to be displayed</p>
 
-<div class="highlight highlight-obj-c"><pre>  <span class="p">[</span><span class="n">DIOSSession</span> <span class="n">getRequestTokensWithSuccess</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">requestTokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
-    <span class="n">NSArray</span> <span class="o">*</span><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">operation</span><span class="p">.</span><span class="n">responseString</span> <span class="n">componentsSeparatedByCharactersInSet</span><span class="o">:</span>
-                    <span class="p">[</span><span class="n">NSCharacterSet</span> <span class="n">characterSetWithCharactersInString</span><span class="o">:</span><span class="s">@"=&amp;"</span><span class="p">]];</span>
+<div class="highlight highlight-obj-c"><pre>  <span class="p">[</span><span class="n">DIOSSession</span> <span class="nl">getRequestTokensWithSuccess</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">requestTokens</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
+    <span class="bp">NSArray</span> <span class="o">*</span><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">operation</span><span class="p">.</span><span class="n">responseString</span> <span class="nl">componentsSeparatedByCharactersInSet</span><span class="p">:</span>
+                    <span class="p">[</span><span class="bp">NSCharacterSet</span> <span class="nl">characterSetWithCharactersInString</span><span class="p">:</span><span class="s">@"=&amp;"</span><span class="p">]];</span>
     <span class="k">if</span><span class="p">([</span><span class="n">arr</span> <span class="n">count</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
-      <span class="p">[</span><span class="n">requestTokens</span> <span class="n">setObject</span><span class="o">:</span><span class="p">[</span><span class="n">arr</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="mi">1</span><span class="p">]</span> <span class="n">forKey</span><span class="o">:</span><span class="p">[</span><span class="n">arr</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="mi">0</span><span class="p">]];</span>
-      <span class="p">[</span><span class="n">requestTokens</span> <span class="n">setObject</span><span class="o">:</span><span class="p">[</span><span class="n">arr</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span> <span class="n">forKey</span><span class="o">:</span><span class="p">[</span><span class="n">arr</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="mi">2</span><span class="p">]];</span>
+      <span class="p">[</span><span class="n">requestTokens</span> <span class="nl">setObject</span><span class="p">:[</span><span class="n">arr</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="nl">forKey</span><span class="p">:[</span><span class="n">arr</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">0</span><span class="p">]];</span>
+      <span class="p">[</span><span class="n">requestTokens</span> <span class="nl">setObject</span><span class="p">:[</span><span class="n">arr</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="nl">forKey</span><span class="p">:[</span><span class="n">arr</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">2</span><span class="p">]];</span>
     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="n">NSLog</span><span class="p">(</span><span class="s">@"failed ahh"</span><span class="p">);</span>
     <span class="p">}</span>
-    <span class="p">[</span><span class="n">_window</span> <span class="n">addSubview</span><span class="o">:</span><span class="n">oauthWebView</span><span class="p">];</span>
-    <span class="n">NSString</span> <span class="o">*</span><span class="n">urlToLoad</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="n">stringWithFormat</span><span class="o">:</span><span class="s">@"%@/oauth/authorize?%@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">DIOSSession</span> <span class="n">sharedSession</span><span class="p">]</span> <span class="n">baseURL</span><span class="p">],</span> <span class="n">operation</span><span class="p">.</span><span class="n">responseString</span><span class="p">];</span>
-    <span class="n">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="n">URLWithString</span><span class="o">:</span><span class="n">urlToLoad</span><span class="p">];</span>
+    <span class="p">[</span><span class="n">_window</span> <span class="nl">addSubview</span><span class="p">:</span><span class="n">oauthWebView</span><span class="p">];</span>
+    <span class="bp">NSString</span> <span class="o">*</span><span class="n">urlToLoad</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSString</span> <span class="nl">stringWithFormat</span><span class="p">:</span><span class="s">@"%@/oauth/authorize?%@"</span><span class="p">,</span> <span class="p">[[</span><span class="n">DIOSSession</span> <span class="n">sharedSession</span><span class="p">]</span> <span class="n">baseURL</span><span class="p">],</span> <span class="n">operation</span><span class="p">.</span><span class="n">responseString</span><span class="p">];</span>
+    <span class="bp">NSURL</span> <span class="o">*</span><span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="n">urlToLoad</span><span class="p">];</span>
     <span class="n">NSLog</span><span class="p">(</span><span class="s">@"loading url :%@"</span><span class="p">,</span> <span class="n">urlToLoad</span><span class="p">);</span>
     <span class="c1">//URL Requst Object</span>
-    <span class="n">NSURLRequest</span> <span class="o">*</span><span class="n">requestObj</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURLRequest</span> <span class="n">requestWithURL</span><span class="o">:</span><span class="n">url</span><span class="p">];</span>
+    <span class="bp">NSURLRequest</span> <span class="o">*</span><span class="n">requestObj</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
 
     <span class="c1">//Load the request in the UIWebView.</span>
-    <span class="p">[</span><span class="n">oauthWebView</span> <span class="n">loadRequest</span><span class="o">:</span><span class="n">requestObj</span><span class="p">];</span>
-  <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">oauthWebView</span> <span class="nl">loadRequest</span><span class="p">:</span><span class="n">requestObj</span><span class="p">];</span>
+  <span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">NSLog</span><span class="p">(</span><span class="s">@"failed"</span><span class="p">);</span>
   <span class="p">}];</span>
 </pre></div>
@@ -151,20 +168,20 @@ for your application and make sure it is defined in your oAuth consumer which yo
 
 <p>Again, another example here, we registered our app url and this method gets called when it does.</p>
 
-<div class="highlight highlight-obj-c"><pre><span class="k">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">handleOpenURL:</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
+<div class="highlight highlight-obj-c"><pre><span class="p">-</span> <span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="nf">application:</span><span class="p">(</span><span class="bp">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">handleOpenURL:</span><span class="p">(</span><span class="bp">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="nv">url</span>
 <span class="p">{</span>
   <span class="c1">//If our request tokens were validated, this will get called.</span>
-  <span class="k">if</span> <span class="p">([[</span><span class="n">url</span> <span class="n">absoluteString</span><span class="p">]</span> <span class="n">rangeOfString</span><span class="o">:</span><span class="p">[</span><span class="n">requestTokens</span> <span class="n">objectForKey</span><span class="o">:</span><span class="s">@"oauth_token"</span><span class="p">]].</span><span class="n">location</span> <span class="o">!=</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span>
-    <span class="p">[</span><span class="n">DIOSSession</span> <span class="n">getAccessTokensWithRequestTokens</span><span class="o">:</span><span class="n">requestTokens</span> <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">NSArray</span> <span class="o">*</span><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">operation</span><span class="p">.</span><span class="n">responseString</span> <span class="n">componentsSeparatedByCharactersInSet</span><span class="o">:</span>
-                      <span class="p">[</span><span class="n">NSCharacterSet</span> <span class="n">characterSetWithCharactersInString</span><span class="o">:</span><span class="s">@"=&amp;"</span><span class="p">]];</span>
+  <span class="k">if</span> <span class="p">([[</span><span class="n">url</span> <span class="n">absoluteString</span><span class="p">]</span> <span class="nl">rangeOfString</span><span class="p">:[</span><span class="n">requestTokens</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="s">@"oauth_token"</span><span class="p">]].</span><span class="n">location</span> <span class="o">!=</span> <span class="n">NSNotFound</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">[</span><span class="n">DIOSSession</span> <span class="nl">getAccessTokensWithRequestTokens</span><span class="p">:</span><span class="n">requestTokens</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+      <span class="bp">NSArray</span> <span class="o">*</span><span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="n">operation</span><span class="p">.</span><span class="n">responseString</span> <span class="nl">componentsSeparatedByCharactersInSet</span><span class="p">:</span>
+                      <span class="p">[</span><span class="bp">NSCharacterSet</span> <span class="nl">characterSetWithCharactersInString</span><span class="p">:</span><span class="s">@"=&amp;"</span><span class="p">]];</span>
       <span class="k">if</span><span class="p">([</span><span class="n">arr</span> <span class="n">count</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">//Lets set our access tokens now</span>
-        <span class="p">[[</span><span class="n">DIOSSession</span> <span class="n">sharedSession</span><span class="p">]</span> <span class="n">setAccessToken</span><span class="o">:</span><span class="p">[</span><span class="n">arr</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="mi">1</span><span class="p">]</span> <span class="n">secret</span><span class="o">:</span><span class="p">[</span><span class="n">arr</span> <span class="n">objectAtIndex</span><span class="o">:</span><span class="mi">3</span><span class="p">]];</span>
-        <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSDictionary</span> <span class="n">dictionaryWithObject</span><span class="o">:</span><span class="s">@"1"</span> <span class="n">forKey</span><span class="o">:</span><span class="s">@"nid"</span><span class="p">];</span>
-        <span class="p">[</span><span class="n">DIOSNode</span> <span class="n">nodeGet</span><span class="o">:</span><span class="n">node</span> <span class="n">success</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">[[</span><span class="n">DIOSSession</span> <span class="n">sharedSession</span><span class="p">]</span> <span class="nl">setAccessToken</span><span class="p">:[</span><span class="n">arr</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">1</span><span class="p">]</span> <span class="nl">secret</span><span class="p">:[</span><span class="n">arr</span> <span class="nl">objectAtIndex</span><span class="p">:</span><span class="mi">3</span><span class="p">]];</span>
+        <span class="bp">NSDictionary</span> <span class="o">*</span><span class="n">node</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSDictionary</span> <span class="nl">dictionaryWithObject</span><span class="p">:</span><span class="s">@"1"</span> <span class="nl">forKey</span><span class="p">:</span><span class="s">@"nid"</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">DIOSNode</span> <span class="nl">nodeGet</span><span class="p">:</span><span class="n">node</span> <span class="nl">success</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="kt">id</span> <span class="n">responseObject</span><span class="p">)</span> <span class="p">{</span>
           <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="n">responseObject</span><span class="p">);</span>
-        <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
           <span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span> <span class="p">[</span><span class="n">error</span> <span class="n">localizedDescription</span><span class="p">]);</span>
         <span class="p">}];</span>
       <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -172,7 +189,7 @@ for your application and make sure it is defined in your oAuth consumer which yo
       <span class="p">}</span>
       <span class="n">NSLog</span><span class="p">(</span><span class="s">@"successfully added accessTokens"</span><span class="p">);</span>
       <span class="p">[</span><span class="n">oauthWebView</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
-    <span class="p">}</span> <span class="n">failure</span><span class="o">:^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">}</span> <span class="nl">failure</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">AFHTTPRequestOperation</span> <span class="o">*</span><span class="n">operation</span><span class="p">,</span> <span class="bp">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
         <span class="n">NSLog</span><span class="p">(</span><span class="s">@"getting access tokens failed"</span><span class="p">);</span>
       <span class="p">[</span><span class="n">oauthWebView</span> <span class="n">removeFromSuperview</span><span class="p">];</span>
     <span class="p">}];</span>
@@ -184,7 +201,7 @@ for your application and make sure it is defined in your oAuth consumer which yo
 <h2>
 <a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p><a href="https://github.com/workhabitinc/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0">Can be found here</a></p>
+<p><a href="https://github.com/kylebrowning/drupal-ios-sdk/wiki/drupal-ios-sdk-2.0">Can be found here</a></p>
 
 <h2>
 <a name="troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
@@ -195,7 +212,7 @@ for your application and make sure it is defined in your oAuth consumer which yo
 <a name="x-service-doesnt-exist-in-drupal-ios-sdk" class="anchor" href="#x-service-doesnt-exist-in-drupal-ios-sdk"><span class="octicon octicon-link"></span></a>X service doesnt exist in Drupal iOS SDK</h2>
 
 <p>You no longer really need to subclass any existing DIOS classes, unless you want to override.
-<code>[DIOSSession shared]</code> ensures that session information is stored for as long as the cookies are valid
+<code>[DIOSSession sharedSession]</code> ensures that session information is stored for as long as the cookies are valid
 If you do want to make your own object, just follow the pattern in the other files and everything should work fine.
 Use the issue queue here on github if you have questions. An addon library is <a href="https://github.com/utneon/drupal-ios-sdk-addons">here</a></p>
 
@@ -206,8 +223,20 @@ Use the issue queue here on github if you have questions. An addon library is <a
 Email <a href="mailto:kylebrowning@me.com">kylebrowning@me.com</a></p>
       </section>
 
+      <footer>
+        <span class="ribbon-outer">
+          <span class="ribbon-inner">
+            <p>this project by <a href="https://github.com/kylebrowning">kylebrowning</a> can be found on <a href="https://github.com/kylebrowning/drupal-ios-sdk">GitHub</a></p>
+          </span>
+          <span class="left-tail"></span>
+          <span class="right-tail"></span>
+        </span>
+        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
+        <span class="octocat"></span>
+      </footer>
+
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
