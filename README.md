@@ -1,23 +1,23 @@
-Drupal iOS SDK - Connect your iOS/OS X app to Drupal
-================================
-##### built by [Kyle Browning](http://kylebrowning.com)
-Introduction
-================================
+###Drupal iOS SDK - Connect your iOS/OS X app to Drupal
+-----
+###### built by [Kyle Browning](http://kylebrowning.com)
+####Introduction
+----
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with services and handles session managment for you(but it doesnt store passwords or persist CSRF/oAUTH tokens, you must do that)
 
-Installation
-================================
+####Installation
+----
 Create a pod file with (this will keep you on the 3.0 releases which is Drupal 8 specific) 
 ```
 pod 'drupal-ios-sdk', '~> 3.0'
 ```
 Then run `pod install`
 
-Configuration
-================================
+####Configuration
+----
 In Drupal 8 Thins are a bit different, but much easier.
 
-##First steps
+####First steps
 ```obj-c
     DIOSSession *sharedSession = [DIOSSession sharedSession];
     [sharedSession setBaseURL:[NSURL URLWithString:@"http://d8"]];
@@ -25,8 +25,8 @@ In Drupal 8 Thins are a bit different, but much easier.
 ```
 Currently 3.x only supports basic auth but will support oAuth soon
 
-Quick Examples
-===============================
+####Quick Examples
+----
 ```obj-c
    //create new user
     NSDictionary *user = @{@"name":@[@{@"value":@"username"}],@"mail":@[@{@"value":@"email@gmail.com"}],@"pass":@[@{@"value":@"passw0rd"}]};
@@ -51,22 +51,22 @@ Quick Examples
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
 |          [3.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/master)         |            Drupal 8            |           iOS 7.0          | . |
 |          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7            |         iOS 5.0        |                                                                           |
-Extras
-===============================
+####Extras
+----
 [Drupal iOS SDK Addons](https://github.com/utneon/drupal-ios-sdk-addons)
 
 
 
-##OAuth
+####OAuth
 --------------------
 Coming soon
 
-##Troubleshooting
+####Troubleshooting
 ----------
 If you are getting Forbidden, you probably havnt setup your permissions.
 
 
-Questions
+####Questions
 ----------
 Checkout the Issue queue, or email me
 Email kylebrowning@me.com
