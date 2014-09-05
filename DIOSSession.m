@@ -62,7 +62,7 @@
                                        path:(NSString *)path
                                  parameters:(NSDictionary *)parameters
 {
-    NSString *urlString = [NSString stringWithFormat:@"%@/%@/", [[self baseURL] absoluteString], path];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@", [[self baseURL] absoluteString], path];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
