@@ -19,6 +19,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedSession = [[self alloc] init];
+        sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
     });
     return sharedSession;
 }
@@ -64,14 +65,13 @@
 {
     NSString *urlString = [NSString stringWithFormat:@"%@/%@", [[self baseURL] absoluteString], path];
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
+    [self.requestSerializer setValue:@"application/hal+json" forHTTPHeaderField:@"Content-Type"];
 
     if (self.signRequests) {
         //doesntwork
         [self.requestSerializer setAuthorizationHeaderFieldWithUsername:_basicAuthUsername password:_basicAuthPassword];
     }
-    
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
     return request;
 }
 
@@ -86,7 +86,9 @@
 + (void) logRequestFailuretoConsole:(AFHTTPRequestOperation *)operation withError:(NSError *)error
 {
 #ifdef DEBUG
-    NSLog(@"\n----- DIOS Failure -----\nStatus code: %ld\nURL: %@\n----- Response ----- \n%@\n----- Error ----- \n%@", (long)operation.response.statusCode, [operation.response.URL absoluteString], operation.responseString, [error localizedDescription]);
+    NSString *body = [[NSString alloc] initWithData:operation.request.HTTPBody encoding:4];
+    
+    NSLog(@"\n----- DIOS Failure -----\nStatus code: %ld\nRequest : %@\nURL: %@\n----- Response ----- \n%@\n----- Error ----- \n%@", (long)operation.response.statusCode, body, [operation.response.URL absoluteString], operation.responseString, [error localizedDescription]);
 #endif
 }
 

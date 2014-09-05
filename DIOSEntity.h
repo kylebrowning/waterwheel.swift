@@ -9,7 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "AFHTTPRequestOperation.h"
 @interface DIOSEntity : NSObject
+
 + (void) getEntityWithName:(NSString*)name andID:(NSString*)eid
                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
++ (void) creatEntityWithEntityName:(NSString*)name
+                              type:(NSString*)type
+                         andParams:(NSDictionary*)params
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 @end

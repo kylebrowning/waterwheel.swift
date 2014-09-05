@@ -17,8 +17,7 @@
 @property (nonatomic, strong) NSString *basicAuthUsername;
 @property (nonatomic, strong) NSString *basicAuthPassword;
 
-+ (DIOSSession *)sharedSession;
-
++ (DIOSSession *) sharedSession;
 - (void) sendRequestWithPath:(NSString*)path
                       method:(NSString*)method
                       params:(NSDictionary*)params
