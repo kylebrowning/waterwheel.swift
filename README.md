@@ -11,7 +11,10 @@ Create a pod file with (this will keep you on the 3.0 releases which is Drupal 8
 ```
  pod 'drupal-ios-sdk', '~> 3.0'
 ```
-Then run `pod install`
+Then run 
+```
+pod install
+```
 
 ####Configuration
 ----
