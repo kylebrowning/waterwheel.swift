@@ -1,5 +1,5 @@
 //
-//  DIOSNode.h
+//  DIOSUser.h
 //  dios
 //
 //  Created by Kyle Browning on 9/5/14.
@@ -8,22 +8,21 @@
 
 #import <Foundation/Foundation.h>
 #import "AFHTTPRequestOperation.h"
-@interface DIOSNode : NSObject
+@interface DIOSUser : NSObject
 
-+ (void) getNodeWithID:(NSString*)eid
++ (void) getUserWithID:(NSString*)uid
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-+ (void) createNodeWithParams:(NSDictionary*)params
-                         type:(NSString *)type
++ (void) createUserWithParams:(NSDictionary*)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-+ (void) deleteNodeWithID:(NSString*)eid
++ (void) deleteUserWithID:(NSString*)eid
                   success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                   failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-+ (void) patchNodeWithID:(NSString*)eid
++ (void) patchUserWithID:(NSString*)eid
                   params:(NSDictionary*)params
                     type:(NSString *)type
                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success

@@ -14,8 +14,19 @@
                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
 
-+ (void) creatEntityWithEntityName:(NSString*)name
++ (void) createEntityWithEntityName:(NSString*)name
                               type:(NSString*)type
+                         andParams:(NSDictionary*)params
+                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
++ (void) deleteEntityWithEntityName:(NSString*)name andID:(NSString*)eid
+                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;
+
++ (void) patchEntityWithEntityName:(NSString*)name
+                              type:(NSString*)type
+                               eid:(NSString*)eid
                          andParams:(NSDictionary*)params
                            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure;

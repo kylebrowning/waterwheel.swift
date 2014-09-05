@@ -10,6 +10,7 @@
 #import "DIOSEntity.h"
 
 @implementation DIOSNode
+
 + (void) getNodeWithID:(NSString*)eid
                success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
@@ -20,6 +21,20 @@
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
 
-    [DIOSEntity creatEntityWithEntityName:@"node" type:type andParams:params success:success failure:failure];
+    [DIOSEntity createEntityWithEntityName:@"node" type:type andParams:params success:success failure:failure];
+}
++ (void) deleteNodeWithID:(NSString*)eid
+                  success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                  failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+    [DIOSEntity deleteEntityWithEntityName:@"node" andID:eid success:success failure:failure];
+}
+
++ (void) patchNodeWithID:(NSString*)eid
+                  params:(NSDictionary*)params
+                    type:(NSString *)type
+                 success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                 failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+
+    [DIOSEntity patchEntityWithEntityName:@"node" type:type eid:eid andParams:params success:success failure:failure];
 }
 @end
