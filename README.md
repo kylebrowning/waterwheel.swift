@@ -3,7 +3,7 @@
 ###### built by [Kyle Browning](http://kylebrowning.com)
 ####Introduction
 ----
-The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with services and handles session managment for you(but it doesnt store passwords or persist CSRF/oAUTH tokens, you must do that)
+The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with Drupal and handles session managment for you(but it doesnt store passwords or persist CSRF/oAUTH tokens, you must do that(at least yet :))
 
 ####Installation
 ----
