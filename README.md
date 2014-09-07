@@ -18,7 +18,7 @@ pod install
 
 ####Configuration
 ----
-In Drupal 8 Thins are a bit different, but much easier.
+In Drupal 8 things are a bit different, but much easier.
 
 ####First steps
 ```obj-c
