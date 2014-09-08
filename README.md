@@ -42,8 +42,10 @@ Currently 3.x only supports basic auth but will support oAuth soon
  //create new comment
  NSDictionary *parameters = @{@"subject":@[@{@"value":@"comment title"}],@"comment_body":@[@{@"value":@"a new body",@"format":@"basic_html"}]};
  [DIOSComment createCommentWithParams:parameters relationID:@"7" type:@"comment" success:nil failure:nil];
+ 
  //get a user
  [DIOSUser getUserWithID:@"1" success:nil failure:nil];
+ 
  //delete a node
  [DIOSNode deleteNodeWithID:@"13" success:nil failure:nil];
 ```
