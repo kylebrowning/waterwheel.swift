@@ -16,6 +16,14 @@ Then run
 pod install
 ```
 
+## Requirements
+
+| DIOS Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
+|:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
+|          [3.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/master)         |            Drupal 8            |           iOS 7.0          |  |
+|          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7            |         iOS 5.0        |        Requires [Services](http://drupal.org/project/services) module                                                                    |
+
+
 ####Configuration
 ----
 In Drupal 8 things are a bit different, but much easier.
@@ -49,12 +57,6 @@ Currently 3.x only supports basic auth but will support oAuth soon
  //delete a node
  [DIOSNode deleteNodeWithID:@"13" success:nil failure:nil];
 ```
-## Requirements
-
-| DIOS Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
-|:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
-|          [3.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/master)         |            Drupal 8            |           iOS 7.0          |  |
-|          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7            |         iOS 5.0        |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 ####Extras
 ----
 [Drupal iOS SDK Addons](https://github.com/utneon/drupal-ios-sdk-addons)
