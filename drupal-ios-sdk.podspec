@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.author       = { "Kyle Browning" => "kylebrowning@me.com",
                      "Tom Kremer" => "tomkremer@me.com" }
   s.source       = { :git => "https://github.com/kylebrowning/drupal-ios-sdk.git", :tag => "2.1.3" }
-  s.source_files = "*.{h,m}, dios_example.plist"
+  s.source_files = "*.{h,m}", "dios_example.plist"
   s.requires_arc = true
   s.ios.deployment_target = '7.0'
   s.license  = 'MPL 1.1/GPL 2.0'
