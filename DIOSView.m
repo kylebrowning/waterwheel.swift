@@ -39,54 +39,54 @@
 
 @implementation DIOSView
 + (void)viewGet:(NSDictionary *)params
-		success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-		failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-	
-	int x=0;
-	
-	// Services Views Module allows for two different types of callbacks. These two callbacks are:
-	// #1 <domain>/<path-to-endpoint>/<resource-id>
-	// #2 <domain>/<path-to-endpoint>/views/<view-machine-name> (+optional query string params)
-	// By default, this will use the approach in #2, since previous versions were integrated that way and we want to
-	// insure we have graceful fallback. However, a paramater callbackType is supported and the URL structure will change
-	// if a value has been provided.
-	NSMutableString *path = [[NSMutableString alloc] init];
-	BOOL addParams = YES;
-	
-	// If there is a callbackType and that value is equal to "resourceID":
-	if ([[params objectForKey:@"callbackType"] isEqualToString:@"resourceID"]) {
-		path = [NSMutableString stringWithFormat:@"%@", [params objectForKey:@"view_name"]];
-		addParams = NO;
-	}
-	// If there is a callbackType and that value is equal to "viewMachinename":
-	else if ([[params objectForKey:@"callbackType"] isEqualToString:@"viewMachineName"]) {
-		path = [NSMutableString stringWithFormat:@"%@/%@?", [[DIOSSession sharedSession] aliasViews], [params objectForKey:@"view_name"]];
-	}
-	// Currently, this is the same as viewMachineName - Available should more options need to be supported:
-	else {
-		path = [NSMutableString stringWithFormat:@"%@/%@?", [[DIOSSession sharedSession] aliasViews], [params objectForKey:@"view_name"]];
-	}
-	
-	// Iterate over all of the params passed to this method.
-	if (addParams) {
-		for (NSString *key in params) {
-			
-			// Only continue forward if the key is one that should not be ignored.
-			if (![key isEqualToString:@"view_name"] && ![key isEqualToString:@"callbackType"]) {
-				
-				id value = [params objectForKey:key];
-				
-				//the code below was inserted because if there is only one argument, the "&" is not needed and the view doesn't work
-				if(x++) {
-					[path appendFormat:@"&"];
-					
-				}
-				
-				[path appendFormat:@"%@=%@", key, value];
-			}
-		}
-	}
-	
-	[[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:params success:success failure:failure];
+        success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+        failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
+    
+    int x=0;
+    
+    // Services Views Module allows for two different types of callbacks. These two callbacks are:
+    // #1 <domain>/<path-to-endpoint>/<resource-id>
+    // #2 <domain>/<path-to-endpoint>/views/<view-machine-name> (+optional query string params)
+    // By default, this will use the approach in #2, since previous versions were integrated that way and we want to
+    // insure we have graceful fallback. However, a paramater callbackType is supported and the URL structure will change
+    // if a value has been provided.
+    NSMutableString *path = [[NSMutableString alloc] init];
+    BOOL addParams = YES;
+    
+    // If there is a callbackType and that value is equal to "resourceID":
+    if ([[params objectForKey:@"callbackType"] isEqualToString:@"resourceID"]) {
+        path = [NSMutableString stringWithFormat:@"%@", [params objectForKey:@"view_name"]];
+        addParams = NO;
+    }
+    // If there is a callbackType and that value is equal to "viewMachinename":
+    else if ([[params objectForKey:@"callbackType"] isEqualToString:@"viewMachineName"]) {
+        path = [NSMutableString stringWithFormat:@"%@/%@?", [[DIOSSession sharedSession] aliasViews], [params objectForKey:@"view_name"]];
+    }
+    // Currently, this is the same as viewMachineName - Available should more options need to be supported:
+    else {
+        path = [NSMutableString stringWithFormat:@"%@/%@?", [[DIOSSession sharedSession] aliasViews], [params objectForKey:@"view_name"]];
+    }
+    
+    // Iterate over all of the params passed to this method.
+    if (addParams) {
+        for (NSString *key in params) {
+            
+            // Only continue forward if the key is one that should not be ignored.
+            if (![key isEqualToString:@"view_name"] && ![key isEqualToString:@"callbackType"]) {
+                
+                id value = [params objectForKey:key];
+                
+                //the code below was inserted because if there is only one argument, the "&" is not needed and the view doesn't work
+                if(x++) {
+                    [path appendFormat:@"&"];
+                    
+                }
+                
+                [path appendFormat:@"%@=%@", key, value];
+            }
+        }
+    }
+    
+    [[DIOSSession sharedSession] sendRequestWithPath:path method:@"GET" params:params success:success failure:failure];
 }
 @end
