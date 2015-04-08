@@ -134,7 +134,7 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
     NSString *path = [NSString stringWithFormat:@"%@/login", [[DIOSSession sharedSession] aliasUser]];
     
     [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [[DIOSSession sharedSession] setUser:responseObject];
+        [[DIOSSession sharedSession] setUser:[responseObject objectForKey:@"user"]];
         [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
         if (success != nil) {
             success(operation, responseObject);
