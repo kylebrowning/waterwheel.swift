@@ -49,7 +49,6 @@
     DIOSSession *session = [DIOSSession sharedSession];
     [session getCSRFTokenWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         [[DIOSSession sharedSession] sendRequestWithPath:@"system/connect" method:@"POST" params:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
             [[DIOSSession sharedSession] setUser:[responseObject objectForKey:@"user"]];
             [[DIOSSession sharedSession] setSystemConnected:YES];
             if (success != nil) {

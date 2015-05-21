@@ -135,7 +135,7 @@ static NSUInteger USERNAME_MAX_LENGTH = 60;
     
     [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [[DIOSSession sharedSession] setUser:[responseObject objectForKey:@"user"]];
-        [[DIOSSession sharedSession] setCsrfToken:[responseObject objectForKey:@"token"]];
+        [DIOSSession getCSRFToken]; // CSRF Token is based on session data. After login the session is changed. Forcing a new token to be retreived and saved.
         if (success != nil) {
             success(operation, responseObject);
         }
