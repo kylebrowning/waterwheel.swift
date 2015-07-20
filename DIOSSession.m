@@ -10,7 +10,7 @@
 
 @implementation DIOSSession
 @synthesize baseURL;
-
+@synthesize requestFormat;
 #pragma mark Singleton Methods
 
 + (DIOSSession *) sharedSession
@@ -20,6 +20,7 @@
     dispatch_once(&onceToken, ^{
         sharedSession = [[self alloc] init];
         sharedSession.requestSerializer = [AFJSONRequestSerializer serializer];
+        sharedSession.requestFormat = @"json";
     });
     return sharedSession;
 }
@@ -40,7 +41,9 @@
                      success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure
 {
-    NSMutableURLRequest *request = [self requestWithMethod:method path:path parameters:params];
+    NSMutableDictionary *localParams = [[NSMutableDictionary alloc] initWithDictionary:params];
+    [localParams setObject:requestFormat forKey:@"_format"];
+    NSMutableURLRequest *request = [self requestWithMethod:method path:path parameters:localParams];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [DIOSSession logResponseSucccessToConsole:operation withResponse:responseObject];
         if (success != nil) {

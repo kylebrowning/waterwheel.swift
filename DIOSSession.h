@@ -16,6 +16,7 @@
 @property (nonatomic) BOOL signRequests;
 @property (nonatomic, strong) NSString *basicAuthUsername;
 @property (nonatomic, strong) NSString *basicAuthPassword;
+@property (nonatomic, strong) NSString *requestFormat;
 
 + (DIOSSession *) sharedSession;
 - (void) sendRequestWithPath:(NSString*)path
