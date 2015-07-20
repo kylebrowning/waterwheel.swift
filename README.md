@@ -4,7 +4,6 @@
 ####Introduction
 ----
 
-[![Join the chat at https://gitter.im/kylebrowning/drupal-ios-sdk](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/kylebrowning/drupal-ios-sdk?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with Drupal and handles session managment for you(minus oauth)
 
 ### Requirements
@@ -33,9 +32,13 @@ In Drupal 8 things are a bit different, but much easier.
 
 ####First steps
 ```obj-c
- DIOSSession *sharedSession = [DIOSSession sharedSession];
- [sharedSession setBaseURL:[NSURL URLWithString:@"http://d8"]];
- [sharedSession setBasicAuthCredsWithUsername:@"admin" andPassword:@"pass"];
+  DIOSSession *sharedSession = [DIOSSession sharedSession];
+  [sharedSession setBaseURL:[NSURL URLWithString:@"http://d8"]];
+  [sharedSession setBasicAuthCredsWithUsername:@"admin" andPassword:@"pass"];
+  //If you want to change the request format
+  //Defaults to json
+  [sharedSession setRequestFormat:@"hal+json"];
+
 ```
 Currently 3.x only supports basic auth but will support oAuth soon
 
