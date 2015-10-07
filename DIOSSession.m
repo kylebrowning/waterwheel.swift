@@ -41,6 +41,8 @@
 #include <sys/time.h>
 #import <CommonCrypto/CommonHMAC.h>
 
+#define TRY_OPERATION_AFTER_SYSTEM_CONNECT_MAX_ALLOWED_ATTEMPTS 5
+
 static NSString* Base64EncodedStringFromData(NSData *data);
 static NSString* URLEncodeString(NSString *string);
 static const NSString *kOAuthSignatureMethodKey = @"oauth_signature_method";
@@ -234,8 +236,26 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken, systemConnected, timers;
         }
         AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:success failure:failure];
         [self.operationQueue addOperation:operation];
-        [timerInArray invalidate];
         [timers removeObjectAtIndex:index];
+    }
+    else {
+        NSDictionary *userInfo = [theTimer userInfo];
+        NSInteger timerFireCount = [[userInfo objectForKey:@"timerFireCount"] integerValue] + 1;
+        if( timerFireCount < TRY_OPERATION_AFTER_SYSTEM_CONNECT_MAX_ALLOWED_ATTEMPTS ) {
+            NSMutableDictionary *mutableUserInfo = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+            [mutableUserInfo setObject:[NSNumber numberWithInteger:timerFireCount] forKey:@"timerFireCount"];
+            NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                              target:self
+                                                            selector:@selector(tryOperationAgainAfterSystemConnect:)
+                                                            userInfo:mutableUserInfo
+                                                             repeats:NO];
+            [timers replaceObjectAtIndex:[timers indexOfObject:theTimer] withObject:timer];
+        }
+        else {
+            void(^failure)() = [userInfo objectForKey:@"failure"];
+            failure(nil,nil);
+            [timers removeObject:theTimer];
+        }
     }
 }
 - (void) sendRequestWithPath:(NSString*)path
@@ -268,11 +288,12 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken, systemConnected, timers;
         [temp setValue:success forKey:@"success"];
         [temp setValue:request forKey:@"request"];
         [temp setValue:failure forKey:@"failure"];
+        [temp setValue:[NSNumber numberWithInteger:0] forKey:@"timerFireCount"];
         NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                           target:self
                                                         selector:@selector(tryOperationAgainAfterSystemConnect:)
                                                         userInfo:temp
-                                                         repeats:YES];
+                                                         repeats:NO];
         [timers addObject:timer];
     }
 }
