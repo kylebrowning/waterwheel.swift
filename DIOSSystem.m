@@ -54,9 +54,9 @@
             if (success != nil) {
                 success(operation, responseObject);
             }
-        } failure:nil];
+        } failure:failure];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
+        failure(operation,error);
     }];
 
 }
