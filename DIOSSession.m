@@ -75,20 +75,15 @@
                                  parameters:(NSDictionary *)parameters
 {
     NSString *urlString = [NSString stringWithFormat:@"%@/%@", [[self baseURL] absoluteString], path];
-    NSLog(@"Urlstring is %@", urlString);
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [self.requestSerializer setValue:@"application/hal+json" forHTTPHeaderField:@"Content-Type"];
 
-    if (self.signRequests) {
-        
+    if (self.signRequests) {     
         [self.requestSerializer setAuthorizationHeaderFieldWithUsername:_basicAuthUsername password:_basicAuthPassword];
     }
     else{
-        // If previously signRequest is set to YES then if temparoraly it has been set to NO then authorization header should be cleared
         [self.requestSerializer clearAuthorizationHeader];
-
     }
-    
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
     return request;
 }

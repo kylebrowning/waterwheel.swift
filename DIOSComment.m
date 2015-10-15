@@ -25,19 +25,8 @@
 
     NSMutableDictionary *dict = [NSMutableDictionary new];
     NSString *href = [NSString stringWithFormat:@"%@/rest/type/%@/%@", [[[DIOSSession sharedSession] baseURL] absoluteString], @"comment", type];
-// This is for older beta releases
-//    NSString *relationKey = [NSString stringWithFormat:@"%@/rest/relation/comment/comment/entity_id", [[[DIOSSession sharedSession] baseURL] absoluteString]];
-//    
-//    NSString *relationValue = [NSString stringWithFormat:@"%@/node/%@",[[[DIOSSession sharedSession] baseURL] absoluteString],relationID];
-    
-    
-    
     NSString *relationKey = [NSString stringWithFormat:@"%@/relation/comment/comment/entity_id", [[[DIOSSession sharedSession] baseURL] absoluteString]];
-    
     NSString *relationValue = [NSString stringWithFormat:@"%@/rest/type/%@/%@/node/%@",[[[DIOSSession sharedSession] baseURL] absoluteString],@"comment",type,relationID];
-    
-    
-
     NSDictionary *defaultDict = @{@"_links" : @{@"type" : @{@"href" : href}, relationKey:@[@{@"href" :relationValue}]}, @"entity_id":@[@{@"target_id":relationID,@"revision_id":@""}]};
     [dict addEntriesFromDictionary:defaultDict];
     [dict addEntriesFromDictionary:params];
