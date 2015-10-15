@@ -59,7 +59,6 @@
         }
     }];
     if (_signRequests) {
-       
         NSURLCredential *credential = [NSURLCredential credentialWithUser:_basicAuthUsername password:_basicAuthPassword persistence:NSURLCredentialPersistenceNone];
         [operation setCredential:credential];
     }
