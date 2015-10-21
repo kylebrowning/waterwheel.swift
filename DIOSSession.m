@@ -253,7 +253,9 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken, systemConnected, timers;
         }
         else {
             void(^failure)() = [userInfo objectForKey:@"failure"];
-            failure(nil,nil);
+            if( failure != nil ) {
+                failure(nil,nil);
+            }
             [timers removeObject:theTimer];
         }
     }

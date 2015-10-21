@@ -56,7 +56,9 @@
             }
         } failure:failure];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        failure(operation,error);
+        if (failure != nil) {
+            failure(operation,error);
+        }
     }];
 
 }
