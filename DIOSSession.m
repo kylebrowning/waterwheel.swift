@@ -43,6 +43,10 @@
 
 #define TRY_OPERATION_AFTER_SYSTEM_CONNECT_MAX_ALLOWED_ATTEMPTS 5
 
+#define DRUPAL_IOS_SDK_ERROR_DOMAIN @"drupal-ios-sdkErrorDomain"
+#define DRUPAL_IOS_ERROR_CODE_CSRF_TOKEN_EMPTY 1
+#define DRUPAL_IOS_ERROR_CODE_CSRF_TOKEN_EMPTY_LOCALIZED_DESCRIPTION @"Received an empty CSRF token."
+
 static NSString* Base64EncodedStringFromData(NSData *data);
 static NSString* URLEncodeString(NSString *string);
 static const NSString *kOAuthSignatureMethodKey = @"oauth_signature_method";
@@ -207,10 +211,22 @@ aliasTaxonomyTerm, aliasTaxonomyVocabulary, csrfToken, systemConnected, timers;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/services/session/token", [[DIOSSession sharedSession] baseURL]]]];
     [request setValue:[NSString stringWithFormat:@"text/plain"] forHTTPHeaderField:@"Accept"];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *aCsrfToken = [NSString stringWithUTF8String:[responseObject bytes]];
-        [[DIOSSession sharedSession] setCsrfToken:aCsrfToken];
-        if (success != nil) {
-            success(operation, responseObject);
+        const void *responseBytes = [responseObject bytes];
+        if( responseBytes ) {
+            NSString *aCsrfToken = [NSString stringWithUTF8String:responseBytes];
+            [[DIOSSession sharedSession] setCsrfToken:aCsrfToken];
+            if (success != nil) {
+                success(operation, responseObject);
+            }
+        }
+        else {
+            NSError *error = [NSError errorWithDomain:DRUPAL_IOS_SDK_ERROR_DOMAIN
+                                                 code:DRUPAL_IOS_ERROR_CODE_CSRF_TOKEN_EMPTY
+                                             userInfo:[NSDictionary dictionaryWithObjectsAndKeys:DRUPAL_IOS_ERROR_CODE_CSRF_TOKEN_EMPTY_LOCALIZED_DESCRIPTION, NSLocalizedDescriptionKey, nil]];
+            [DIOSSession logRequestFailuretoConsole:operation withError:error];
+            if (failure != nil) {
+                failure(operation, error);
+            }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [DIOSSession logRequestFailuretoConsole:operation withError:error];
