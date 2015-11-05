@@ -28,13 +28,24 @@
     NSDictionary *defaultDict = @{@"_links" : @{@"type" : @{@"href" : href}}};
     [dict addEntriesFromDictionary:defaultDict];
     [dict addEntriesFromDictionary:params];
-    NSString *path = [NSString stringWithFormat:@"entity/%@", name];
+    // This code change is due to https://www.drupal.org/node/2291055
+    NSString *path  = nil;
+    if ([name isEqualToString:@"user"]) {
+       path = [NSString stringWithFormat:@"entity/%@/register", name];
+
+    }
+    else{
+        path  = [NSString stringWithFormat:@"entity/%@", name];
+
+    }
+    
     [[DIOSSession sharedSession] sendRequestWithPath:path method:@"POST" params:dict success:success failure:failure];
 }
 + (void) deleteEntityWithEntityName:(NSString*)name andID:(NSString*)eid
                    success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                    failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-    NSString *path = [NSString stringWithFormat:@"%@/%@", name, eid];
+    // The path would be set to /%@/%@ once the bug 2293697 is solved
+    NSString *path = [NSString stringWithFormat:@"entity/%@/%@", name, eid];
     [[DIOSSession sharedSession] sendRequestWithPath:path method:@"DELETE" params:nil success:success failure:failure];
 }
 

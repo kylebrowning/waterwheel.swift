@@ -19,7 +19,6 @@
 + (void) createUserWithParams:(NSDictionary*)params
                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure {
-
     [DIOSEntity createEntityWithEntityName:@"user" type:@"user" andParams:params success:success failure:failure];
 }
 

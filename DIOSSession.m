@@ -42,7 +42,10 @@
                      failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error)) failure
 {
     NSMutableDictionary *localParams = [[NSMutableDictionary alloc] initWithDictionary:params];
+    // Adding _format parameter to other types of request like POST, DELETE, UPDATE causes drupal crash with 500
+    if ([method isEqualToString:@"GET"])
     [localParams setObject:requestFormat forKey:@"_format"];
+    
     NSMutableURLRequest *request = [self requestWithMethod:method path:path parameters:localParams];
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [DIOSSession logResponseSucccessToConsole:operation withResponse:responseObject];
@@ -59,6 +62,10 @@
         NSURLCredential *credential = [NSURLCredential credentialWithUser:_basicAuthUsername password:_basicAuthPassword persistence:NSURLCredentialPersistenceNone];
         [operation setCredential:credential];
     }
+    else{
+        [operation setCredential:nil];
+    }
+    
     [self.operationQueue addOperation:operation];
 }
 
@@ -70,9 +77,11 @@
     [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [self.requestSerializer setValue:@"application/hal+json" forHTTPHeaderField:@"Content-Type"];
 
-    if (self.signRequests) {
-        //doesntwork
+    if (self.signRequests) {     
         [self.requestSerializer setAuthorizationHeaderFieldWithUsername:_basicAuthUsername password:_basicAuthPassword];
+    }
+    else{
+        [self.requestSerializer clearAuthorizationHeader];
     }
     NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:method URLString:urlString parameters:parameters error:nil];
     return request;
