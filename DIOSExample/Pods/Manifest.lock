@@ -6,13 +6,13 @@ PODS:
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
-  - drupal-ios-sdk (~> 4.0.0)
+  - drupal-ios-sdk (= 4.0.0)
 
 SPEC CHECKSUMS:
   Alamofire: 4da478599fccddff361205c8929333d7fe18dceb
   drupal-ios-sdk: fa220447d07a982cb7a12abc6a2e7cd4c70578b3
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: dcb9f42cd8030f6c607b1483ec719c846d59c030
+PODFILE CHECKSUM: 4615ebd6dd76b39fef4bf7fb42ca149f46f2dd15
 
 COCOAPODS: 1.0.0.beta.2
