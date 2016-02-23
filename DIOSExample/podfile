@@ -1,0 +1,6 @@
+platform :ios, '9.0'
+use_frameworks!
+
+target "DIOSExample" do
+  pod 'drupal-ios-sdk', '~> 4.0.0'
+end
