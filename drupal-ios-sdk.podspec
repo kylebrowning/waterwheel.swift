@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source_files = "*.swift"
   s.requires_arc = true
   s.ios.deployment_target = '9.0'
-  s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE"
+  s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE" }
   s.dependency 'Alamofire'
   s.dependency 'SwiftyJSON'
 end
