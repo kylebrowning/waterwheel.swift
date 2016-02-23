@@ -1,6 +1,9 @@
 ###Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 -----
-###### built by [Kyle Browning](http://kylebrowning.com)
+###### built by [Kyle Browning](http://kylebrowning.com) 
+
+![Travis CI](https://travis-ci.org/kylebrowning/drupal-ios-sdk.svg)
+
 ####Introduction
 ----
 
