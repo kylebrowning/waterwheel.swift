@@ -1,0 +1,6 @@
+framework module drupal_ios_sdk {
+  umbrella header "drupal-ios-sdk-umbrella.h"
+
+  export *
+  module * { export * }
+}
