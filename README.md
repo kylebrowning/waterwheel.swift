@@ -13,7 +13,7 @@ The Drupal iOS SDK is a standard set of libraries for communicating to Drupal fr
 
 | DIOS Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
-|          [4.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/4.x)         |            Drupal 8 (Swift)            |   
+|          [4.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/4.x)         |            Drupal 8 (Swift)            | iOS 9.0   
 |          [3.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/master)         |            Drupal 8 (Obj-C)            |           iOS 7.0          |  |
 |          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7 (Obj-C)            |         iOS 5.0        |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 
