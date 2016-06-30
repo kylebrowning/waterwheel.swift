@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class DIOS: NSObject {
+public class DIOS {
     static let sharedInstance = DIOS()
     
     let DIOSURLKey = "diosurlkey"
@@ -26,19 +26,18 @@ class DIOS: NSObject {
     var basicPassword : String?
     var signRequestsBasic : Bool?
     
-    override init() {
-        super.init()
+    public init() {
         self.signRequestsBasic = false
         let dict = NSDictionary(contentsOfFile: plistPath!)
         self.URL =  dict!.objectForKey(self.DIOSURLKey) as? String
 
     }
-    func setUserNameAndPassword(username:String?, password:String?) {
+    public func setUserNameAndPassword(username:String?, password:String?) {
         self.basicUsername = username
         self.basicPassword = password
         self.signRequestsBasic = true
     }
-    func sendRequest(path:String?, method:Alamofire.Method, params:Dictionary<String, String>?, completionHandler:(success:Bool, response:NSDictionary!, error:NSError!) -> Void) {
+    public func sendRequest(path:String?, method:Alamofire.Method, params:Dictionary<String, String>?, completionHandler:(success:Bool, response:NSDictionary!, error:NSError!) -> Void) {
         let urlString = self.URL! + "/" + path! + self.requestFormat
 
         if (self.signRequestsBasic == true) {
@@ -60,23 +59,6 @@ class DIOS: NSObject {
             }
         }
         
-    }
-    func logUserIn(username:String?, password:String?, completionHandler:(success:Bool, response:NSDictionary!, error:NSError!) -> Void) {
-        let body = [
-            "username": username! as String,
-            "password": password! as String,
-        ]
-        // Fetch Request
-        Alamofire.request(.POST, self.URL! + "/" + self.endpoint! + "/user/login", headers: headers, parameters: body, encoding: .JSON)
-            .validate(statusCode: 200..<300)
-            .responseJSON { response in switch response.result {
-            case .Success(let JSON):
-                let response = JSON as! NSDictionary
-                completionHandler(success: true, response: response, error: nil)
-            case .Failure(let error):
-                completionHandler(success: false, response: nil, error: error)
-                }
-        }
     }
     
 }
