@@ -32,3 +32,17 @@ pod install
 ####Configuration
 
 `Coming soon`
+
+####Usage
+
+```swift 
+let dios = DIOS()
+dios.setUserNameAndPassword("kylebrowning", password: "KCg-bz5-CBe-BFH")
+dios.sendRequest("node/1", method: .GET, params: nil) { (success, response, error) in
+    if (success) {
+        print(response)
+    } else {
+        print(error)
+    }
+}
+ ```
