@@ -85,7 +85,7 @@ public class DIOS {
         }
         Alamofire.request(method, urlString, parameters: params, encoding:.JSON, headers:headers).validate().responseSwiftyJSON({ (request, response, json, error) in
             switch response!.result {
-            case .Success(let js):
+            case .Success(let _):
                 completionHandler(success: true, response: response, json: json, error: nil)
             case .Failure(let error):
                 completionHandler(success: false, response: response, json: nil, error: error)
