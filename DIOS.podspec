@@ -1,0 +1,1 @@
+drupal-ios-sdk.podspec
