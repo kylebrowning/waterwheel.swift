@@ -2,7 +2,6 @@
 -----
 ###### built by [Kyle Browning](http://kylebrowning.com) 
 
-![Travis CI](https://travis-ci.org/kylebrowning/drupal-ios-sdk.svg)
 
 ####Introduction
 ----
@@ -22,7 +21,7 @@ The Drupal iOS SDK is a standard set of libraries for communicating to Drupal fr
 ----
 Create a pod file with (this will keep you on the 4.0 releases which is Drupal 8 specific) 
 ```
- pod 'drupal-ios-sdk', '~> 4.0'
+ pod 'DIOS', '~> 4.0'
 ```
 Then run 
 ```
@@ -35,14 +34,126 @@ pod install
 
 ####Usage
 
+##Initialization Steps
+
 ```swift 
-let dios = DIOS()
-dios.setUserNameAndPassword("kylebrowning", password: "KCg-bz5-CBe-BFH")
-dios.sendRequest("node/1", method: .GET, params: nil) { (success, response, error) in
-    if (success) {
-        print(response)
-    } else {
-        print(error)
+        // Do any additional setup after loading the view, typically from a nib.
+
+        //get our shared instance
+        let dios = DIOS.sharedInstance
+
+        //set Username and password
+        dios.setUserNameAndPassword("kylebrowning", password: "password")
+
+        //get our Entity Manager
+        let em = DIOSEntity()
+
+        //Get Node 36
+        em.get("node", entityId: "36") { (success, response, json, error) in
+            if (success) {
+                print(json)
+            } else {
+                print(error)
+            }
+        }
+
+
+        //build our node body
+        let body = [
+            "type": [
+                [
+                    "target_id": "article"
+                ]
+            ],
+            "title": [
+                [
+                    "value": "Hello World"
+                ]
+            ],
+            "body": [
+                [
+                    "value": "How are you?"
+                ]
+            ]
+        ]
+
+        //Create a new node.
+        em.post("node", params: body) { (success, response, json, error) in
+            if (success) {
+                print(response)
+            } else {
+                print(error)
+            }
+        }
+
+        //Update an existing node
+        em.patch("node", entityId: "36", params: body) { (success, response, json, error) in
+            if (success) {
+                //Extra error checking, but its not needed
+                if (response!.response?.statusCode == 201) {
+                    print(json)
+                }
+            } else {
+                print(error)
+            }
+        }
+
+        //Delete an existing node
+        em.delete("node", entityId: "26") { (success, response, json, error) in
+            if (success) {
+                print(response)
+            } else {
+                print(error)
+            }
+        }
+
+        //Lets add a comment
+        let comment_body = [
+            "uid": [
+                [
+                    "target_id": 1
+                ]
+            ],
+            "entity_id": [
+                [
+                    "target_id": 36
+                ]
+            ],
+            "comment_body": [
+                [
+                    "value": "<p>See you later!</p>",
+                    "format": "basic_html"
+                ]
+            ],
+            "entity_type": [
+                [
+                    "value": "node"
+                ]
+            ],
+            "subject": [
+                [
+                    "value": "Goodbye World"
+                ]
+            ],
+            "comment_type": [
+                [
+                    "target_id": "comment"
+                ]
+            ],
+            "field_name": [
+                [
+                    "value": "comment"
+                ]
+            ]
+        ]
+
+        //Create a comment
+        em.create("comment", params: comment_body) { (success, response, json, error) in
+            if (success) {
+                print(response)
+            } else {
+                print(error)
+            }
+        }
     }
-}
  ```
