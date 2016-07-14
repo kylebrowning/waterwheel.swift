@@ -1,14 +1,14 @@
-###Drupal iOS SDK - Connect your iOS/OS X app to Drupal
+#Drupal iOS SDK - Connect your iOS/OS X app to Drupal
 -----
-###### built by [Kyle Browning](http://kylebrowning.com) 
+##### built by [Kyle Browning](http://kylebrowning.com) 
 
 
-####Introduction
+##Introduction
 ----
 
 The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.
 
-### Requirements
+## Requirements
 
 | DIOS Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
@@ -23,6 +23,7 @@ At its core the Drupal iOS SDK is designed to handle everything Drupal Core supp
 - Session management
 - Entity Crud
  
+## Future
 In the future this project will have more robust features that make working with Drupal from a Swift perspective easier such as:
 
 - LoginViewController
