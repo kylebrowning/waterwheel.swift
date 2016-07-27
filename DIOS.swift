@@ -124,7 +124,8 @@ public class DIOS {
      */
 
     public func logout(completionHandler:stringcompletion) {
-        Alamofire.request(.GET, "http://drupal-8-1-2.dd/user/logout")
+        let urlString = diosManager.URL + "/user/logout"
+        Alamofire.request(.GET, urlString)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
                 if (response.result.error == nil) {
