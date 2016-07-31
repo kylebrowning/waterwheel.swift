@@ -4,48 +4,54 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Drupal-ios-sdk by kylebrowning</title>
-
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/kylebrowning/drupal-ios-sdk">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/kylebrowning/drupal-ios-sdk/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1>Drupal-ios-sdk</h1>
-        <p>The Drupal iOS SDK provides a full suite of iOS methods to natively connect iOS applications to Drupal 7 and 8.</p>
 
-        <p class="view"><a href="https://github.com/kylebrowning/drupal-ios-sdk">View the Project on GitHub <small>kylebrowning/drupal-ios-sdk</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/kylebrowning/drupal-ios-sdk/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/kylebrowning/drupal-ios-sdk/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/kylebrowning/drupal-ios-sdk">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
       <section>
-        <h3>
-<a id="drupal-ios-sdk---connect-your-iosos-x-app-to-drupal" class="anchor" href="#drupal-ios-sdk---connect-your-iosos-x-app-to-drupal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Drupal iOS SDK - Connect your iOS/OS X app to Drupal</h3>
+        <div id="title">
+          <h1>Drupal-ios-sdk</h1>
+          <p>The Drupal iOS SDK provides a full suite of iOS methods to natively connect iOS applications to Drupal 7 and 8.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/kylebrowning">kylebrowning</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
-<hr>
+        <h1>
+<a id="drupal-ios-sdk---connect-your-iosos-x-app-to-drupal" class="anchor" href="#drupal-ios-sdk---connect-your-iosos-x-app-to-drupal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drupal iOS SDK - Connect your iOS/OS X app to Drupal</h1>
 
-<h6>
-<a id="built-by-kyle-browning" class="anchor" href="#built-by-kyle-browning" aria-hidden="true"><span class="octicon octicon-link"></span></a>built by <a href="http://kylebrowning.com">Kyle Browning</a>
-</h6>
+<h5>
+<a id="built-by-kyle-browning" class="anchor" href="#built-by-kyle-browning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>built by <a href="http://kylebrowning.com">Kyle Browning</a>
+</h5>
 
-<h4>
-<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h4>
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
-<hr>
+<p>The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.</p>
 
-<p>The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for AFNetworking. It combines the most used commands to communicate with Drupal and handles session managment for you(minus oauth)</p>
-
-<h3>
-<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h3>
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
 
 <table>
 <thead>
@@ -58,28 +64,59 @@
 </thead>
 <tbody>
 <tr>
+<td align="center"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tree/4.x">4.x</a></td>
+<td align="center">Drupal 8 (Swift)</td>
+<td align="center">iOS 9.0</td>
+<td align="center"></td>
+</tr>
+<tr>
 <td align="center"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tree/master">3.x</a></td>
-<td align="center">Drupal 8</td>
+<td align="center">Drupal 8 (Obj-C)</td>
 <td align="center">iOS 7.0</td>
 <td align="center"></td>
 </tr>
 <tr>
 <td align="center"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x">2.x</a></td>
-<td align="center">Drupal 6-7</td>
+<td align="center">Drupal 6-7 (Obj-C)</td>
 <td align="center">iOS 5.0</td>
 <td align="center">Requires <a href="http://drupal.org/project/services">Services</a> module</td>
 </tr>
 </tbody>
 </table>
 
-<h4>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h4>
+<h2>
+<a id="philosophy-and-purpose" class="anchor" href="#philosophy-and-purpose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Philosophy and Purpose</h2>
+
+<p>At its core the Drupal iOS SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.</p>
+
+<h2>
+<a id="current-4x-features" class="anchor" href="#current-4x-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current 4.x features</h2>
+
+<ul>
+<li>Session management</li>
+<li>Entity Crud</li>
+</ul>
+
+<h2>
+<a id="future" class="anchor" href="#future" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Future</h2>
+
+<p>In the future this project will have more robust features that make working with Drupal from a Swift perspective easier such as:</p>
+
+<ul>
+<li>LoginViewController</li>
+<li>SignupViewController</li>
+<li>LogoutButton</li>
+<li>Views integration into Table Views</li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
 <hr>
 
-<p>Create a pod file with (this will keep you on the 3.0 releases which is Drupal 8 specific) </p>
+<p>Create a pod file with (this will keep you on the 4.0 releases which is Drupal 8 specific) </p>
 
-<pre><code> pod 'drupal-ios-sdk', '~&gt; 3.0'
+<pre><code> pod 'DIOS', '~&gt; 4.0'
 </code></pre>
 
 <p>Then run </p>
@@ -87,80 +124,111 @@
 <pre><code>pod install
 </code></pre>
 
-<h4>
-<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h4>
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2>
 
-<hr>
+<ol>
+<li>Copy the plist file from this repository or make your own and called it <code>dios.plist</code>
+</li>
+<li>Edit the <code>diosurlkey</code> to point to your domain</li>
+<li>(Optional) If you're not using HTTPS you will have to enable the <a href="NSAppTransportSecurity">http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http</a>
+</li>
+</ol>
 
-<p>In Drupal 8 things are a bit different, but much easier.</p>
+<h2>
+<a id="initialization-steps" class="anchor" href="#initialization-steps" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Initialization Steps</h2>
 
-<h4>
-<a id="first-steps" class="anchor" href="#first-steps" aria-hidden="true"><span class="octicon octicon-link"></span></a>First steps</h4>
+<p>The code below will give you access to the baseline of features for communicating to a Drupal site.</p>
 
-<div class="highlight highlight-obj-c"><pre> DIOSSession *sharedSession = [DIOSSession <span class="pl-c1">sharedSession</span>];
- [sharedSession <span class="pl-c1">setBaseURL:</span>[<span class="pl-c1">NSURL</span> <span class="pl-c1">URLWithString:</span><span class="pl-s"><span class="pl-pds">@"</span>http://d8<span class="pl-pds">"</span></span>]];
- [sharedSession <span class="pl-c1">setBasicAuthCredsWithUsername:</span><span class="pl-s"><span class="pl-pds">@"</span>admin<span class="pl-pds">"</span></span> <span class="pl-c1">andPassword:</span><span class="pl-s"><span class="pl-pds">@"</span>pass<span class="pl-pds">"</span></span>];</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">//Create an instance to use.</span>
+<span class="pl-k">let</span> dios <span class="pl-k">=</span> DIOS<span class="pl-k">.</span>sharedInstance</pre></div>
 
-<p>Currently 3.x only supports basic auth but will support oAuth soon</p>
+<p>This will log you into the site.</p>
 
-<h4>
-<a id="quick-examples" class="anchor" href="#quick-examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Examples</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">//set Username and password</span>
+dios<span class="pl-k">.</span>setUserNameAndPassword(<span class="pl-s"><span class="pl-pds">"</span>kylebrowning<span class="pl-pds">"</span></span>, password: <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>)</pre></div>
 
-<hr>
+<h2>
+<a id="entity-requests" class="anchor" href="#entity-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Requests</h2>
 
-<div class="highlight highlight-obj-c"><pre> <span class="pl-c">//create new user</span>
- <span class="pl-c1">NSDictionary</span> *user = @{<span class="pl-s"><span class="pl-pds">@"</span>name<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>username<span class="pl-pds">"</span></span>}],<span class="pl-s"><span class="pl-pds">@"</span>mail<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>email@gmail.com<span class="pl-pds">"</span></span>}],<span class="pl-s"><span class="pl-pds">@"</span>pass<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>passw0rd<span class="pl-pds">"</span></span>}]};
- [DIOSUser <span class="pl-c1">createUserWithParams:</span>user <span class="pl-c1">success:</span><span class="pl-c1">nil</span> <span class="pl-c1">failure:</span><span class="pl-c1">nil</span>];
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">//we need an entity manager instance</span>
+<span class="pl-k">let</span> em <span class="pl-k">=</span> DIOSEntity()</pre></div>
 
- <span class="pl-c">//update existing node</span>
- <span class="pl-c1">NSDictionary</span> *node = @{<span class="pl-s"><span class="pl-pds">@"</span>uid<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>target_id<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>1<span class="pl-pds">"</span></span>} ],<span class="pl-s"><span class="pl-pds">@"</span>body<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>Updated BOdy <span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">@"</span>format<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>full_html<span class="pl-pds">"</span></span>}],<span class="pl-s"><span class="pl-pds">@"</span>title<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>Updated Title<span class="pl-pds">"</span></span>}]};
- [DIOSNode <span class="pl-c1">patchNodeWithID:</span><span class="pl-s"><span class="pl-pds">@"</span>12<span class="pl-pds">"</span></span> <span class="pl-c1">params:</span>node <span class="pl-c1">type:</span><span class="pl-s"><span class="pl-pds">@"</span>page<span class="pl-pds">"</span></span> <span class="pl-c1">success:</span><span class="pl-c1">nil</span> <span class="pl-c1">failure:</span><span class="pl-c1">nil</span>];
+<h3>
+<a id="get" class="anchor" href="#get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get</h3>
 
- <span class="pl-c">//create new comment</span>
- <span class="pl-c1">NSDictionary</span> *parameters = @{<span class="pl-s"><span class="pl-pds">@"</span>subject<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>comment title<span class="pl-pds">"</span></span>}],<span class="pl-s"><span class="pl-pds">@"</span>comment_body<span class="pl-pds">"</span></span>:@[@{<span class="pl-s"><span class="pl-pds">@"</span>value<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>a new body<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">@"</span>format<span class="pl-pds">"</span></span>:<span class="pl-s"><span class="pl-pds">@"</span>basic_html<span class="pl-pds">"</span></span>}]};
- [DIOSComment <span class="pl-c1">createCommentWithParams:</span>parameters <span class="pl-c1">relationID:</span><span class="pl-s"><span class="pl-pds">@"</span>7<span class="pl-pds">"</span></span> <span class="pl-c1">type:</span><span class="pl-s"><span class="pl-pds">@"</span>comment<span class="pl-pds">"</span></span> <span class="pl-c1">success:</span><span class="pl-c1">nil</span> <span class="pl-c1">failure:</span><span class="pl-c1">nil</span>];
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> em <span class="pl-k">=</span> DIOSEntity()
 
- <span class="pl-c">//get a user</span>
- [DIOSUser <span class="pl-c1">getUserWithID:</span><span class="pl-s"><span class="pl-pds">@"</span>1<span class="pl-pds">"</span></span> <span class="pl-c1">success:</span><span class="pl-c1">nil</span> <span class="pl-c1">failure:</span><span class="pl-c1">nil</span>];
+<span class="pl-c">//Get Node 36</span>
+em<span class="pl-k">.</span><span class="pl-k">get</span>(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>) { (success, response, json, error) <span class="pl-k">in</span>
+    <span class="pl-k">if</span> (success) {
+        <span class="pl-c1">print</span>(json)
+    } <span class="pl-k">else</span> {
+        <span class="pl-c1">print</span>(error)
+    }
+}</pre></div>
 
- <span class="pl-c">//delete a node</span>
- [DIOSNode <span class="pl-c1">deleteNodeWithID:</span><span class="pl-s"><span class="pl-pds">@"</span>13<span class="pl-pds">"</span></span> <span class="pl-c1">success:</span><span class="pl-c1">nil</span> <span class="pl-c1">failure:</span><span class="pl-c1">nil</span>];</pre></div>
+<h3>
+<a id="createpost" class="anchor" href="#createpost" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create/post</h3>
 
-<h4>
-<a id="extras" class="anchor" href="#extras" aria-hidden="true"><span class="octicon octicon-link"></span></a>Extras</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">//build our node body</span>
+<span class="pl-k">let</span> body <span class="pl-k">=</span> [
+    <span class="pl-s"><span class="pl-pds">"</span>type<span class="pl-pds">"</span></span>: [
+        [
+            <span class="pl-s"><span class="pl-pds">"</span>target_id<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>article<span class="pl-pds">"</span></span>
+        ]
+    ],
+    <span class="pl-s"><span class="pl-pds">"</span>title<span class="pl-pds">"</span></span>: [
+        [
+            <span class="pl-s"><span class="pl-pds">"</span>value<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>Hello World<span class="pl-pds">"</span></span>
+        ]
+    ],
+    <span class="pl-s"><span class="pl-pds">"</span>body<span class="pl-pds">"</span></span>: [
+        [
+            <span class="pl-s"><span class="pl-pds">"</span>value<span class="pl-pds">"</span></span>: <span class="pl-s"><span class="pl-pds">"</span>How are you?<span class="pl-pds">"</span></span>
+        ]
+    ]
+]
 
-<hr>
+<span class="pl-c">//Create a new node.</span>
+em<span class="pl-k">.</span>post(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, params: body) { (success, response, json, error) <span class="pl-k">in</span>
+    <span class="pl-k">if</span> (success) {
+        <span class="pl-c1">print</span>(response)
+    } <span class="pl-k">else</span> {
+        <span class="pl-c1">print</span>(error)
+    }
+}</pre></div>
 
-<p><a href="https://github.com/utneon/drupal-ios-sdk-addons">Drupal iOS SDK Addons</a></p>
+<h3>
+<a id="updateputpatch" class="anchor" href="#updateputpatch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update/Put/PATCH</h3>
 
-<h4>
-<a id="oauth" class="anchor" href="#oauth" aria-hidden="true"><span class="octicon octicon-link"></span></a>OAuth</h4>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">//Update an existing node</span>
+em<span class="pl-k">.</span>patch(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, params: body) { (success, response, json, error) <span class="pl-k">in</span>
+    <span class="pl-k">if</span> (success) {
+        <span class="pl-c">//Extra error checking, but its not needed</span>
+        <span class="pl-k">if</span> (response<span class="pl-k">!.</span>response?<span class="pl-k">.</span>statusCode <span class="pl-k">==</span> <span class="pl-c1">201</span>) {
+            <span class="pl-c1">print</span>(json)
+        }
+    } <span class="pl-k">else</span> {
+        <span class="pl-c1">print</span>(error)
+    }
+}</pre></div>
 
-<hr>
+<h3>
+<a id="delete" class="anchor" href="#delete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete</h3>
 
-<p>Coming soon</p>
-
-<h4>
-<a id="troubleshooting" class="anchor" href="#troubleshooting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Troubleshooting</h4>
-
-<hr>
-
-<p>If you are getting Forbidden, you probably havnt setup your permissions.</p>
-
-<h4>
-<a id="questions" class="anchor" href="#questions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Questions</h4>
-
-<hr>
-
-<p>Checkout the Issue queue, or email me
-Email <a href="mailto:kylebrowning@me.com">kylebrowning@me.com</a></p>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">//Delete an existing node</span>
+em<span class="pl-k">.</span>delete(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>26<span class="pl-pds">"</span></span>) { (success, response, json, error) <span class="pl-k">in</span>
+    <span class="pl-k">if</span> (success) {
+        <span class="pl-c1">print</span>(response)
+    } <span class="pl-k">else</span> {
+        <span class="pl-c1">print</span>(error)
+    }
+}</pre></div>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/kylebrowning">kylebrowning</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
