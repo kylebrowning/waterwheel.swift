@@ -5,7 +5,7 @@
 
 ##Introduction
 
-The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.
+The Drupal Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device(iOS, macOS, watchOS, tvOS). Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.
 
 ## Requirements
 
