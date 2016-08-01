@@ -1,4 +1,4 @@
-#Drupal Swit SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal
+#Drupal Swift SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal
 
 ##### built by [Kyle Browning](http://kylebrowning.com) 
 
