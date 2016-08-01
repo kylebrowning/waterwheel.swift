@@ -45,7 +45,7 @@ pod install
 
 1. Copy the plist file from this repository or make your own and called it `dios.plist`
 2. Edit the `diosurlkey` to point to your domain
-3. (Optional) If you're not using HTTPS you will have to enable the [http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http](NSAppTransportSecurity)
+3. (Optional) If you're not using HTTPS you will have to enable the [NSAppTransportSecurity](http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http)
 
 
 ##Initialization Steps
