@@ -1,4 +1,4 @@
-#Drupal iOS SDK - Connect your iOS/OS X app to Drupal
+#Drupal Swit SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal
 
 ##### built by [Kyle Browning](http://kylebrowning.com) 
 
@@ -16,7 +16,7 @@ The Drupal iOS SDK is a standard set of libraries for communicating to Drupal fr
 |          [2.x](https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x)         |            Drupal 6-7 (Obj-C)            |         iOS 5.0        |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 
 ## Philosophy and Purpose
-At its core the Drupal iOS SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.
+At its core the Drupal Swift SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.
 
 ## Current 4.x features
 - Session management
