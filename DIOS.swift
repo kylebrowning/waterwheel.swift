@@ -124,6 +124,7 @@ public class DIOS {
      */
 
     public func logout(completionHandler:stringcompletion) {
+        let diosManager = DIOS.sharedInstance
         let urlString = diosManager.URL + "/user/logout"
         Alamofire.request(.GET, urlString)
             .validate(statusCode: 200..<300)
