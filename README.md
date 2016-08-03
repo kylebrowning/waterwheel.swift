@@ -1,7 +1,7 @@
 ![Waterwheel - Drupal SDK](https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png)
 
 [![CocoaPods](https://img.shields.io/cocoapods/p/waterwheel.svg?maxAge=86000)](#)
-[![CocoaPods](https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=1)]()
+[![CocoaPods](https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=86000)]()
 
 
 
