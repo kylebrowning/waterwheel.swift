@@ -1,5 +1,5 @@
 //
-//  DIOS.swift
+//  waterwheel.swift
 //  Drupal Publisher
 //
 //  Created by Kyle Browning on 1/25/16.
@@ -13,9 +13,9 @@ import SwiftyJSON
 
 
 /**
- Responsible for storing state and variables for DIOS.
+ Responsible for storing state and variables for waterwheel.
  */
-public class DIOS {
+public class waterwheel {
     // MARK: - Typelias definitions
 
     public typealias completion = (success:Bool, response:Response<AnyObject, NSError>?, json:SwiftyJSON.JSON?, error:NSError!) -> Void
@@ -23,39 +23,38 @@ public class DIOS {
     public typealias paramType = [String: AnyObject]?
 
     // MARK: - Properties
-    
+
     /**
-     A shared instance of `DIOSManager`
+     A shared instance of `waterwheelManager`
      */
-    public static let sharedInstance: DIOS = {
-        return DIOS()
+    public static let sharedInstance: waterwheel = {
+        return waterwheel()
     }()
-    
-    let DIOSURLKey = "diosurlkey"
-    let plistPath = NSBundle.mainBundle().pathForResource("dios", ofType: "plist")
+
+//    let waterwheelURLKey = "waterwheelurlkey"
+//    let plistPath = NSBundle.mainBundle().pathForResource("waterwheel", ofType: "plist")
     public let requestFormat = "?_format=json"
     var headers = [
         "Content-Type":"application/json",
         "Accept":"application/json",
         ]
-    public let URL : String
+    public var URL : String
     public let endpoint : String
     public var basicUsername : String
     public var basicPassword : String
     public var CSRFToken : String
     public var signRequestsBasic : Bool = false
     public var signCSRFToken : Bool = false
-    
+
     // MARK: - Main
-    
+
     /**
-     Initializes the `DIOSManager` instance with the our defaults.
-     
-     - returns: The new `DIOSManager` instance.
+     Initializes the `waterwheel` instance with the our defaults.
+
+     - returns: The new `waterwheel` instance.
      */
     public init() {
-        let dict = NSDictionary(contentsOfFile: plistPath!)
-        self.URL =  (dict!.objectForKey(self.DIOSURLKey) as? String)!
+        self.URL =  ""
         self.basicUsername = ""
         self.basicPassword = ""
         self.signRequestsBasic = false
@@ -68,10 +67,10 @@ public class DIOS {
      Allows a username and password to be set for Basic Auth
      */
     public func setBasicAuthUsernameAndPassword(username:String, password:String) {
-        let diosManager = DIOS.sharedInstance
-        diosManager.basicUsername = username
-        diosManager.basicPassword = password
-        diosManager.signRequestsBasic = true
+        let waterwheelManager = waterwheel.sharedInstance
+        waterwheelManager.basicUsername = username
+        waterwheelManager.basicPassword = password
+        waterwheelManager.signRequestsBasic = true
     }
 
     /**
@@ -85,8 +84,8 @@ public class DIOS {
 
      */
     public func loginWithUserLoginForm(username:String, password:String, completionHandler:stringcompletion) {
-        let diosManager = DIOS.sharedInstance
-        let urlString = diosManager.URL + "/user/login"
+        let waterwheelManager = waterwheel.sharedInstance
+        let urlString = waterwheelManager.URL + "/user/login"
         let body = [
             "name":username,
             "pass":password,
@@ -101,7 +100,7 @@ public class DIOS {
             .validate(statusCode: 200..<300)
             .responseString { response in
                 if (response.result.error == nil) {
-                    diosManager.getCSRFToken({ (success, response, json, error) in
+                    waterwheelManager.getCSRFToken({ (success, response, json, error) in
                         if (success) {
                             completionHandler(success: true, response: response, json: nil, error: nil)
                         } else {
@@ -120,12 +119,12 @@ public class DIOS {
      Logout a user
      - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
-     
+
      */
 
     public func logout(completionHandler:stringcompletion) {
-        let diosManager = DIOS.sharedInstance
-        let urlString = diosManager.URL + "/user/logout"
+        let waterwheelManager = waterwheel.sharedInstance
+        let urlString = waterwheelManager.URL + "/user/logout"
         Alamofire.request(.GET, urlString)
             .validate(statusCode: 200..<300)
             .responseJSON { response in
@@ -141,15 +140,15 @@ public class DIOS {
 
 
     private func getCSRFToken(completionHandler:stringcompletion) {
-        let diosManager = DIOS.sharedInstance
-        let urlString = diosManager.URL + "/rest/session/token"
+        let waterwheelManager = waterwheel.sharedInstance
+        let urlString = waterwheelManager.URL + "/rest/session/token"
         Alamofire.request(.GET, urlString)
             .validate(statusCode: 200..<300)
             .responseString{ response in
                 if (response.result.error == nil) {
                     let csrfToken = String(data: response.data!, encoding: NSUTF8StringEncoding)
-                    diosManager.CSRFToken = csrfToken!
-                    diosManager.signCSRFToken = true
+                    waterwheelManager.CSRFToken = csrfToken!
+                    waterwheelManager.signCSRFToken = true
                     completionHandler(success: true, response: response, json: nil, error: nil)
                 }
                 else {
@@ -161,20 +160,20 @@ public class DIOS {
     // MARK: - Requests
 
     public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler:completion) {
-        let diosManager = DIOS.sharedInstance
-        
-        let urlString = diosManager.URL + "/" + path + self.requestFormat
+        let waterwheelManager = waterwheel.sharedInstance
 
-        if (diosManager.signRequestsBasic == true) {
-            
-            let plainString = diosManager.basicUsername + ":" + diosManager.basicPassword
+        let urlString = waterwheelManager.URL + "/" + path + self.requestFormat
+
+        if (waterwheelManager.signRequestsBasic == true) {
+
+            let plainString = waterwheelManager.basicUsername + ":" + waterwheelManager.basicPassword
             let credentialData = plainString.dataUsingEncoding(NSUTF8StringEncoding)!
             let base64String = credentialData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions([]))
-            
+
             headers["Authorization"] = "Basic \(base64String)"
         }
-        if (diosManager.signCSRFToken == true) {
-            headers["X-CSRF-Token"] = diosManager.CSRFToken
+        if (waterwheelManager.signCSRFToken == true) {
+            headers["X-CSRF-Token"] = waterwheelManager.CSRFToken
         }
         Alamofire.request(method, urlString, parameters: params, encoding:.JSON, headers:headers).validate().responseSwiftyJSON({ (request, response, json, error) in
             switch response!.result {
@@ -188,18 +187,18 @@ public class DIOS {
 }
 
 
-// MARK: - DIOSEntity
+// MARK: - waterwheelEntity
 
 /**
  Responsible for all Entity Operations
  */
-public class DIOSEntity : DIOS {
-    
+public class waterwheelEntity : waterwheel {
+
     // MARK: - Entity Requests  to Drupal
-    
+
     /**
      Sends a GET request to Drupal that will return an entity
-     
+
      - parameter entityType:        The entity name, eg "node".
      - parameter entityId:          The ID of the entity to get.
      - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
