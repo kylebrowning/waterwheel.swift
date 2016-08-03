@@ -5,7 +5,6 @@
 [![Drupal version](https://img.shields.io/badge/Drupal-8-blue.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=86000)]()
 [![CocoaPods](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-green.svg)](#)
-##### built and maintained by [Kyle Browning](http://kylebrowning.com)
 <br clear='all'/>
 
 
