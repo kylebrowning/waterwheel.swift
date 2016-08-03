@@ -6,7 +6,6 @@
 //  Copyright © 2016 Kyle Browning. All rights reserved.
 //
 
-import UIKit
 import Alamofire
 import SwiftyJSON
 
