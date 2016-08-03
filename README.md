@@ -10,7 +10,7 @@
 
 ## Introduction
 
-The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device  (iOS, macOS, watchOS, tvOS). Its extremely simple, to use. It combines the most used commands to communicate with Drupal and handles session managment for you.
+The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device  (iOS, macOS, watchOS, tvOS). Its extremely simple, to use. It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. The Waterwheel Swift SDK is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Currently no work is being done in the 3.x and 2.x branches in objective-or for Drupal 7.
 
 ## Requirements
 
@@ -20,20 +20,23 @@ The Waterwheel Swift SDK is a standard set of libraries for communicating to Dru
 |          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/master)         |            Drupal 8 (Obj-C)            |           iOS 7.0          |  |
 |          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)            |         iOS 5.0        |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 
-## Philosophy and Purpose
-At its core the Waterwheel Swift SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.
+## Features in 4.x
+- [x] Session management
+- [x] Basic Auth
+- [x] Cookie Auth
+- [x] Entity CRUD
+- [ ] LoginViewController
+- [ ] SignupViewController
+- [ ] LogoutButton
+- [ ] Views integration into Table Views
 
-## Current 4.x features
-- Session management
-- Entity CRUD
+## Communication
 
-## Future
-In the future this project will have more robust features that make working with Drupal from a Swift perspective easier such as:
+- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/waterwheel-swift). (Tag 'waterwheel-swift')
+- If you **found a bug**, open an issue.
+- If you **have a feature request**, open an issue.
+- If you **want to contribute**, submit a pull request.
 
-- LoginViewController
-- SignupViewController
-- LogoutButton
-- Views integration into Table Views
 
 ##Installation
 ----
