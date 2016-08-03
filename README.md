@@ -10,16 +10,18 @@
 
 ## Introduction
 
-The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device  (iOS, macOS, watchOS, tvOS). Its extremely simple, to use. It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. The Waterwheel Swift SDK is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Currently no work is being done in the 3.x and 2.x branches in objective-or for Drupal 7.
+The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device (iOS, macOS, watchOS, tvOS). Its extremely simple, to use. It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. The Waterwheel Swift SDK is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Currently no work is being done in the 3.x and 2.x branches in objective-or for Drupal 7.
 
 ## Requirements
+- iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+
+- Xcode 7.3+
+- Drupal 7 or 8. 
 
-| waterwheel version | Drupal version  | Min iOS Target  |                                   Notes                                   |
+| waterwheel version | Drupal version   |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
-|          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | iOS 9.0   
-|          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/master)         |            Drupal 8 (Obj-C)            |           iOS 7.0          |  |
-|          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)            |         iOS 5.0        |        Requires [Services](http://drupal.org/project/services) module                                                                    |
-
+|          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | 
+|          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
+|          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 ## Features in 4.x
 - [x] Session management
 - [x] Basic Auth
@@ -37,17 +39,55 @@ The Waterwheel Swift SDK is a standard set of libraries for communicating to Dru
 - If you **have a feature request**, open an issue.
 - If you **want to contribute**, submit a pull request.
 
-
 ##Installation
-----
-Create a pod file with (this will keep you on the 4.0 releases which is Drupal 8 specific)
+
+
+### CocoaPods
+
+[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+
+```bash
+$ gem install cocoapods
 ```
- pod 'waterwheel', '~> 4.0'
+
+> CocoaPods 0.39.0+ is required to build Waterwheel 3.0.0+.
+
+To integrate Waterwheel into your Xcode project using CocoaPods, specify it in your `Podfile`:
+
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '9.0'
+use_frameworks!
+
+target '<Your Target Name>' do
+    pod 'waterwheel', '~> 4.2'
+end
 ```
-Then run
+
+Then, run the following command:
+
+```bash
+$ pod install
 ```
-pod install
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
+
+You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
+
+```bash
+$ brew update
+$ brew install carthage
 ```
+
+To integrate Waterwheel into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "acquia/waterwheel-swift" ~> 4.2
+```
+
+Run `carthage update` to build the framework and drag the built `waterwheel.framework` into your Xcode project.
 
 ##Configuration
 
@@ -55,7 +95,7 @@ pod install
 2. (Optional) If you're not using HTTPS you will have to enable the [NSAppTransportSecurity](http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http)
 
 
-##Initialization Steps
+## Initialization Steps
 
 The code below will give you access to the baseline of features for communicating to a Drupal site.
 ```swift
