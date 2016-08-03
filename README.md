@@ -28,6 +28,7 @@ The Waterwheel Swift SDK is a standard set of libraries for communicating to Dru
 - [x] Basic Auth
 - [x] Cookie Auth
 - [x] Entity CRUD
+- [ ] True entities
 - [ ] LoginViewController
 - [ ] SignupViewController
 - [ ] LogoutButton
