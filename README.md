@@ -1,6 +1,9 @@
-# Waterwheel Swift SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal
+![Waterwheel - Drupal SDK](https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png)
 
-##### built by [Kyle Browning](http://kylebrowning.com)
+### Connect your iOS, macOS, watchOS, tvOS app to Drupal
+
+
+##### built and maintained by [Kyle Browning](http://kylebrowning.com)
 
 
 ## Introduction
