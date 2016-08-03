@@ -4,42 +4,32 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>Drupal-ios-sdk by kylebrowning</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/kylebrowning/drupal-ios-sdk">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/kylebrowning/drupal-ios-sdk/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
-
     <div class="wrapper">
+      <header>
+        <h1>Drupal-ios-sdk</h1>
+        <p>The Drupal iOS SDK provides a full suite of iOS methods to natively connect iOS applications to Drupal 7 and 8.</p>
 
+        <p class="view"><a href="https://github.com/kylebrowning/waterwheel-swift">View the Project on GitHub <small>kylebrowning/waterwheel-swift</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/kylebrowning/waterwheel-swift/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/kylebrowning/waterwheel-swift/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/kylebrowning/waterwheel-swift">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
       <section>
-        <div id="title">
-          <h1>Drupal-ios-sdk</h1>
-          <p>The Drupal iOS SDK provides a full suite of iOS methods to natively connect iOS applications to Drupal 7 and 8.</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/kylebrowning">kylebrowning</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
         <h1>
-<a id="drupal-swift-sdk---connect-your-ios-macos-watchos-tvos-app-to-drupal" class="anchor" href="#drupal-swift-sdk---connect-your-ios-macos-watchos-tvos-app-to-drupal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Drupal Swift SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal</h1>
+<a id="waterwheel-swift-sdk---connect-your-ios-macos-watchos-tvos-app-to-drupal" class="anchor" href="#waterwheel-swift-sdk---connect-your-ios-macos-watchos-tvos-app-to-drupal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Waterwheel Swift SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal</h1>
 
 <h5>
 <a id="built-by-kyle-browning" class="anchor" href="#built-by-kyle-browning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>built by <a href="http://kylebrowning.com">Kyle Browning</a>
@@ -48,7 +38,7 @@
 <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
-<p>The Drupal iOS SDK is a standard set of libraries for communicating to Drupal from any iOS device. Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.</p>
+<p>The Drupal Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device(iOS, macOS, watchOS, tvOS). Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.</p>
 
 <h2>
 <a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
@@ -56,7 +46,7 @@
 <table>
 <thead>
 <tr>
-<th align="center">DIOS Version</th>
+<th align="center">waterwheel Version</th>
 <th align="center">Drupal Version</th>
 <th align="center">Min iOS Target</th>
 <th align="center">Notes</th>
@@ -64,19 +54,19 @@
 </thead>
 <tbody>
 <tr>
-<td align="center"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tree/4.x">4.x</a></td>
+<td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/4.x">4.x</a></td>
 <td align="center">Drupal 8 (Swift)</td>
 <td align="center">iOS 9.0</td>
 <td align="center"></td>
 </tr>
 <tr>
-<td align="center"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tree/master">3.x</a></td>
+<td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/master">3.x</a></td>
 <td align="center">Drupal 8 (Obj-C)</td>
 <td align="center">iOS 7.0</td>
 <td align="center"></td>
 </tr>
 <tr>
-<td align="center"><a href="https://github.com/kylebrowning/drupal-ios-sdk/tree/2.x">2.x</a></td>
+<td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/2.x">2.x</a></td>
 <td align="center">Drupal 6-7 (Obj-C)</td>
 <td align="center">iOS 5.0</td>
 <td align="center">Requires <a href="http://drupal.org/project/services">Services</a> module</td>
@@ -87,14 +77,14 @@
 <h2>
 <a id="philosophy-and-purpose" class="anchor" href="#philosophy-and-purpose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Philosophy and Purpose</h2>
 
-<p>At its core the Drupal Swift SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.</p>
+<p>At its core the Waterwheel Swift SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.</p>
 
 <h2>
 <a id="current-4x-features" class="anchor" href="#current-4x-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current 4.x features</h2>
 
 <ul>
 <li>Session management</li>
-<li>Entity Crud</li>
+<li>Entity CRUD</li>
 </ul>
 
 <h2>
@@ -114,12 +104,12 @@
 
 <hr>
 
-<p>Create a pod file with (this will keep you on the 4.0 releases which is Drupal 8 specific) </p>
+<p>Create a pod file with (this will keep you on the 4.0 releases which is Drupal 8 specific)</p>
 
-<pre><code> pod 'DIOS', '~&gt; 4.0'
+<pre><code> pod 'waterwheel', '~&gt; 4.0'
 </code></pre>
 
-<p>Then run </p>
+<p>Then run</p>
 
 <pre><code>pod install
 </code></pre>
@@ -128,9 +118,7 @@
 <a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2>
 
 <ol>
-<li>Copy the plist file from this repository or make your own and called it <code>dios.plist</code>
-</li>
-<li>Edit the <code>diosurlkey</code> to point to your domain</li>
+<li><code>import waterwheel</code></li>
 <li>(Optional) If you're not using HTTPS you will have to enable the <a href="http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http">NSAppTransportSecurity</a>
 </li>
 </ol>
@@ -140,24 +128,26 @@
 
 <p>The code below will give you access to the baseline of features for communicating to a Drupal site.</p>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">//Create an instance to use.</span>
-<span class="pl-k">let</span> dios <span class="pl-k">=</span> DIOS<span class="pl-k">.</span>sharedInstance</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">// Create an instance to use.</span>
+<span class="pl-k">let</span> waterwheelEm <span class="pl-k">=</span> waterwheel<span class="pl-k">.</span>sharedInstance
+<span class="pl-c">// set the URL</span>
+waterwheelEm<span class="pl-k">.</span>URL <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://drupal-8-dev.dd<span class="pl-pds">"</span></span></pre></div>
 
 <p>This will log you into the site.</p>
 
 <div class="highlight highlight-source-swift"><pre><span class="pl-c">//set Username and password</span>
-dios<span class="pl-k">.</span>setUserNameAndPassword(<span class="pl-s"><span class="pl-pds">"</span>kylebrowning<span class="pl-pds">"</span></span>, password: <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>)</pre></div>
+waterwheel<span class="pl-k">.</span>setUserNameAndPassword(<span class="pl-s"><span class="pl-pds">"</span>kylebrowning<span class="pl-pds">"</span></span>, password: <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>)</pre></div>
 
 <h2>
 <a id="entity-requests" class="anchor" href="#entity-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Requests</h2>
 
 <div class="highlight highlight-source-swift"><pre><span class="pl-c">//we need an entity manager instance</span>
-<span class="pl-k">let</span> em <span class="pl-k">=</span> DIOSEntity()</pre></div>
+<span class="pl-k">let</span> em <span class="pl-k">=</span> waterwheelEntity()</pre></div>
 
 <h3>
 <a id="get" class="anchor" href="#get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get</h3>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> em <span class="pl-k">=</span> DIOSEntity()
+<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> em <span class="pl-k">=</span> waterwheelEntity()
 
 <span class="pl-c">//Get Node 36</span>
 em<span class="pl-k">.</span><span class="pl-k">get</span>(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>) { (success, response, json, error) <span class="pl-k">in</span>
@@ -226,9 +216,12 @@ em<span class="pl-k">.</span>delete(<span class="pl-s"><span class="pl-pds">"</s
     }
 }</pre></div>
       </section>
-
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/kylebrowning">kylebrowning</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
