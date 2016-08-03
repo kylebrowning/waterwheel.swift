@@ -43,6 +43,7 @@ The Waterwheel Swift SDK is a standard set of libraries for communicating to Dru
 
 ##Installation
 
+Waterwheel offers two installations paths. Pick your poison!
 
 ### CocoaPods
 
