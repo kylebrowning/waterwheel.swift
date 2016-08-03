@@ -1,6 +1,5 @@
 //
 //  waterwheel.swift
-//  Drupal Publisher
 //
 //  Created by Kyle Browning on 1/25/16.
 //  Copyright © 2016 Kyle Browning. All rights reserved.
