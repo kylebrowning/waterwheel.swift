@@ -1,6 +1,8 @@
 ![Waterwheel - Drupal SDK](https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png)
 
-### Connect your iOS, macOS, watchOS, tvOS app to Drupal
+[![CocoaPods](https://img.shields.io/cocoapods/p/waterwheel.svg?maxAge=86000)](#)
+[![CocoaPods](https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=1)]()
+
 
 
 ##### built and maintained by [Kyle Browning](http://kylebrowning.com)
@@ -8,11 +10,11 @@
 
 ## Introduction
 
-The Drupal Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device(iOS, macOS, watchOS, tvOS). Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.
+The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device  (iOS, macOS, watchOS, tvOS). Its extremely simple, to use. It combines the most used commands to communicate with Drupal and handles session managment for you.
 
 ## Requirements
 
-| waterwheel Version | Drupal Version  | Min iOS Target  |                                   Notes                                   |
+| waterwheel version | Drupal version  | Min iOS Target  |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
 |          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | iOS 9.0   
 |          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/master)         |            Drupal 8 (Obj-C)            |           iOS 7.0          |  |
