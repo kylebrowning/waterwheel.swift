@@ -1,7 +1,13 @@
+
 ![Waterwheel - Drupal SDK](https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png)
 
-[![CocoaPods](https://img.shields.io/cocoapods/p/waterwheel.svg?maxAge=86000)](#)
+<p align='right'>
+[![Drupal version](https://img.shields.io/badge/Drupal-8-blue.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=86000)]()
+[![CocoaPods](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-green.svg)](#)
+<br clear='all'/>
+
+
 
 
 
