@@ -11,7 +11,7 @@
 
 ## Introduction
 
-The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device (iOS, macOS, watchOS, tvOS). Its extremely simple, to use. It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. The Waterwheel Swift SDK is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Currently no work is being done in the 3.x and 2.x branches in objective-or for Drupal 7.
+The Waterwheel Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device (iOS, macOS, watchOS, tvOS). It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. The Waterwheel Swift SDK is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Currently no work is being done in the 3.x and 2.x branches in objective-or for Drupal 7.
 
 ## Requirements
 - iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+
