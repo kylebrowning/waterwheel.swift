@@ -95,7 +95,7 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 2. (Optional) If you're not using HTTPS you will have to enable the [NSAppTransportSecurity](http://stackoverflow.com/questions/31254725/transport-security-has-blocked-a-cleartext-http)
 
 
-## Initialization Steps
+## Using Waterwheel
 
 The code below will give you access to the baseline of features for communicating to a Drupal site.
 ```swift
@@ -111,7 +111,7 @@ This will log you into the site.
 waterwheel.setUserNameAndPassword("kylebrowning", password: "password")
 ```
 
-## Entity Requests
+### Entity Requests
 
 ```swift
 //we need an entity manager instance
