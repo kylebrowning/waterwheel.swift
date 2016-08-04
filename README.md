@@ -53,20 +53,20 @@ The code below will give you access to the baseline of features for communicatin
 ```swift
 // Create an instance to use.
 let waterwheelEm = waterwheel.sharedInstance
-// set the URL
+// Sets the URL to your Drupal site.
 waterwheelEm.URL = "http://drupal-8-dev.dd"
 ```
 
-This will log you into the site.
+The code below will set up Basic Authentication for each API call.
 ```swift
-//set Username and password
-waterwheel.setUserNameAndPassword("kylebrowning", password: "password")
+// Sets HTTPS Basic Authentication Credentials.
+waterwheelEm.setBasicAuthUsernameAndPassword("test", password: "test2");
 ```
 
 ## Entity Requests
 
 ```swift
-//we need an entity manager instance
+// We need an entity manager instance
 let em = waterwheelEntity()
 ```
 
