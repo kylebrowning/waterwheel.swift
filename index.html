@@ -3,11 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Drupal-ios-sdk by kylebrowning</title>
+    <title>Waterwheel by acquia</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -15,40 +17,44 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Drupal-ios-sdk</h1>
-        <p>The Drupal iOS SDK provides a full suite of iOS methods to natively connect iOS applications to Drupal 7 and 8.</p>
-
-        <p class="view"><a href="https://github.com/kylebrowning/waterwheel-swift">View the Project on GitHub <small>kylebrowning/waterwheel-swift</small></a></p>
-
-
+        <h1>Waterwheel</h1>
+        <p>The Waterwheel Swift SDK provides a way to natively connect iOS, macOS, tvOS, and watchOS applications to Drupal 7 and 8.</p>
+        <p class="view"><a href="https://github.com/acquia/waterwheel-swift">View the Project on GitHub <small>acquia/waterwheel-swift</small></a></p>
         <ul>
-          <li><a href="https://github.com/kylebrowning/waterwheel-swift/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/kylebrowning/waterwheel-swift/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/kylebrowning/waterwheel-swift">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/acquia/waterwheel-swift/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/acquia/waterwheel-swift/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/acquia/waterwheel-swift">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section>
-        <h1>
-<a id="waterwheel-swift-sdk---connect-your-ios-macos-watchos-tvos-app-to-drupal" class="anchor" href="#waterwheel-swift-sdk---connect-your-ios-macos-watchos-tvos-app-to-drupal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Waterwheel Swift SDK - Connect your iOS, macOS, watchOS, tvOS app to Drupal</h1>
+        <p><img src="https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png" alt="Waterwheel - Drupal SDK"></p>
 
-<h5>
-<a id="built-by-kyle-browning" class="anchor" href="#built-by-kyle-browning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>built by <a href="http://kylebrowning.com">Kyle Browning</a>
-</h5>
+<p></p><p align="right">
+<a href=""><img src="https://img.shields.io/badge/Drupal-8-blue.svg" alt="Drupal version"></a>
+<a href=""><img src="https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=86000" alt="CocoaPods"></a>
+<a href="#"><img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-green.svg" alt="CocoaPods"></a>
+<br clear="all"></p>
 
 <h2>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h2>
 
-<p>The Drupal Swift SDK is a standard set of libraries for communicating to Drupal with Swift on any Apple powered device(iOS, macOS, watchOS, tvOS). Its extremely simple, and is basically a wrapper for Alamofire. It combines the most used commands to communicate with Drupal and handles session managment for you.</p>
+<p>The Waterwheel Swift SDK is a set of methods and classes making it easier to use Drupal with Swift on any Apple powered device (iOS, macOS, watchOS, tvOS). It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. </p>
+
+<p>The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.</p>
 
 <h2>
 <a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
 
+<ul>
+<li>iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+</li>
+<li>Xcode 7.3+</li>
+</ul>
+
 <table>
 <thead>
 <tr>
-<th align="center">waterwheel Version</th>
-<th align="center">Drupal Version</th>
-<th align="center">Min iOS Target</th>
+<th align="center">waterwheel version</th>
+<th align="center">Drupal version</th>
 <th align="center">Notes</th>
 </tr>
 </thead>
@@ -56,63 +62,93 @@
 <tr>
 <td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/4.x">4.x</a></td>
 <td align="center">Drupal 8 (Swift)</td>
-<td align="center">iOS 9.0</td>
 <td align="center"></td>
 </tr>
 <tr>
-<td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/master">3.x</a></td>
+<td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/3.x">3.x</a></td>
 <td align="center">Drupal 8 (Obj-C)</td>
-<td align="center">iOS 7.0</td>
 <td align="center"></td>
 </tr>
 <tr>
 <td align="center"><a href="https://github.com/kylebrowning/waterwheel-swift/tree/2.x">2.x</a></td>
 <td align="center">Drupal 6-7 (Obj-C)</td>
-<td align="center">iOS 5.0</td>
 <td align="center">Requires <a href="http://drupal.org/project/services">Services</a> module</td>
 </tr>
 </tbody>
 </table>
 
 <h2>
-<a id="philosophy-and-purpose" class="anchor" href="#philosophy-and-purpose" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Philosophy and Purpose</h2>
-
-<p>At its core the Waterwheel Swift SDK is designed to handle everything Drupal Core supports out of the box. Since 8.x is in its infancy, more and more features will come available as Drupal aims to improve its API capabilities.</p>
-
-<h2>
-<a id="current-4x-features" class="anchor" href="#current-4x-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Current 4.x features</h2>
+<a id="features-in-4x" class="anchor" href="#features-in-4x" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features in 4.x</h2>
 
 <ul>
-<li>Session management</li>
-<li>Entity CRUD</li>
+<li>[x] Session management</li>
+<li>[x] Basic Auth</li>
+<li>[x] Cookie Auth</li>
+<li>[x] Entity CRUD</li>
+<li>[ ] True entities</li>
+<li>[ ] Local caching</li>
+<li>[ ] LoginViewController</li>
+<li>[ ] SignupViewController</li>
+<li>[ ] LogoutButton</li>
+<li>[ ] Views integration into Table Views</li>
 </ul>
 
 <h2>
-<a id="future" class="anchor" href="#future" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Future</h2>
-
-<p>In the future this project will have more robust features that make working with Drupal from a Swift perspective easier such as:</p>
+<a id="communication" class="anchor" href="#communication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Communication</h2>
 
 <ul>
-<li>LoginViewController</li>
-<li>SignupViewController</li>
-<li>LogoutButton</li>
-<li>Views integration into Table Views</li>
+<li>If you <strong>need help</strong>, use <a href="http://stackoverflow.com/questions/tagged/waterwheel-swift">Stack Overflow</a>. (Tag 'waterwheel-swift')</li>
+<li>If you <strong>found a bug</strong>, open an issue.</li>
+<li>If you <strong>have a feature request</strong>, open an issue.</li>
+<li>If you <strong>want to contribute</strong>, submit a pull request.</li>
 </ul>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
 
-<hr>
+<p>Waterwheel offers two installations paths. Pick your poison!</p>
 
-<p>Create a pod file with (this will keep you on the 4.0 releases which is Drupal 8 specific)</p>
+<h3>
+<a id="cocoapods" class="anchor" href="#cocoapods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CocoaPods</h3>
 
-<pre><code> pod 'waterwheel', '~&gt; 4.0'
+<p><a href="http://cocoapods.org">CocoaPods</a> is a dependency manager for Cocoa projects. You can install it with the following command:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ gem install cocoapods</pre></div>
+
+<blockquote>
+<p>CocoaPods 0.39.0+ is required to build Waterwheel 3.0.0+.</p>
+</blockquote>
+
+<p>To integrate Waterwheel into your Xcode project using CocoaPods, specify it in your <code>Podfile</code>:</p>
+
+<div class="highlight highlight-source-ruby"><pre>source <span class="pl-s"><span class="pl-pds">'</span>https://github.com/CocoaPods/Specs.git<span class="pl-pds">'</span></span>
+platform <span class="pl-c1">:ios</span>, <span class="pl-s"><span class="pl-pds">'</span>9.0<span class="pl-pds">'</span></span>
+use_frameworks!
+
+target <span class="pl-s"><span class="pl-pds">'</span>&lt;Your Target Name&gt;<span class="pl-pds">'</span></span> <span class="pl-k">do</span>
+    pod <span class="pl-s"><span class="pl-pds">'</span>waterwheel<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>~&gt; 4.2<span class="pl-pds">'</span></span>
+<span class="pl-k">end</span></pre></div>
+
+<p>Then, run the following command:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ pod install</pre></div>
+
+<h3>
+<a id="carthage" class="anchor" href="#carthage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Carthage</h3>
+
+<p><a href="https://github.com/Carthage/Carthage">Carthage</a> is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.</p>
+
+<p>You can install Carthage with <a href="http://brew.sh/">Homebrew</a> using the following command:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ brew update
+$ brew install carthage</pre></div>
+
+<p>To integrate Waterwheel into your Xcode project using Carthage, specify it in your <code>Cartfile</code>:</p>
+
+<pre lang="ogdl"><code>github "acquia/waterwheel-swift" ~&gt; 4.2
 </code></pre>
 
-<p>Then run</p>
-
-<pre><code>pod install
-</code></pre>
+<p>Run <code>carthage update</code> to build the framework and drag the built <code>waterwheel.framework</code> into your Xcode project.</p>
 
 <h2>
 <a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2>
@@ -124,24 +160,24 @@
 </ol>
 
 <h2>
-<a id="initialization-steps" class="anchor" href="#initialization-steps" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Initialization Steps</h2>
+<a id="using-waterwheel" class="anchor" href="#using-waterwheel" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using Waterwheel</h2>
 
 <p>The code below will give you access to the baseline of features for communicating to a Drupal site.</p>
 
 <div class="highlight highlight-source-swift"><pre><span class="pl-c">// Create an instance to use.</span>
 <span class="pl-k">let</span> waterwheelEm <span class="pl-k">=</span> waterwheel<span class="pl-k">.</span>sharedInstance
-<span class="pl-c">// set the URL</span>
+<span class="pl-c">// Sets the URL to your Drupal site.</span>
 waterwheelEm<span class="pl-k">.</span>URL <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>http://drupal-8-dev.dd<span class="pl-pds">"</span></span></pre></div>
 
-<p>This will log you into the site.</p>
+<p>The code below will set up Basic Authentication for each API call.</p>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">//set Username and password</span>
-waterwheel<span class="pl-k">.</span>setUserNameAndPassword(<span class="pl-s"><span class="pl-pds">"</span>kylebrowning<span class="pl-pds">"</span></span>, password: <span class="pl-s"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>)</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">// Sets HTTPS Basic Authentication Credentials.</span>
+waterwheelEm<span class="pl-k">.</span>setBasicAuthUsernameAndPassword(<span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>, password: <span class="pl-s"><span class="pl-pds">"</span>test2<span class="pl-pds">"</span></span>);</pre></div>
 
-<h2>
-<a id="entity-requests" class="anchor" href="#entity-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Requests</h2>
+<h3>
+<a id="entity-requests" class="anchor" href="#entity-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Requests</h3>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">//we need an entity manager instance</span>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">// We need an entity manager instance</span>
 <span class="pl-k">let</span> em <span class="pl-k">=</span> waterwheelEntity()</pre></div>
 
 <h3>
@@ -216,12 +252,12 @@ em<span class="pl-k">.</span>delete(<span class="pl-s"><span class="pl-pds">"</s
     }
 }</pre></div>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/kylebrowning">kylebrowning</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/acquia">acquia</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
