@@ -30,12 +30,19 @@
     <div class="wrapper">
 
       <section>
+        <div id="title">
+          <h1>Waterwheel</h1>
+          <p>The Waterwheel Swift SDK provides a way to natively connect iOS, macOS, tvOS, and watchOS applications to Drupal 7 and 8.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/acquia">acquia</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
 
         <p><img src="https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png" alt="Waterwheel - Drupal SDK"></p>
 
 <p></p><p align="right">
 <a href=""><img src="https://img.shields.io/badge/Drupal-8-blue.svg" alt="Drupal version"></a>
-<a href=""><img src="https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=86000" alt="CocoaPods"></a>
+<a href=""><img src="https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=43000" alt="CocoaPods"></a>
 <a href="#"><img src="https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-green.svg" alt="CocoaPods"></a>
 <br clear="all"></p>
 
@@ -179,24 +186,15 @@ waterwheelEm<span class="pl-k">.</span>URL <span class="pl-k">=</span> <span cla
 waterwheelEm<span class="pl-k">.</span>setBasicAuthUsernameAndPassword(<span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>, password: <span class="pl-s"><span class="pl-pds">"</span>test2<span class="pl-pds">"</span></span>);</pre></div>
 
 <h3>
-<a id="entity-requests" class="anchor" href="#entity-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Requests</h3>
-
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">// We need an entity manager instance</span>
-<span class="pl-k">let</span> em <span class="pl-k">=</span> waterwheelEntity()</pre></div>
+<a id="node-methods" class="anchor" href="#node-methods" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Node Methods</h3>
 
 <h3>
 <a id="get" class="anchor" href="#get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Get</h3>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-k">let</span> em <span class="pl-k">=</span> waterwheelEntity()
-
-<span class="pl-c">//Get Node 36</span>
-em<span class="pl-k">.</span><span class="pl-k">get</span>(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>) { (success, response, json, error) <span class="pl-k">in</span>
-    <span class="pl-k">if</span> (success) {
-        <span class="pl-c1">print</span>(json)
-    } <span class="pl-k">else</span> {
-        <span class="pl-c1">print</span>(error)
-    }
-}</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">// Get Node 36</span>
+waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>nodeGet(nodeId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, params: <span class="pl-c1">nil</span>, completionHandler: { (success, response, json, error) <span class="pl-k">in</span>
+  <span class="pl-c1">print</span>(response)
+})</pre></div>
 
 <h3>
 <a id="createpost" class="anchor" href="#createpost" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create/post</h3>
@@ -220,8 +218,8 @@ em<span class="pl-k">.</span><span class="pl-k">get</span>(<span class="pl-s"><s
     ]
 ]
 
-<span class="pl-c">//Create a new node.</span>
-em<span class="pl-k">.</span>post(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, params: body) { (success, response, json, error) <span class="pl-k">in</span>
+<span class="pl-c">// Create a new node.</span>
+waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>entityPost(entityType: <span class="pl-k">.</span>Node, params: body) { (success, response, json, error) <span class="pl-k">in</span>
     <span class="pl-k">if</span> (success) {
         <span class="pl-c1">print</span>(response)
     } <span class="pl-k">else</span> {
@@ -232,29 +230,45 @@ em<span class="pl-k">.</span>post(<span class="pl-s"><span class="pl-pds">"</spa
 <h3>
 <a id="updateputpatch" class="anchor" href="#updateputpatch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update/Put/PATCH</h3>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">//Update an existing node</span>
-em<span class="pl-k">.</span>patch(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, params: body) { (success, response, json, error) <span class="pl-k">in</span>
-    <span class="pl-k">if</span> (success) {
-        <span class="pl-c">//Extra error checking, but its not needed</span>
-        <span class="pl-k">if</span> (response<span class="pl-k">!.</span>response?<span class="pl-k">.</span>statusCode <span class="pl-k">==</span> <span class="pl-c1">201</span>) {
-            <span class="pl-c1">print</span>(json)
-        }
-    } <span class="pl-k">else</span> {
-        <span class="pl-c1">print</span>(error)
-    }
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">// Update an existing node</span>
+waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>nodePatch(nodeId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, node: body) { (success, response, json, error) <span class="pl-k">in</span>
+    <span class="pl-c1">print</span>(response);
 }</pre></div>
 
 <h3>
 <a id="delete" class="anchor" href="#delete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete</h3>
 
-<div class="highlight highlight-source-swift"><pre><span class="pl-c">//Delete an existing node</span>
-em<span class="pl-k">.</span>delete(<span class="pl-s"><span class="pl-pds">"</span>node<span class="pl-pds">"</span></span>, entityId: <span class="pl-s"><span class="pl-pds">"</span>26<span class="pl-pds">"</span></span>) { (success, response, json, error) <span class="pl-k">in</span>
-    <span class="pl-k">if</span> (success) {
-        <span class="pl-c1">print</span>(response)
-    } <span class="pl-k">else</span> {
-        <span class="pl-c1">print</span>(error)
-    }
-}</pre></div>
+<div class="highlight highlight-source-swift"><pre><span class="pl-c">// Delete an existing node</span>
+waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>nodeDelete(nodeId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, params: <span class="pl-c1">nil</span>, completionHandler: { (success, response, json, error) <span class="pl-k">in</span>
+    <span class="pl-c1">print</span>(response)
+})</pre></div>
+
+<h2>
+<a id="entity-requests" class="anchor" href="#entity-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Requests</h2>
+
+<p>Since Node is rather specific, Watherweel provides entity methods as well for all entityTypes</p>
+
+<h3>
+<a id="entity-get" class="anchor" href="#entity-get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Get</h3>
+
+<div class="highlight highlight-source-swift"><pre>waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>entityGet(entityType: <span class="pl-k">.</span>Node, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, params: params, completionHandler: completionHandler)</pre></div>
+
+<h3>
+<a id="entity-post" class="anchor" href="#entity-post" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Post</h3>
+
+<div class="highlight highlight-source-swift"><pre>waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>entityPost(entityType: <span class="pl-k">.</span>Node, params: node, completionHandler: completionHandler)</pre></div>
+
+<h3>
+<a id="entity-patch" class="anchor" href="#entity-patch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Patch</h3>
+
+<div class="highlight highlight-source-swift"><pre>waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>entityPatch(entityType: <span class="pl-k">.</span>Node, entityId: <span class="pl-s"><span class="pl-pds">"</span>36<span class="pl-pds">"</span></span>, params: nodeObject, completionHandler: completionHandler)</pre></div>
+
+<h3>
+<a id="entity-delete" class="anchor" href="#entity-delete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entity Delete</h3>
+
+<div class="highlight highlight-source-swift"><pre>waterwheel<span class="pl-k">.</span>sharedInstance<span class="pl-k">.</span>entityDelete(entityType: <span class="pl-k">.</span>Node, entityId: entityId, params: params, completionHandler: completionHandler)</pre></div>
+
+<pre><code></code></pre>
       </section>
 
     </div>
