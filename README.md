@@ -102,16 +102,14 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 
 The code below will give you access to the baseline of features for communicating to a Drupal site.
 ```swift
-// Create an instance to use.
-let waterwheelEm = waterwheel.sharedInstance
 // Sets the URL to your Drupal site.
-waterwheelEm.URL = "http://drupal-8-dev.dd"
+waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
 ```
 
 The code below will set up Basic Authentication for each API call.
 ```swift
 // Sets HTTPS Basic Authentication Credentials.
-waterwheelEm.setBasicAuthUsernameAndPassword("test", password: "test2");
+waterwheel.setBasicAuthUsernameAndPassword("test", password: "test2");
 ```
 
 ### Node Methods
@@ -121,7 +119,7 @@ waterwheelEm.setBasicAuthUsernameAndPassword("test", password: "test2");
 
 ```swift
 // Get Node 36
-waterwheel.sharedInstance.nodeGet(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
+waterwheel.nodeGet(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
   print(response)
 })
 ```
@@ -149,7 +147,7 @@ let body = [
 ]
 
 // Create a new node.
-waterwheel.sharedInstance.entityPost(entityType: .Node, params: body) { (success, response, json, error) in
+waterwheel.entityPost(entityType: .Node, params: body) { (success, response, json, error) in
     if (success) {
         print(response)
     } else {
@@ -162,7 +160,7 @@ waterwheel.sharedInstance.entityPost(entityType: .Node, params: body) { (success
 
 ```swift
 // Update an existing node
-waterwheel.sharedInstance.nodePatch(nodeId: "36", node: body) { (success, response, json, error) in
+waterwheel.nodePatch(nodeId: "36", node: body) { (success, response, json, error) in
     print(response);
 }
 ```
@@ -170,7 +168,7 @@ waterwheel.sharedInstance.nodePatch(nodeId: "36", node: body) { (success, respon
 ### Delete
 ```swift
 // Delete an existing node
-waterwheel.sharedInstance.nodeDelete(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
+waterwheel.nodeDelete(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
     print(response)
 })
 ```
@@ -181,7 +179,7 @@ Since Node is rather specific, Watherweel provides entity methods as well for al
 ### Entity Get
 
 ```swift
-waterwheel.sharedInstance.entityGet(entityType: .Node, entityId: "36", params: params, completionHandler: completionHandler)
+waterwheel.entityGet(entityType: .Node, entityId: "36", params: params, completionHandler: completionHandler)
 ```
 
 ### Entity Post
@@ -193,12 +191,11 @@ waterwheel.sharedInstance.entityPost(entityType: .Node, params: node, completion
 ### Entity Patch
 
 ```swift
-waterwheel.sharedInstance.entityPatch(entityType: .Node, entityId: "36", params: nodeObject, completionHandler: completionHandler)
+waterwheel.entityPatch(entityType: .Node, entityId: "36", params: nodeObject, completionHandler: completionHandler)
 ```
 
 ### Entity Delete
 
 ```swift
-waterwheel.sharedInstance.entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
-```
+waterwheel.entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
 ```
