@@ -114,26 +114,16 @@ The code below will set up Basic Authentication for each API call.
 waterwheelEm.setBasicAuthUsernameAndPassword("test", password: "test2");
 ```
 
-### Entity Requests
+### Node Methods
 
-```swift
-// We need an entity manager instance
-let em = waterwheelEntity()
-```
 
 ### Get
 
 ```swift
-let em = waterwheelEntity()
-
-//Get Node 36
-em.get("node", entityId: "36") { (success, response, json, error) in
-    if (success) {
-        print(json)
-    } else {
-        print(error)
-    }
-}
+// Get Node 36
+waterwheel.sharedInstance.nodeGet(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
+  print(response)
+  })
 ```
 
 ### Create/post
@@ -158,8 +148,8 @@ let body = [
     ]
 ]
 
-//Create a new node.
-em.post("node", params: body) { (success, response, json, error) in
+// Create a new node.
+waterwheel.sharedInstance.entityPost(entityType: .Node, params: body) { (success, response, json, error) in
     if (success) {
         print(response)
     } else {
@@ -171,27 +161,44 @@ em.post("node", params: body) { (success, response, json, error) in
 ### Update/Put/PATCH
 
 ```swift
-//Update an existing node
-em.patch("node", entityId: "36", params: body) { (success, response, json, error) in
-    if (success) {
-        //Extra error checking, but its not needed
-        if (response!.response?.statusCode == 201) {
-            print(json)
-        }
-    } else {
-        print(error)
-    }
+// Update an existing node
+waterwheel.sharedInstance.nodePatch(nodeId: "36", node: body) { (success, response, json, error) in
+    print(response);
 }
 ```
 
 ### Delete
 ```swift
-//Delete an existing node
-em.delete("node", entityId: "26") { (success, response, json, error) in
-    if (success) {
-        print(response)
-    } else {
-        print(error)
-    }
-}
+// Delete an existing node
+waterwheel.sharedInstance.nodeDelete(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
+    print(response)
+})
+```
+
+## Entity Requests
+Since Node is rather specific, Watherweel provides entity methods as well for all entityTypes
+
+### Entity Get
+
+```swift
+waterwheel.sharedInstance.entityGet(entityType: .Node, entityId: "36", params: params, completionHandler: completionHandler)
+```
+
+### Entity Post
+
+```swift
+waterwheel.sharedInstance.entityPost(entityType: .Node, params: node, completionHandler: completionHandler)
+```
+
+### Entity Patch
+
+```swift
+waterwheel.sharedInstance.entityPatch(entityType: .Node, entityId: "36", params: nodeObject, completionHandler: completionHandler)
+```
+
+### Entity Delete
+
+```swift
+waterwheel.sharedInstance.entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+```
 ```
