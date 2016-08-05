@@ -123,7 +123,7 @@ waterwheelEm.setBasicAuthUsernameAndPassword("test", password: "test2");
 // Get Node 36
 waterwheel.sharedInstance.nodeGet(nodeId: "36", params: nil, completionHandler: { (success, response, json, error) in
   print(response)
-  })
+})
 ```
 
 ### Create/post
