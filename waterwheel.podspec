@@ -6,6 +6,7 @@ Pod::Spec.new do |s|
   s.author       = { "Kyle Browning" => "kylebrowning@me.com"}
   s.source       = { :git => "https://github.com/acquia/waterwheel-swift.git", :tag => "4.2.1" }
   s.source_files = "*.swift"
+  s.source_files = 'src/**/*.swift'
   s.requires_arc = true
 
   pch_W = <<-EOS

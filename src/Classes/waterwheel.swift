@@ -1,6 +1,5 @@
 //
 //  waterwheel.swift
-//  Drupal Publisher
 //
 //  Created by Kyle Browning on 1/25/16.
 //  Copyright © 2016 Kyle Browning. All rights reserved.
@@ -9,7 +8,9 @@
 import Alamofire
 import SwiftyJSON
 
-
+public enum EntityType: String {
+    case Node = "node", Comment = "comment"
+}
 
 /**
  Responsible for storing state and variables for waterwheel.
@@ -138,7 +139,7 @@ public class waterwheel {
     }
 
 
-    private func getCSRFToken(completionHandler:stringcompletion) {
+    public func getCSRFToken(completionHandler:stringcompletion) {
         let waterwheelManager = waterwheel.sharedInstance
         let urlString = waterwheelManager.URL + "/rest/session/token"
         Alamofire.request(.GET, urlString)
@@ -183,109 +184,185 @@ public class waterwheel {
             }
         })
     }
-}
 
-
-// MARK: - waterwheelEntity
-
-/**
- Responsible for all Entity Operations
- */
-public class waterwheelEntity : waterwheel {
-
-    // MARK: - Entity Requests  to Drupal
+    // MARK: - GET Requests
 
     /**
-     Sends a GET request to Drupal that will return an entity
+     Sends a GET request to Drupal
 
-     - parameter entityType:        The entity name, eg "node".
-     - parameter entityId:          The ID of the entity to get.
+     - parameter requestPath:       The path for the .GET request.
+     - parameter params:            The parameters for the request.
      - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
      */
-    public func get(entityType:String, entityId:String, completionHandler:completion) {
-        let requestPath = entityType + "/" + entityId
+    public func get(requestPath: String, params: paramType, completionHandler:completion) {
         self.sendRequest(requestPath, method: .GET, params: nil) { (success, response, json, error) in
             completionHandler(success: success, response: response, json: json, error: error)
         }
     }
 
-    /**
-     Sends a POST request to Drupal that will create an entity
 
-     - parameter entityType:        The entity name, eg "node".
-     - parameter params:            The object/parameters to send
-     - parameter completionHandler: A completion handler that your delegate method should call if you want the response
+    /**
+     Sends a GET Entity request to Drupal
+
+     - parameter entityType:        The Entity Type to request.
+     - parameter entityId:          The entity ID to GET
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
      */
-    public func create(entityType:String, params:paramType, completionHandler:completion) {
-        post(entityType, params: params, completionHandler: completionHandler)
+    public let entityGet: (entityType: EntityType, entityId: String, params: paramType, completionHandler: completion) -> Void = { (entityType, entityId, params, completionHandler) in
+        let requestPath = entityType.rawValue + "/" + entityId
+        waterwheel.sharedInstance.get(requestPath, params: params, completionHandler: completionHandler)
     }
 
-    /**
-     Sends a POST request to Drupal that will create an entity
 
-     - parameter entityType:        The entity name, eg "node".
-     - parameter params:            The object/parameters to send
-     - parameter completionHandler: A completion handler that your delegate method should call if you want the response
+    /**
+     Sends a GET Node request to Drupal
+
+     - parameter nodeId:            The entity ID to GET
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
      */
+    public let nodeGet: (nodeId: String, params: paramType, completionHandler:completion) -> Void = { (nodeId, params, completionHandler) in
+        waterwheel.sharedInstance.entityGet(entityType: EntityType.Node, entityId: nodeId, params: params, completionHandler: completionHandler)
+    }
 
-    public func post(entityType:String, params:paramType, completionHandler:completion) {
-        let requestPath =  entityType
 
+    // MARK: - POST Requests
+
+    /**
+     Sends a POST request to Drupal
+
+     - parameter requestPath:       The path for the .POST request.
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+     */
+    public func post(requestPath: String, params: paramType, completionHandler:completion) {
         self.sendRequest(requestPath, method: .POST, params: params) { (success, response, json, error) in
             completionHandler(success: success, response: response, json: json, error: error)
         }
     }
 
     /**
-     Sends a PATCH request to Drupal that will update an entity
+     Sends a POST request to Drupal that will create an Entity
 
-     - parameter entityType:        The entity name, eg "node".
-     - parameter params:            The object/parameters to send
-     - parameter entityId:          The ID of the entity to get.
-     - parameter completionHandler: A completion handler that your delegate method should call if you want the response
+     - parameter entityType:        The Entity Type to request.
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
      */
 
-    public func put(entityType:String, entityId:String, params:paramType, completionHandler:completion) {
-        patch(entityType, entityId: entityId, params: params, completionHandler: completionHandler)
+    public let entityPost: (entityType: EntityType, params: paramType, completionHandler: completion) -> Void = { (entityType, params, completionHandler) in
+        let requestPath = "entity/" + entityType.rawValue
+        waterwheel.sharedInstance.post(requestPath, params: params, completionHandler: completionHandler)
     }
 
     /**
-     Sends a PATCH request to Drupal that will update an entity
+     Sends a POST request to Drupal that will create a Node
 
-     - parameter entityType:        The entity name, eg "node".
+     - parameter entityId:          The entity ID to GET
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+     */
+
+    public let nodePost: (node: paramType, completionHandler: completion) -> Void = { ( params, completionHandler) in
+        waterwheel.sharedInstance.entityPost(entityType: .Node, params: params, completionHandler: completionHandler)
+    }
+
+    // MARK: - PATCH Requests
+
+    /**
+     Sends a PATCH request to Drupal
+
+     - parameter requestPath:       The path to patch
      - parameter params:            The object/parameters to send
-     - parameter entityId:          The ID of the entity to get.
      - parameter completionHandler: A completion handler that your delegate method should call if you want the response
 
      */
 
 
-    public func patch(entityType:String, entityId:String, params:paramType, completionHandler:completion) {
-        let requestPath = entityType + "/" + entityId
-
+    public func patch(requestPath:String, params:paramType, completionHandler:completion) {
         self.sendRequest(requestPath, method: .PATCH, params: params) { (success, response, json, error) in
             completionHandler(success: success, response: response, json: json, error: error)
         }
     }
 
     /**
-     Sends a DELETE request to Drupal that will delete an entity
+     Sends a PATCH request to Drupal that will update an Entity
 
-     - parameter entityType:        The entity name, eg "node".
-     - parameter entityId:          The ID of the entity to get.
+     - parameter entityType:        The Entity Type to request.
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+     */
+
+    public let entityPatch: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion) -> Void = { (entityType, entityId, params, completionHandler) in
+        let requestPath = entityType.rawValue + "/" + entityId
+        waterwheel.sharedInstance.patch(requestPath, params: params, completionHandler: completionHandler)
+    }
+
+
+    /**
+     Sends a PATCH request to Drupal that will update a node
+
+     - parameter nodeId:            The node ID to patch
+     - parameter node:              The the updated nodeObject
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+     */
+
+    public let nodePatch: (nodeId:String, node: paramType, completionHandler: completion) -> Void = { (entityId, params, completionHandler) in
+        waterwheel.sharedInstance.entityPatch(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+    }
+
+    // MARK: - DELETE Requests
+
+    /**
+     Sends a PATCH request to Drupal
+
+     - parameter requestPath:       The path to patch
+     - parameter params:            The object/parameters to send
      - parameter completionHandler: A completion handler that your delegate method should call if you want the response
 
      */
 
-    public func delete(entityType:String, entityId:String, completionHandler:completion) {
-        let requestPath = entityType + "/" + entityId
 
-        self.sendRequest(requestPath, method: .DELETE, params: nil) { (success, response, json, error) in
+    public func delete(requestPath:String, params:paramType, completionHandler:completion) {
+        self.sendRequest(requestPath, method: .DELETE, params: params) { (success, response, json, error) in
             completionHandler(success: success, response: response, json: json, error: error)
         }
     }
+
+    /**
+     Sends a DELETE request to Drupal that will delete an Entity
+
+     - parameter entityType:        The Entity Type
+     - parameter entityId           The id of the entity
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+     */
+
+    public let entityDelete: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion) -> Void = { (entityType, entityId, params, completionHandler) in
+        let requestPath = entityType.rawValue + "/" + entityId
+        waterwheel.sharedInstance.delete(requestPath, params: params, completionHandler: completionHandler)
+    }
+
+    /**
+     Sends a DELETE request to Drupal that will delete an Entity
+
+     - parameter entityId           The id of the entity
+     - parameter params:            The parameters for the request.
+     - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+     */
+
+    public let nodeDelete: (nodeId:String, params: paramType, completionHandler: completion) -> Void = { (entityId, params, completionHandler) in
+        waterwheel.sharedInstance.entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+    }
+    
 }
