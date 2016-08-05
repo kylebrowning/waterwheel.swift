@@ -21,7 +21,7 @@ public typealias paramType = [String: AnyObject]?
 /**
  Responsible for storing state and variables for waterwheel.
  */
-private class waterwheelManager {
+public class waterwheelManager {
 
 
     // MARK: - Properties
