@@ -5,7 +5,6 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/acquia/waterwheel-swift"
   s.author       = { "Kyle Browning" => "kylebrowning@me.com"}
   s.source       = { :git => "https://github.com/acquia/waterwheel-swift.git", :tag => "4.2.3" }
-  s.source_files = "*.swift"
   s.source_files = 'src/Shared/**/*.swift'
   s.requires_arc = true
 
@@ -28,7 +27,7 @@ Pod::Spec.new do |s|
   s.watchos.deployment_target = '2.0'
   s.tvos.deployment_target = '9.0'
 
-  spec.osx.exclude_files = 'src/iOS'
+  s.osx.exclude_files = 'src/iOS'
 
   s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE" }
   s.dependency 'Alamofire'
