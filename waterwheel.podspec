@@ -28,6 +28,7 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
 
   s.osx.exclude_files = 'src/iOS'
+  s.watchos.exclude_files = 'src/iOS'
 
   s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE" }
   s.dependency 'Alamofire'
