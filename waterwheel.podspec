@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name         = "waterwheel"
-  s.version      = "4.2.2"
+  s.version      = "4.2.3"
   s.summary      = "A framework for communicating to Drupal via iOS, macOS, watchOS, or tvOS."
   s.homepage     = "https://github.com/acquia/waterwheel-swift"
   s.author       = { "Kyle Browning" => "kylebrowning@me.com"}
-  s.source       = { :git => "https://github.com/acquia/waterwheel-swift.git", :tag => "4.2.2" }
+  s.source       = { :git => "https://github.com/acquia/waterwheel-swift.git", :tag => "4.2.3" }
   s.source_files = "*.swift"
   s.source_files = 'src/**/*.swift'
   s.requires_arc = true
