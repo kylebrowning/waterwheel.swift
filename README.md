@@ -13,6 +13,8 @@ The Waterwheel Swift SDK is a set of methods and classes making it easier to use
 
 The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.
 
+Formerly known as Drupal iOS SDK.
+
 ## Requirements
 - iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+
 - Xcode 7.3+
