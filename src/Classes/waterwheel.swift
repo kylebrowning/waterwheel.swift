@@ -18,6 +18,9 @@ public typealias completion = (success:Bool, response:Response<AnyObject, NSErro
 public typealias stringcompletion = (success:Bool, response:Response<String, NSError>?, json:SwiftyJSON.JSON?, error:NSError!) -> Void
 public typealias paramType = [String: AnyObject]?
 
+
+private let waterwheelErrorString = "waterhwheel error: "
+
 /**
  Responsible for storing state and variables for waterwheel.
  */
@@ -38,71 +41,113 @@ public class waterwheelManager {
         "Content-Type":"application/json",
         "Accept":"application/json",
         ]
-    public var URL : String
-    public let endpoint : String
-    public var basicUsername : String
-    public var basicPassword : String
-    public var CSRFToken : String
+    public var URL : String = ""
+    public var basicUsername : String = ""
+    public var basicPassword : String = ""
+    public var CSRFToken : String = ""
     public var signRequestsBasic : Bool = false
     public var signCSRFToken : Bool = false
+    private var isLoggedIn: Bool = false
+}
 
-    // MARK: - Main
 
-    /**
-     Initializes the `waterwheel` instance with the our defaults.
+/**
+ Sets the URL for all requests to be sent against.
+ 
+ - parameter drupalURL:         The URL for the Drupal Site
+ 
+ */
+public func setDrupalURL(drupalURL: String) {
+    assert(drupalURL != "", waterwheelErrorString + "Missing Drupal URL")
+    waterwheelManager.sharedInstance.URL = drupalURL;
+    waterwheel.checkLoginStatus()
+}
 
-     - returns: The new `waterwheel` instance.
-     */
-    public init() {
-        self.URL =  ""
-        self.basicUsername = ""
-        self.basicPassword = ""
-        self.signRequestsBasic = false
-        self.CSRFToken = ""
-        self.signCSRFToken = false;
-        self.endpoint = ""
+/** 
+ Private function to set Logged in Status
+*/
+private func setIsLoggedIn(isLoggedIn: Bool) {
+    waterwheelManager.sharedInstance.isLoggedIn = isLoggedIn
+}
 
+/**
+ Public function to check if the user is logged in
+
+ */
+public func isLoggedIn() -> Bool {
+    return waterwheelManager.sharedInstance.isLoggedIn
+}
+
+
+/**
+ Private function to check Login Status with all cookies that have been set.
+
+ */
+private func checkLoginStatus() {
+    let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
+    Alamofire.request(.GET, urlString)
+        .validate(statusCode: 200..<300)
+        .responseString{ response in
+            if (response.result.error == nil) {
+                let loginStatus = String(data: response.data!, encoding: NSUTF8StringEncoding)
+                if (loginStatus == "1") {
+                    waterwheelManager.sharedInstance.isLoggedIn = true
+                } else {
+                    waterwheelManager.sharedInstance.isLoggedIn = false
+                }
+
+            }
+            else {
+                waterwheelManager.sharedInstance.isLoggedIn = false
+            }
     }
 }
 
-public func setDrupalURL(drupalURL: String) {
-    waterwheelManager.sharedInstance.URL = drupalURL;
-}
+
+// MARK: - Authentication methodss
+
 /**
  Allows a username and password to be set for Basic Auth
+
+ - parameter username:          The username to login with.
+ - parameter password:          The password to login with
+
  */
 public func setBasicAuthUsernameAndPassword(username:String, password:String) {
     waterwheelManager.sharedInstance.basicUsername = username
     waterwheelManager.sharedInstance.basicPassword = password
     waterwheelManager.sharedInstance.signRequestsBasic = true
+    setIsLoggedIn(true)
 }
 
+
 /**
- Login with user-login-form and application/x-www-form-urlencoded
- Since this request is very unique, we customize it here, and this will change when CORE gets a real API login method.
+ Login
 
  - parameter username:          The username to login with.
- - parameter entityId:          The password to login with
+ - parameter password:          The password to login with
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
 
  */
-public func loginWithUserLoginForm(username:String, password:String, completionHandler:stringcompletion) {
-    let urlString = waterwheelManager.sharedInstance.URL + "/user/login"
-    let body = [
-        "name":username,
-        "pass":password,
-        "form_id":"user_login_form",
-        ]
-    var headers = [
-        "Content-Type":"application/x-www-form-urlencoded",
-        ]
+public func login(username:String?, password:String?, completionHandler:stringcompletion) {
+    let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
-    // Fetch Request
-    Alamofire.request(.POST, urlString, headers: headers, parameters: body, encoding: .URL)
+    assert(username! != "", waterwheelErrorString + "Missing username.")
+    assert(password! != "", waterwheelErrorString + "Missing password.")
+
+    let body = [
+        "name":username!,
+        "pass":password!
+    ]
+
+    // POST request to login.
+    Alamofire.request(.POST, urlString, headers: waterwheelManager.sharedInstance.headers, parameters: body, encoding: .JSON)
         .validate(statusCode: 200..<300)
         .responseString { response in
             if (response.result.error == nil) {
+                waterwheel.setIsLoggedIn(true)
+                //We have to get our CSRF token in order to ensure we can make POST, PUT, and DELETE requests.
                 getCSRFToken({ (success, response, json, error) in
                     if (success) {
                         completionHandler(success: true, response: response, json: nil, error: nil)
@@ -113,35 +158,50 @@ public func loginWithUserLoginForm(username:String, password:String, completionH
                 })
             }
             else {
+                waterwheel.setIsLoggedIn(false)
                 completionHandler(success: false, response: response, json: nil, error: response.result.error)
             }
     }
 }
 
+
+
 /**
  Logout a user
- - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
+ - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
 
 public func logout(completionHandler:stringcompletion) {
+    if waterwheelManager.sharedInstance.signRequestsBasic  {
+        waterwheelManager.sharedInstance.basicUsername = ""
+        waterwheelManager.sharedInstance.basicPassword = ""
+        waterwheelManager.sharedInstance.signRequestsBasic = false
+        return
+    }
     let urlString = waterwheelManager.sharedInstance.URL + "/user/logout"
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
-        .responseJSON { response in
+        .responseString { response in
             if (response.result.error == nil) {
-                debugPrint("HTTP Response Body: \(response.data)")
+                waterwheelManager.sharedInstance.CSRFToken = ""
+                waterwheelManager.sharedInstance.signCSRFToken = false
+                completionHandler(success: true, response: response, json: nil, error: response.result.error)
             }
             else {
-                debugPrint("HTTP Request failed: \(response.result.error)")
+                completionHandler(success: false, response: response, json: nil, error: response.result.error)
             }
     }
 
 }
 
-
-public func getCSRFToken(completionHandler:stringcompletion) {
+/**
+ 
+ Private function to get the CSRF Token
+ 
+ */
+private func getCSRFToken(completionHandler:stringcompletion) {
     let urlString = waterwheelManager.sharedInstance.URL + "/rest/session/token"
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
@@ -160,7 +220,21 @@ public func getCSRFToken(completionHandler:stringcompletion) {
 
 // MARK: - Requests
 
+
+/**
+ Sends a request to Drupal
+
+ - parameter path:              The path for the request.
+ - parameter method:            The method, eg, GET, POST etc.
+ - parameter params:            The parameters for the request.
+ - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+ */
+
 public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler:completion) {
+
+    assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL")
+
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
 
     if (waterwheelManager.sharedInstance.signRequestsBasic == true) {
@@ -200,7 +274,6 @@ public func get(requestPath: String, params: paramType, completionHandler:comple
     }
 }
 
-import waterwheel
 /**
  Sends a GET Entity request to Drupal
 
