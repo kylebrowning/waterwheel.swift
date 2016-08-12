@@ -84,6 +84,7 @@ public func isLoggedIn() -> Bool {
 
  */
 private func checkLoginStatus() {
+    print("Checking login status")
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
@@ -173,7 +174,7 @@ public func login(username:String?, password:String?, completionHandler: stringc
 
  */
 
-public func logout(completionHandler: stringcompletion?) {
+public func logout(completionHandler completionHandler: stringcompletion?) {
     if waterwheelManager.sharedInstance.signRequestsBasic  {
         waterwheelManager.sharedInstance.basicUsername = ""
         waterwheelManager.sharedInstance.basicPassword = ""
@@ -187,6 +188,7 @@ public func logout(completionHandler: stringcompletion?) {
             if (response.result.error == nil) {
                 waterwheelManager.sharedInstance.CSRFToken = ""
                 waterwheelManager.sharedInstance.signCSRFToken = false
+                waterwheelManager.sharedInstance.isLoggedIn = false
                 completionHandler?(success: true, response: response, json: nil, error: response.result.error)
             }
             else {
