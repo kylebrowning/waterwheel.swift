@@ -130,7 +130,7 @@ public func setBasicAuthUsernameAndPassword(username:String, password:String) {
 
 
  */
-public func login(username:String?, password:String?, completionHandler:stringcompletion) {
+public func login(username:String?, password:String?, completionHandler: stringcompletion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
@@ -150,16 +150,16 @@ public func login(username:String?, password:String?, completionHandler:stringco
                 //We have to get our CSRF token in order to ensure we can make POST, PUT, and DELETE requests.
                 getCSRFToken({ (success, response, json, error) in
                     if (success) {
-                        completionHandler(success: true, response: response, json: nil, error: nil)
+                        completionHandler?(success: true, response: response, json: nil, error: nil)
                     } else {
                         //Failed to get CSRF token for some reason
-                        completionHandler(success: false, response: response, json: nil, error: nil)
+                        completionHandler?(success: false, response: response, json: nil, error: nil)
                     }
                 })
             }
             else {
                 waterwheel.setIsLoggedIn(false)
-                completionHandler(success: false, response: response, json: nil, error: response.result.error)
+                completionHandler?(success: false, response: response, json: nil, error: response.result.error)
             }
     }
 }
@@ -173,7 +173,7 @@ public func login(username:String?, password:String?, completionHandler:stringco
 
  */
 
-public func logout(completionHandler:stringcompletion) {
+public func logout(completionHandler: stringcompletion?) {
     if waterwheelManager.sharedInstance.signRequestsBasic  {
         waterwheelManager.sharedInstance.basicUsername = ""
         waterwheelManager.sharedInstance.basicPassword = ""
@@ -187,10 +187,10 @@ public func logout(completionHandler:stringcompletion) {
             if (response.result.error == nil) {
                 waterwheelManager.sharedInstance.CSRFToken = ""
                 waterwheelManager.sharedInstance.signCSRFToken = false
-                completionHandler(success: true, response: response, json: nil, error: response.result.error)
+                completionHandler?(success: true, response: response, json: nil, error: response.result.error)
             }
             else {
-                completionHandler(success: false, response: response, json: nil, error: response.result.error)
+                completionHandler?(success: false, response: response, json: nil, error: response.result.error)
             }
     }
 
@@ -201,7 +201,7 @@ public func logout(completionHandler:stringcompletion) {
  Private function to get the CSRF Token
  
  */
-private func getCSRFToken(completionHandler:stringcompletion) {
+private func getCSRFToken(completionHandler: stringcompletion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/rest/session/token"
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
@@ -210,10 +210,10 @@ private func getCSRFToken(completionHandler:stringcompletion) {
                 let csrfToken = String(data: response.data!, encoding: NSUTF8StringEncoding)
                 waterwheelManager.sharedInstance.CSRFToken = csrfToken!
                 waterwheelManager.sharedInstance.signCSRFToken = true
-                completionHandler(success: true, response: response, json: nil, error: nil)
+                completionHandler?(success: true, response: response, json: nil, error: nil)
             }
             else {
-                completionHandler(success: false, response: response, json: nil, error: response.result.error)
+                completionHandler?(success: false, response: response, json: nil, error: response.result.error)
             }
     }
 }
@@ -231,7 +231,7 @@ private func getCSRFToken(completionHandler:stringcompletion) {
 
  */
 
-public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler:completion) {
+public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler: completion?) {
 
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL")
 
@@ -251,9 +251,9 @@ public func sendRequest(path:String, method:Alamofire.Method, params:paramType, 
     Alamofire.request(method, urlString, parameters: params, encoding:.JSON, headers:waterwheelManager.sharedInstance.headers).validate().responseSwiftyJSON({ (request, response, json, error) in
         switch response!.result {
         case .Success(let _):
-            completionHandler(success: true, response: response, json: json, error: nil)
+            completionHandler?(success: true, response: response, json: json, error: nil)
         case .Failure(let error):
-            completionHandler(success: false, response: response, json: nil, error: error)
+            completionHandler?(success: false, response: response, json: nil, error: error)
         }
     })
 }
@@ -268,9 +268,9 @@ public func sendRequest(path:String, method:Alamofire.Method, params:paramType, 
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public func get(requestPath: String, params: paramType, completionHandler:completion) {
+public func get(requestPath: String, params: paramType, completionHandler: completion?) {
     sendRequest(requestPath, method: .GET, params: nil) { (success, response, json, error) in
-        completionHandler(success: success, response: response, json: json, error: error)
+        completionHandler?(success: success, response: response, json: json, error: error)
     }
 }
 
@@ -283,7 +283,7 @@ public func get(requestPath: String, params: paramType, completionHandler:comple
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public let entityGet: (entityType: EntityType, entityId: String, params: paramType, completionHandler: completion) -> Void = { (entityType, entityId, params, completionHandler) in
+public let entityGet: (entityType: EntityType, entityId: String, params: paramType, completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
     let requestPath = entityType.rawValue + "/" + entityId
     get(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -297,7 +297,7 @@ public let entityGet: (entityType: EntityType, entityId: String, params: paramTy
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public let nodeGet: (nodeId: String, params: paramType, completionHandler:completion) -> Void = { (nodeId, params, completionHandler) in
+public let nodeGet: (nodeId: String, params: paramType, completionHandler: completion?) -> Void = { (nodeId, params, completionHandler) in
     entityGet(entityType: .Node, entityId: nodeId, params: params, completionHandler: completionHandler)
 }
 
@@ -312,9 +312,9 @@ public let nodeGet: (nodeId: String, params: paramType, completionHandler:comple
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public func post(requestPath: String, params: paramType, completionHandler:completion) {
+public func post(requestPath: String, params: paramType, completionHandler: completion?) {
     sendRequest(requestPath, method: .POST, params: params) { (success, response, json, error) in
-        completionHandler(success: success, response: response, json: json, error: error)
+        completionHandler?(success: success, response: response, json: json, error: error)
     }
 }
 
@@ -327,7 +327,7 @@ public func post(requestPath: String, params: paramType, completionHandler:compl
 
  */
 
-public let entityPost: (entityType: EntityType, params: paramType, completionHandler: completion) -> Void = { (entityType, params, completionHandler) in
+public let entityPost: (entityType: EntityType, params: paramType, completionHandler: completion?) -> Void = { (entityType, params, completionHandler) in
     let requestPath = "entity/" + entityType.rawValue
     post(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -341,7 +341,7 @@ public let entityPost: (entityType: EntityType, params: paramType, completionHan
 
  */
 
-public let nodePost: (node: paramType, completionHandler: completion) -> Void = { ( params, completionHandler) in
+public let nodePost: (node: paramType, completionHandler: completion?) -> Void = { ( params, completionHandler) in
     entityPost(entityType: .Node, params: params, completionHandler: completionHandler)
 }
 
@@ -357,9 +357,9 @@ public let nodePost: (node: paramType, completionHandler: completion) -> Void = 
  */
 
 
-public func patch(requestPath:String, params:paramType, completionHandler:completion) {
+public func patch(requestPath:String, params:paramType, completionHandler: completion?) {
     sendRequest(requestPath, method: .PATCH, params: params) { (success, response, json, error) in
-        completionHandler(success: success, response: response, json: json, error: error)
+        completionHandler?(success: success, response: response, json: json, error: error)
     }
 }
 
@@ -372,7 +372,7 @@ public func patch(requestPath:String, params:paramType, completionHandler:comple
 
  */
 
-public let entityPatch: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion) -> Void = { (entityType, entityId, params, completionHandler) in
+public let entityPatch: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
     let requestPath = entityType.rawValue + "/" + entityId
     patch(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -387,7 +387,7 @@ public let entityPatch: (entityType: EntityType, entityId:String, params: paramT
 
  */
 
-public let nodePatch: (nodeId:String, node: paramType, completionHandler: completion) -> Void = { (entityId, params, completionHandler) in
+public let nodePatch: (nodeId:String, node: paramType, completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
     entityPatch(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
 }
 
@@ -403,9 +403,9 @@ public let nodePatch: (nodeId:String, node: paramType, completionHandler: comple
  */
 
 
-public func delete(requestPath:String, params:paramType, completionHandler:completion) {
+public func delete(requestPath:String, params:paramType, completionHandler: completion?) {
     sendRequest(requestPath, method: .DELETE, params: params) { (success, response, json, error) in
-        completionHandler(success: success, response: response, json: json, error: error)
+        completionHandler?(success: success, response: response, json: json, error: error)
     }
 }
 
@@ -419,7 +419,7 @@ public func delete(requestPath:String, params:paramType, completionHandler:compl
 
  */
 
-public let entityDelete: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion) -> Void = { (entityType, entityId, params, completionHandler) in
+public let entityDelete: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
     let requestPath = entityType.rawValue + "/" + entityId
     delete(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -433,6 +433,6 @@ public let entityDelete: (entityType: EntityType, entityId:String, params: param
 
  */
 
-public let nodeDelete: (nodeId:String, params: paramType, completionHandler: completion) -> Void = { (entityId, params, completionHandler) in
+public let nodeDelete: (nodeId:String, params: paramType, completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
    entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
 }
