@@ -60,6 +60,7 @@ public class waterwheelManager {
 public func setDrupalURL(drupalURL: String) {
     assert(drupalURL != "", waterwheelErrorString + "Missing Drupal URL")
     waterwheelManager.sharedInstance.URL = drupalURL;
+    waterwheel.checkLoginStatus()
 }
 
 /** 
@@ -83,7 +84,6 @@ public func isLoggedIn() -> Bool {
 
  */
 private func checkLoginStatus() {
-    print("Checking login status")
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
