@@ -60,7 +60,6 @@ public class waterwheelManager {
 public func setDrupalURL(drupalURL: String) {
     assert(drupalURL != "", waterwheelErrorString + "Missing Drupal URL")
     waterwheelManager.sharedInstance.URL = drupalURL;
-    waterwheel.checkLoginStatus()
 }
 
 /** 
