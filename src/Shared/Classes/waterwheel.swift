@@ -84,7 +84,6 @@ public func isLoggedIn() -> Bool {
 
  */
 private func checkLoginStatus() {
-    print("Checking login status")
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
