@@ -31,9 +31,9 @@ Formerly known as Drupal iOS SDK.
 - [x] Entity CRUD
 - [ ] True entities
 - [ ] Local caching
-- [ ] LoginViewController
+- [x] LoginViewController
 - [ ] SignupViewController
-- [ ] LogoutButton
+- [x] AuthButton
 - [ ] Views integration into Table Views
 
 ## Communication
@@ -200,4 +200,43 @@ waterwheel.entityPatch(entityType: .Node, entityId: "36", params: nodeObject, co
 
 ```swift
 waterwheel.entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+```
+
+### Auth Button / Login View Controller
+
+```swift
+
+waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
+
+let button = waterwheelAuthButton()
+// When we press Login, lets show our Login view controller.
+button.didPressLogin = {
+    let vc = waterwheelLoginViewController()
+    vc.loginRequestCompleted = { (success, error) in
+        if (success) {
+            // Do something related to a successfull login
+            print("successfull login")
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            print (error)
+        }
+    }
+    vc.logoutRequestCompleted = { (success, error) in
+        if (success) {
+            print("successfull logout")
+            // Do something related to a successfull logout
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            print (error)
+        }
+    }
+    // Lets Present our Login View Controller since this closure is for the button press
+    self.presentViewController(vc, animated: true, completion: nil)
+}
+
+button.didPressLogout = { (success, error) in
+    print("logged out")
+}
+
+self.view.addSubviews(button)
 ```
