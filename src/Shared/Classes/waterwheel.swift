@@ -7,9 +7,37 @@
 
 import Alamofire
 import SwiftyJSON
+import SwiftyUserDefaults
+
+extension DefaultsKeys {
+    static let basicUsername = DefaultsKey<String?>("basicUsername")
+    static let basicPassword = DefaultsKey<String?>("basicPassword")
+    static let logoutToken = DefaultsKey<String?>("logoutToken")
+    static let csrfToken = DefaultsKey<String?>("csrfToken")
+    static let signRequestsBasic = DefaultsKey<Bool?>("signRequestsBasic")
+    static let signCSRFToken = DefaultsKey<Bool?>("signCSRFToken")
+    static let isLoggedIn = DefaultsKey<Bool?>("isLoggedIn")
+}
+
 
 public enum EntityType: String {
     case Node = "node", Comment = "comment"
+}
+
+
+public enum waterwheelNotifications: String {
+    case waterwheelDidLogin
+    case waterwheelDidLogout
+    case waterwheelDidStartRequest
+    case waterwheelDidFinishRequest
+}
+
+public enum waterwheelNotificationsTypes: String {
+    case checkLoginStatus
+    case login
+    case logout
+    case getCSRF
+    case normalRequest
 }
 
 // MARK: - Typelias definitions
@@ -33,7 +61,7 @@ public class waterwheelManager {
      A shared instance of `waterwheelManager`
      */
     public static let sharedInstance: waterwheelManager = {
-        return waterwheelManager()
+        return waterwheelManager(basicUsername: "", basicPassword: "", logoutToken: "", CSRFToken: "", signRequestsBasic: false, signCSRFToken: false, isLoggedIn: false)
     }()
 
     public let requestFormat = "?_format=json"
@@ -42,40 +70,73 @@ public class waterwheelManager {
         "Accept":"application/json",
         ]
     public var URL : String = ""
-    public var basicUsername : String = ""
-    public var basicPassword : String = ""
-    public var CSRFToken : String = ""
-    public var signRequestsBasic : Bool = false
-    public var signCSRFToken : Bool = false
+    private var basicUsername : String = ""
+    private var basicPassword : String = ""
+    private var logoutToken : String = ""
+    private var CSRFToken : String = ""
+    private var signRequestsBasic : Bool = false
+    private var signCSRFToken : Bool = false
     private var isLoggedIn: Bool = false
-}
 
+    /**
+     Initializes the `waterwheel` instance with the our defaults.
+     - returns: The new `waterwheel` instance.
+     */
+    public init(basicUsername: String, basicPassword: String, logoutToken: String, CSRFToken: String, signRequestsBasic: Bool, signCSRFToken: Bool, isLoggedIn: Bool) {
+
+        if let basicUsername = Defaults[.basicUsername] {
+            self.basicUsername = basicUsername
+        } else {
+            self.basicUsername = ""
+        }
+        if let basicPassword = Defaults[.basicPassword] {
+            self.basicPassword = basicPassword
+        } else {
+            self.basicPassword = ""
+        }
+
+        if let logoutToken = Defaults[.logoutToken] {
+            self.logoutToken = logoutToken
+        } else {
+            self.logoutToken = ""
+        }
+
+        if let CSRFToken = Defaults[.csrfToken] {
+            self.CSRFToken = CSRFToken
+        } else {
+            self.CSRFToken = ""
+        }
+
+        if let signRequestsBasic = Defaults[.signRequestsBasic] {
+            self.signRequestsBasic = signRequestsBasic
+        } else {
+            self.signRequestsBasic = false
+        }
+
+        if let signCSRFToken = Defaults[.signCSRFToken] {
+            self.signCSRFToken = signCSRFToken
+        } else {
+            self.signRequestsBasic = false
+        }
+
+        if let isLoggedIn = Defaults[.isLoggedIn] {
+            self.isLoggedIn = isLoggedIn
+        } else {
+            self.isLoggedIn = false
+        }
+    }
+}
 
 /**
  Sets the URL for all requests to be sent against.
- 
+
  - parameter drupalURL:         The URL for the Drupal Site
- 
+
  */
 public func setDrupalURL(drupalURL: String) {
     assert(drupalURL != "", waterwheelErrorString + "Missing Drupal URL")
     waterwheelManager.sharedInstance.URL = drupalURL;
     waterwheel.checkLoginStatus()
-}
-
-/** 
- Private function to set Logged in Status
-*/
-private func setIsLoggedIn(isLoggedIn: Bool) {
-    waterwheelManager.sharedInstance.isLoggedIn = isLoggedIn
-}
-
-/**
- Public function to check if the user is logged in
-
- */
-public func isLoggedIn() -> Bool {
-    return waterwheelManager.sharedInstance.isLoggedIn
 }
 
 
@@ -84,6 +145,7 @@ public func isLoggedIn() -> Bool {
 
  */
 private func checkLoginStatus() {
+    postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: nil)
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(.GET, urlString)
         .validate(statusCode: 200..<300)
@@ -91,20 +153,20 @@ private func checkLoginStatus() {
             if (response.result.error == nil) {
                 let loginStatus = String(data: response.data!, encoding: NSUTF8StringEncoding)
                 if (loginStatus == "1") {
-                    waterwheelManager.sharedInstance.isLoggedIn = true
+                    setIsLoggedIn(true)
                 } else {
-                    waterwheelManager.sharedInstance.isLoggedIn = false
+                    setIsLoggedIn(false)
                 }
-
             }
             else {
-                waterwheelManager.sharedInstance.isLoggedIn = false
+                setIsLoggedIn(false)
             }
+            postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: response.response)
     }
 }
 
 
-// MARK: - Authentication methodss
+// MARK: - Authentication methods
 
 /**
  Allows a username and password to be set for Basic Auth
@@ -113,10 +175,13 @@ private func checkLoginStatus() {
  - parameter password:          The password to login with
 
  */
-public func setBasicAuthUsernameAndPassword(username:String, password:String) {
+public func setBasicAuthUsernameAndPassword(username:String, password:String, sign: Bool) {
     waterwheelManager.sharedInstance.basicUsername = username
     waterwheelManager.sharedInstance.basicPassword = password
-    waterwheelManager.sharedInstance.signRequestsBasic = true
+    waterwheelManager.sharedInstance.signRequestsBasic = sign
+    Defaults[.basicUsername] = username
+    Defaults[.basicPassword] = password
+    Defaults[.signRequestsBasic] = true
     setIsLoggedIn(true)
 }
 
@@ -130,7 +195,7 @@ public func setBasicAuthUsernameAndPassword(username:String, password:String) {
 
 
  */
-public func login(username:String?, password:String?, completionHandler: stringcompletion?) {
+public func login(username:String?, password:String?, completionHandler: completion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
@@ -141,26 +206,21 @@ public func login(username:String?, password:String?, completionHandler: stringc
         "pass":password!
     ]
 
-    // POST request to login.
-    Alamofire.request(.POST, urlString, headers: waterwheelManager.sharedInstance.headers, parameters: body, encoding: .JSON)
-        .validate(statusCode: 200..<300)
-        .responseString { response in
-            if (response.result.error == nil) {
-                waterwheel.setIsLoggedIn(true)
-                //We have to get our CSRF token in order to ensure we can make POST, PUT, and DELETE requests.
-                getCSRFToken({ (success, response, json, error) in
-                    if (success) {
-                        completionHandler?(success: true, response: response, json: nil, error: nil)
-                    } else {
-                        //Failed to get CSRF token for some reason
-                        completionHandler?(success: false, response: response, json: nil, error: nil)
-                    }
-                })
-            }
-            else {
-                waterwheel.setIsLoggedIn(false)
-                completionHandler?(success: false, response: response, json: nil, error: response.result.error)
-            }
+    postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
+
+    sendRequest("user/login", method: .POST, params: body) { (success, response, json, error) in
+        switch response!.result {
+        case .Success(let _):
+            let csrfToken = json!["csrf_token"].string
+            let logoutToken = json!["logout_token"].string
+            setCSRF(csrfToken!, sign: true)
+            setLogoutToken(logoutToken!)
+            waterwheel.setIsLoggedIn(true)
+            completionHandler?(success: true, response: response, json: json, error: nil)
+        case .Failure(let error):
+            completionHandler?(success: false, response: response, json: nil, error: error)
+        }
+        postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: response?.response)
     }
 }
 
@@ -173,34 +233,33 @@ public func login(username:String?, password:String?, completionHandler: stringc
 
  */
 
-public func logout(completionHandler completionHandler: stringcompletion?) {
+public func logout(completionHandler completionHandler: completion?) {
     if waterwheelManager.sharedInstance.signRequestsBasic  {
         waterwheelManager.sharedInstance.basicUsername = ""
         waterwheelManager.sharedInstance.basicPassword = ""
         waterwheelManager.sharedInstance.signRequestsBasic = false
         return
     }
-    let urlString = waterwheelManager.sharedInstance.URL + "/user/logout"
-    Alamofire.request(.GET, urlString)
-        .validate(statusCode: 200..<300)
-        .responseString { response in
-            if (response.result.error == nil) {
-                waterwheelManager.sharedInstance.CSRFToken = ""
-                waterwheelManager.sharedInstance.signCSRFToken = false
-                waterwheelManager.sharedInstance.isLoggedIn = false
-                completionHandler?(success: true, response: response, json: nil, error: response.result.error)
-            }
-            else {
-                completionHandler?(success: false, response: response, json: nil, error: response.result.error)
-            }
-    }
+    postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
 
+    let urlString = waterwheelManager.sharedInstance.URL + "/user/logout" + waterwheelManager.sharedInstance.requestFormat + "&token=" + waterwheelManager.sharedInstance.logoutToken
+    sendRequestWithUrl(urlString, method: .POST, params: nil) { (success, response, json, error) in
+        if (response!.result.error == nil) {
+            setCSRF("", sign: false)
+            setIsLoggedIn(false)
+            completionHandler?(success: true, response: response, json: nil, error: response!.result.error)
+        }
+        else {
+            completionHandler?(success: false, response: response, json: nil, error: response!.result.error)
+        }
+        postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: response?.response)
+    }
 }
 
 /**
- 
+
  Private function to get the CSRF Token
- 
+
  */
 private func getCSRFToken(completionHandler: stringcompletion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/rest/session/token"
@@ -209,8 +268,7 @@ private func getCSRFToken(completionHandler: stringcompletion?) {
         .responseString{ response in
             if (response.result.error == nil) {
                 let csrfToken = String(data: response.data!, encoding: NSUTF8StringEncoding)
-                waterwheelManager.sharedInstance.CSRFToken = csrfToken!
-                waterwheelManager.sharedInstance.signCSRFToken = true
+                setCSRF(csrfToken!, sign: true)
                 completionHandler?(success: true, response: response, json: nil, error: nil)
             }
             else {
@@ -223,7 +281,7 @@ private func getCSRFToken(completionHandler: stringcompletion?) {
 
 
 /**
- Sends a request to Drupal
+ Sends a request to Drupal with a specified path
 
  - parameter path:              The path for the request.
  - parameter method:            The method, eg, GET, POST etc.
@@ -233,11 +291,25 @@ private func getCSRFToken(completionHandler: stringcompletion?) {
  */
 
 public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler: completion?) {
-
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL")
-
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
+    sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
+}
 
+/**
+ Sends a request to Drupal with an already generated URL
+
+ - parameter path:              The path for the request.
+ - parameter method:            The method, eg, GET, POST etc.
+ - parameter params:            The parameters for the request.
+ - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+ */
+
+public func sendRequestWithUrl(urlString:String, method:Alamofire.Method, params:paramType, completionHandler: completion?) {
+
+    assert(urlString != "", "waterwheel Error: Missing Drupal URL")
+    postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: nil)
     if (waterwheelManager.sharedInstance.signRequestsBasic == true) {
 
         let plainString = waterwheelManager.sharedInstance.basicUsername + ":" + waterwheelManager.sharedInstance.basicPassword
@@ -256,8 +328,11 @@ public func sendRequest(path:String, method:Alamofire.Method, params:paramType, 
         case .Failure(let error):
             completionHandler?(success: false, response: response, json: nil, error: error)
         }
+        postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: response?.response)
     })
 }
+
+
 
 // MARK: - GET Requests
 
@@ -431,9 +506,58 @@ public let entityDelete: (entityType: EntityType, entityId:String, params: param
  - parameter entityId           The id of the entity
  - parameter params:            The parameters for the request.
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
-
+ 
  */
 
 public let nodeDelete: (nodeId:String, params: paramType, completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
-   entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+    entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+}
+
+
+// MARK: - Helper Functions
+
+/**
+ Private function to set Logged in Status
+ */
+private func setIsLoggedIn(isLoggedIn: Bool) {
+    waterwheelManager.sharedInstance.isLoggedIn = isLoggedIn
+    Defaults[.isLoggedIn] = isLoggedIn
+}
+
+
+/**
+ Public function to check if the user is logged in
+
+ */
+public func isLoggedIn() -> Bool {
+    return waterwheelManager.sharedInstance.isLoggedIn
+}
+
+/**
+ Private function to set logoutToken
+ */
+private func setLogoutToken(logoutToken: String) {
+    waterwheelManager.sharedInstance.logoutToken = logoutToken
+    Defaults[.logoutToken] = logoutToken
+}
+
+/**
+ Private function to set csrf settings
+ */
+private func setCSRF(csrfToken: String, sign: Bool) {
+    waterwheelManager.sharedInstance.CSRFToken = csrfToken
+    waterwheelManager.sharedInstance.signCSRFToken = sign
+    Defaults[.csrfToken] = csrfToken
+    Defaults[.signCSRFToken] = sign
+}
+
+
+
+
+private func postNotification(name: String, requestName: String, object: AnyObject?) {
+    var notification = Dictionary<String, AnyObject>()
+    notification["name"] = name
+    notification["type"] = requestName
+    notification["object"] = object
+    NSNotificationCenter.defaultCenter().postNotificationName(name, object: notification)
 }
