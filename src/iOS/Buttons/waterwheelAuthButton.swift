@@ -14,12 +14,10 @@ public enum AuthAction: String {
 
 public class waterwheelAuthButton: UIButton {
 
-    var didPressLogin: () -> () = { _ in }
-    var didPressLogout: (success:Bool, error: NSError?) -> () = { success, error in }
+    public var didPressLogin: () -> () = { _ in }
+    public var didPressLogout: (success:Bool, error: NSError?) -> () = { success, error in }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
+    private func initButton() {
         // Incase of logout or login, we attach to the notification Center for the purpose of seeing requests.
         NSNotificationCenter.defaultCenter().addObserver(
             self,
@@ -30,8 +28,14 @@ public class waterwheelAuthButton: UIButton {
         self.translatesAutoresizingMaskIntoConstraints = false;
         self.setupButton()
     }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.initButton()
+    }
 
-
+    override public func awakeFromNib() {
+        self.initButton()
+    }
     public func setupButton() {
         // Default states for the button.
         self.setTitleColor(UIButton(type: UIButtonType.System).titleColorForState(.Normal)!, forState: .Normal)
@@ -48,7 +52,7 @@ public class waterwheelAuthButton: UIButton {
     }
 
     required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
 
     /**

@@ -291,7 +291,7 @@ private func getCSRFToken(completionHandler: stringcompletion?) {
  */
 
 public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler: completion?) {
-    assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL")
+    assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL. Did you set it properly?")
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
     sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
 }
@@ -506,7 +506,7 @@ public let entityDelete: (entityType: EntityType, entityId:String, params: param
  - parameter entityId           The id of the entity
  - parameter params:            The parameters for the request.
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
- 
+
  */
 
 public let nodeDelete: (nodeId:String, params: paramType, completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in

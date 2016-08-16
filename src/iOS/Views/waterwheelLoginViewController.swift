@@ -16,9 +16,9 @@ public class waterwheelLoginViewController: UIViewController {
     let submitButton = waterwheelAuthButton()
 
     /// Provide a closure for when a Login Request is completed.
-    var loginRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
+    public var loginRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
     /// Provide a closure for when a Logout Request is completed.
-    var logoutRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
+    public var logoutRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -112,7 +112,6 @@ public class waterwheelLoginViewController: UIViewController {
         passwordField.textAlignment = .Center
         passwordField.translatesAutoresizingMaskIntoConstraints = false;
         passwordField.placeholder = "test"
-        passwordField.text = "test"
     }
 
     /**
