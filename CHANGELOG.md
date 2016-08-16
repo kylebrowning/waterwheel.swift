@@ -8,4 +8,6 @@ Released on Tuesday, August 16, 2016. All issues associated with this milestone 
 #### Fixed
 * properties on AuthButton are protected
  * Implemented by kylebrowning in [#137](https://github.com/acquia/waterwheel-swift/issues/137).
+
+
 ---
