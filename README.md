@@ -7,7 +7,7 @@
 
 
 #### Waterwheel Swift SDK for `Drupal`
-###### Waterwheel makes using Drupal as a backend with iOS, macOS, tvOS, or watchOS enjoyable to use by combining the most used features of Drupal's API's in one SDK. - Formerly known as Drupal iOS SDK.
+###### Waterwheel makes using Drupal as a backend with iOS, macOS, tvOS, or watchOS enjoyable by combining the most used features of Drupal's API's in one SDK. - Formerly known as Drupal iOS SDK.
 
 
 -------
