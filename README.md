@@ -16,7 +16,7 @@
     <a href="#configuration">Configuration</a> &bull;
     <a href="#usage">Usage</a> &bull;
     <a href="#installation">Installation</a> &bull;
-    <a href="#requirements">Requirments</a>
+    <a href="#requirements">Requirements</a>
 </p>
 -------
 
