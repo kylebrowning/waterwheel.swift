@@ -7,7 +7,7 @@
 
 
 #### Waterwheel Swift SDK for `Drupal`
-###### Waterwheel makes using Drupal as a backend with iOS, macOS, tvOS, or watchOS enjoyable to use by combining the most used features of Drupal's API's in one SDK. 
+###### Waterwheel makes using Drupal as a backend with iOS, macOS, tvOS, or watchOS enjoyable to use by combining the most used features of Drupal's API's in one SDK. - Formerly known as Drupal iOS SDK.
 
 
 -------
@@ -248,7 +248,6 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 
 #### The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.
 
-#### Formerly known as Drupal iOS SDK.
 
 
 ## Requirements
