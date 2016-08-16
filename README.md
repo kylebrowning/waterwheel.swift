@@ -15,7 +15,8 @@
     <a href="#features-in-4x">Features</a> &bull;
     <a href="#configuration">Configuration</a> &bull;
     <a href="#usage">Usage</a> &bull;
-    <a href="#installation">Installation</a>
+    <a href="#installation">Installation</a> &bull;
+    <a href="#requirements">Requirments</a>
 </p>
 -------
 
