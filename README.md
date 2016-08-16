@@ -219,36 +219,37 @@ waterwheel.entityDelete(entityType: .Node, entityId: entityId, params: params, c
 
 Waterwheel offers two installations paths. Pick your poison!
 
-### CocoaPods
+## Installation
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Cocoa projects. You can install it with the following command:
+**For Swift 3 compatibility, check out [the `swift3` branch](https://github.com/radex/SwiftyUserDefaults/tree/swift3)**
 
-```bash
-$ gem install cocoapods
-```
+#### CocoaPods
 
-To integrate Waterwheel into your Xcode project using CocoaPods, specify it in your `Podfile`:
+If you're using CocoaPods, just add this line to your Podfile:
 
-```bash
+```ruby
 pod 'waterwheel'
 ```
 
-Then, run the following command:
+Install by running this command in your terminal:
 
-```bash
-$ pod install
+```sh
+pod install
 ```
 
-### Carthage
+Then import the library in all files where you use it:
 
-[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-To integrate Waterwheel into your Xcode project using Carthage, specify it in your `Cartfile`:
-
-```ogdl
-github "acquia/waterwheel-swift" ~> 4.2
+```swift
+import waterwheel
 ```
 
+#### Carthage
+
+Just add to your Cartfile:
+
+```ruby
+github "acquia/waterwheel-swift"
+```
 Run `carthage update` to build the framework and drag the built `waterwheel.framework` into your Xcode project.
 
 ## Communication
@@ -257,8 +258,6 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 - If you **found a bug**, open an issue.
 - If you **have a feature request**, open an issue.
 - If you **want to contribute**, submit a pull request.
-
-<a href="#waterwheel-swift-sdk-for-drupal">Back to Top</a>
 
 <a href="#">Back to Top</a>
 
