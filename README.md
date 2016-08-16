@@ -221,8 +221,6 @@ Waterwheel offers two installations paths. Pick your poison!
 
 ## Installation
 
-**For Swift 3 compatibility, check out [the `swift3` branch](https://github.com/radex/SwiftyUserDefaults/tree/swift3)**
-
 #### CocoaPods
 
 If you're using CocoaPods, just add this line to your Podfile:
