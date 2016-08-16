@@ -75,7 +75,7 @@ waterwheel.login(usernameField.text!, password: passwordField.text!) { (success,
 
 Waterwheel  provides a button to place anywhere in your app. The code below is iOS specific because of its dependence on UIKit. 
 
-```
+```swift
 let loginButton = waterwheelAuthButton()
 // When we press Login, lets show our Login view controller.
 loginButton.didPressLogin = {
