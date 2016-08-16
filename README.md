@@ -17,35 +17,9 @@
     <a href="#custom-types">Custom types</a> &bull;
     <a href="#traditional-api">Traditional API</a> &bull; 
     <a href="#installation">Installation</a> &bull; 
-    <a href="#more-like-this">More info</a>
-</p>
--------
-## Introduction
-
-The Waterwheel Swift SDK is a set of classes that connects Drupal with Swift on any Apple powered device (iOS, macOS, watchOS, tvOS). It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. 
-
-The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.
-
-Formerly known as Drupal iOS SDK.
-
-<p align="center">
-    <a href="#features-in-4x">Features</a> &bull;
-    <a href="#usage">Usage</a> &bull;
-    <a href="#Requirements">Requirements</a> &bull;
-    <a href="#installation">Installation</a> &bull; 
-    <a href="#more-like-this">More info</a>
 </p>
 -------
 
-## Requirements
-- iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+
-- Xcode 7.3+
-
-| waterwheel version | Drupal version   |                                   Notes                                   |
-|:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
-|          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | 
-|          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
-|          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 ## Features in 4.x
 - [x] Session management
 - [x] Basic Auth
@@ -261,3 +235,20 @@ github "acquia/waterwheel-swift" ~> 4.2
 ```
 
 Run `carthage update` to build the framework and drag the built `waterwheel.framework` into your Xcode project.
+
+## Drupal Compatibility
+
+#### The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.
+
+#### Formerly known as Drupal iOS SDK.
+
+
+## Requirements
+- iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+
+- Xcode 7.3+
+
+| waterwheel version | Drupal version   |                                   Notes                                   |
+|:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
+|          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | 
+|          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
+|          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
