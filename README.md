@@ -33,6 +33,7 @@
 - [x] AuthButton
 - [ ] Views integration into Table Views
 
+<a href="#waterwheel-swift-sdk-for-drupal">Back to Top</a>
 
 ## Configuration
 
@@ -180,6 +181,9 @@ button.didPressLogout = { (success, error) in
 
 self.view.addSubviews(button)
 ```
+
+<a href="#waterwheel-swift-sdk-for-drupal">Back to Top</a>
+
 ##Installation
 
 Waterwheel offers two installations paths. Pick your poison!
@@ -238,6 +242,8 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 - If you **have a feature request**, open an issue.
 - If you **want to contribute**, submit a pull request.
 
+<a href="#waterwheel-swift-sdk-for-drupal">Back to Top</a>
+
 ## Drupal Compatibility
 
 #### The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.
@@ -255,4 +261,4 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 |          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
 |          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 
-
+<a href="#waterwheel-swift-sdk-for-drupal">Back to Top</a>
