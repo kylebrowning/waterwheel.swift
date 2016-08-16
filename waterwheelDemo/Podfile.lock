@@ -1,0 +1,21 @@
+PODS:
+  - Alamofire (3.4.1)
+  - SwiftyJSON (2.3.2)
+  - SwiftyUserDefaults (2.2.1)
+  - waterwheel (4.2.4):
+    - Alamofire
+    - SwiftyJSON
+    - SwiftyUserDefaults
+
+DEPENDENCIES:
+  - waterwheel (= 4.2.4)
+
+SPEC CHECKSUMS:
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
+  waterwheel: e0036b246d6cb058e63ece481fa894bd281721f0
+
+PODFILE CHECKSUM: 9f9ae5879f6e40f1319e5cd40d74aa8f5c1f6132
+
+COCOAPODS: 1.1.0.beta.1

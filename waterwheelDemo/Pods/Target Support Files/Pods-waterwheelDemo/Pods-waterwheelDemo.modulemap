@@ -1,0 +1,6 @@
+framework module Pods_waterwheelDemo {
+  umbrella header "Pods-waterwheelDemo-umbrella.h"
+
+  export *
+  module * { export * }
+}
