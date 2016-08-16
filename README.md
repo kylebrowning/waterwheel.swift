@@ -68,7 +68,6 @@ waterwheel.login(usernameField.text!, password: passwordField.text!) { (success,
     } else {
         print("failed to login")
     }
-    self.loginRequestCompleted(success: success, error: error)
 }
 ```
 
