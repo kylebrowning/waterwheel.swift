@@ -215,48 +215,6 @@ waterwheel.entityPatch(entityType: .Node, entityId: "36", params: nodeObject, co
 ```swift
 waterwheel.entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
 ```
-
-#### Auth Button / Login View Controller
-
-```swift
-
-waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
-
-let button = waterwheelAuthButton()
-// When we press Login, lets show our Login view controller.
-button.didPressLogin = {
-    let vc = waterwheelLoginViewController()
-    vc.loginRequestCompleted = { (success, error) in
-        if (success) {
-            // Do something related to a successfull login
-            print("successfull login")
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else {
-            print (error)
-        }
-    }
-    vc.logoutRequestCompleted = { (success, error) in
-        if (success) {
-            print("successfull logout")
-            // Do something related to a successfull logout
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else {
-            print (error)
-        }
-    }
-    // Lets Present our Login View Controller since this closure is for the button press
-    self.presentViewController(vc, animated: true, completion: nil)
-}
-
-button.didPressLogout = { (success, error) in
-    print("logged out")
-}
-
-self.view.addSubviews(button)
-```
-
-<a href="#">Back to Top</a>
-
 ## Installation
 
 Waterwheel offers two installations paths. Pick your poison!
@@ -269,18 +227,10 @@ Waterwheel offers two installations paths. Pick your poison!
 $ gem install cocoapods
 ```
 
-> CocoaPods 0.39.0+ is required to build Waterwheel 3.0.0+.
-
 To integrate Waterwheel into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '9.0'
-use_frameworks!
-
-target '<Your Target Name>' do
-    pod 'waterwheel', '~> 4.2'
-end
+```bash
+pod 'waterwheel'
 ```
 
 Then, run the following command:
@@ -292,13 +242,6 @@ $ pod install
 ### Carthage
 
 [Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks.
-
-You can install Carthage with [Homebrew](http://brew.sh/) using the following command:
-
-```bash
-$ brew update
-$ brew install carthage
-```
 
 To integrate Waterwheel into your Xcode project using Carthage, specify it in your `Cartfile`:
 
@@ -316,6 +259,10 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 - If you **want to contribute**, submit a pull request.
 
 <a href="#waterwheel-swift-sdk-for-drupal">Back to Top</a>
+
+<a href="#">Back to Top</a>
+
+
 
 ## Drupal Compatibility
 
