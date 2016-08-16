@@ -32,12 +32,6 @@
 - [x] AuthButton
 - [ ] Views integration into Table Views
 
-## Communication
-
-- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/waterwheel-swift). (Tag 'waterwheel-swift')
-- If you **found a bug**, open an issue.
-- If you **have a feature request**, open an issue.
-- If you **want to contribute**, submit a pull request.
 
 ## Configuration
 
@@ -236,6 +230,13 @@ github "acquia/waterwheel-swift" ~> 4.2
 
 Run `carthage update` to build the framework and drag the built `waterwheel.framework` into your Xcode project.
 
+## Communication
+
+- If you **need help**, use [Stack Overflow](http://stackoverflow.com/questions/tagged/waterwheel-swift). (Tag 'waterwheel-swift')
+- If you **found a bug**, open an issue.
+- If you **have a feature request**, open an issue.
+- If you **want to contribute**, submit a pull request.
+
 ## Drupal Compatibility
 
 #### The framework is tracking Drupal 8. As new features come out in 8, they will be added ASAP. Since Drupal 7 and Drupal 8 are completely different in terms of API's, you will need to use the correct version of waterwheel depending on your Drupal version.
@@ -252,3 +253,5 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 |          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | 
 |          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
 |          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
+
+
