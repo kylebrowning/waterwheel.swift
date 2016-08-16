@@ -1,6 +1,6 @@
 #Change Log
 All notable changes to this project will be documented in this file. starting with version 4.2.5
---- 
+---
 
 
 ## [4.2.5](https://github.com/Acquia/waterwheel-swift/releases/tag/4.2.5) (08/16/2016)
@@ -9,6 +9,3 @@ Released on Tuesday, August 16, 2016. All issues associated with this milestone 
 #### Fixed
 * properties on AuthButton are protected
  * Implemented by kylebrowning in [#137](https://github.com/acquia/waterwheel-swift/issues/137).
-
-
----
