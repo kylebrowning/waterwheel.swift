@@ -15,8 +15,6 @@
     <a href="#features-in-4x">Features</a> &bull;
     <a href="#configuration">Configuration</a> &bull;
     <a href="#usage">Usage</a> &bull;
-    <a href="#custom-types">Custom types</a> &bull;
-    <a href="#traditional-api">Traditional API</a> &bull; 
     <a href="#installation">Installation</a> &bull; 
 </p>
 -------
@@ -49,6 +47,8 @@ The code below will give you access to the baseline of features for communicatin
 waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
 ```
 
+If is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
+
 #### Login 
 
 The code below will set up Basic Authentication for each API call.
@@ -57,15 +57,12 @@ The code below will set up Basic Authentication for each API call.
 waterwheel.setBasicAuthUsernameAndPassword("test", password: "test2");
 ```
 
-If is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
-
 If you do not want to use Basic Auth, and instead use a cookie, waterwheel provides an authentication method for doing so.
 Sessions are handled for you, and will restore state upon closing an app and reopening it.
 ```swift
 waterwheel.login(usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
     if (success) {
-        self.removeAnonymousSubviews()
-        self.setupAuthenticatedView()
+        print("logged in")
     } else {
         print("failed to login")
     }
