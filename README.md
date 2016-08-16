@@ -8,7 +8,11 @@
 <br clear='all'/>
 
 
-------
+#### Waterwheel Swift SDK for `Drupal`
+###### Waterwheel makes using Drupal as a backend enjoyable to use by combining the most used features of Drupal's API's in one SDK. 
+
+
+-------
 <p align="center">
     <a href="#features">Features</a> &bull;
     <a href="#usage">Usage</a> &bull;
@@ -18,7 +22,6 @@
     <a href="#more-like-this">More info</a>
 </p>
 -------
-
 ## Introduction
 
 The Waterwheel Swift SDK is a set of classes that connects Drupal with Swift on any Apple powered device (iOS, macOS, watchOS, tvOS). It combines the most used commands to communicate with Drupal, gives you commons Views and tasks for Drupal apps, and handles all session management for you. 
