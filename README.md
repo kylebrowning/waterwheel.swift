@@ -49,11 +49,87 @@ The code below will give you access to the baseline of features for communicatin
 waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
 ```
 
+#### Login 
+
 The code below will set up Basic Authentication for each API call.
 ```swift
 // Sets HTTPS Basic Authentication Credentials.
 waterwheel.setBasicAuthUsernameAndPassword("test", password: "test2");
 ```
+
+If is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
+
+If you do not want to use Basic Auth, and instead use a cookie, waterwheel provides an authentication method for doing so.
+Sessions are handled for you, and will restore state upon closing an app and reopening it.
+```swift
+waterwheel.login(usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
+    if (success) {
+        self.removeAnonymousSubviews()
+        self.setupAuthenticatedView()
+    } else {
+        print("failed to login")
+    }
+    self.loginRequestCompleted(success: success, error: error)
+}
+```
+
+Waterwheel  provides a button to place anywhere in your app. The code below is iOS specific because of its dependence on UIKit. 
+
+```
+let loginButton = waterwheelAuthButton()
+// When we press Login, lets show our Login view controller.
+loginButton.didPressLogin = {
+    let vc = waterwheelLoginViewController()
+    // Lets Present our Login View Controller since this closure is for the loginButton press
+    self.presentViewController(vc, animated: true, completion: nil)
+}
+
+loginButton.didPressLogout = { (success, error) in
+    print("logged out")
+}
+self.view.addSubview(loginButton)
+```
+
+Taking this one step furthure, waterwheel also provides a LoginViewController. You can subclass this controller and overwrite it however you want. For our purposes we will use the default implementation.
+
+```swift
+let loginButton = waterwheelAuthButton()
+// When we press Login, lets show our Login view controller.
+loginButton.didPressLogin = {
+    // Lets build our default waterwheelLoginViewController.
+    let vc = waterwheelLoginViewController()
+    //Lets add our function that will be run when the request is completed.
+    vc.loginRequestCompleted = { (success, error) in
+        if (success) {
+            // Do something related to a successfull login
+            print("successfull login")
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            print (error)
+        }
+    }
+    vc.logoutRequestCompleted = { (success, error) in
+        if (success) {
+            print("successfull logout")
+            // Do something related to a successfull logout
+            self.dismissViewControllerAnimated(true, completion: nil)
+        } else {
+            print (error)
+        }
+    }
+    // Lets Present our Login View Controller since this closure is for the loginButton press
+    self.presentViewController(vc, animated: true, completion: nil)
+}
+
+loginButton.didPressLogout = { (success, error) in
+    print("logged out")
+}
+self.view.addSubview(loginButton)
+
+```
+
+Because these two items know whether you are logged in or out, they will always show the correct state of buttons. The UI is up to you, but at its default you get username, password and submit button.
+
 
 ### Node Methods
 
