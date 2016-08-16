@@ -14,6 +14,18 @@ Released on Tuesday, August 16, 2016. All issues associated with this milestone 
  * Implemented by kylebrowning in [#139](https://github.com/acquia/waterwheel-swift/issues/139).
  
 
+## [4.2.6](https://github.com/Acquia/waterwheel-swift/releases/tag/4.2.6) (08/16/2016)
+Released on Tuesday, August 16, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.2.6+is%3Aclosed).
+
+#### Updated
+* 100% doc coverage for waterwheelAuthButton
+ * Implemented by kylebrowning in [#138](https://github.com/acquia/waterwheel-swift/issues/138).
+
+#### Changed
+* Move Title color from Auth button out of setup
+ * Implemented by kylebrowning in [#139](https://github.com/acquia/waterwheel-swift/issues/139).
+ 
+
 ## [4.2.5](https://github.com/Acquia/waterwheel-swift/releases/tag/4.2.5) (08/16/2016)
 Released on Tuesday, August 16, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.2.5+is%3Aclosed).
 
@@ -23,6 +35,18 @@ Released on Tuesday, August 16, 2016. All issues associated with this milestone 
 
 
 --- 
+
+## [4.2.6](https://github.com/Acquia/waterwheel-swift/releases/tag/4.2.6) (08/16/2016)
+Released on Tuesday, August 16, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.2.6+is%3Aclosed).
+
+#### Updated
+* 100% doc coverage for waterwheelAuthButton
+ * Implemented by kylebrowning in [#138](https://github.com/acquia/waterwheel-swift/issues/138).
+
+#### Changed
+* Move Title color from Auth button out of setup
+ * Implemented by kylebrowning in [#139](https://github.com/acquia/waterwheel-swift/issues/139).
+ 
 
 ## [4.2.6](https://github.com/Acquia/waterwheel-swift/releases/tag/4.2.6) (08/16/2016)
 Released on Tuesday, August 16, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.2.6+is%3Aclosed).
