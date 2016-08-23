@@ -5,9 +5,11 @@
 //  Copyright © 2016 Kyle Browning. All rights reserved.
 //
 
-import Alamofire
 import SwiftyJSON
 import SwiftyUserDefaults
+import ObjectMapper
+import Alamofire
+import AlamofireObjectMapper
 
 extension DefaultsKeys {
     static let basicUsername = DefaultsKey<String?>("basicUsername")
@@ -513,6 +515,17 @@ public let nodeDelete: (nodeId:String, params: paramType, completionHandler: com
     entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
 }
 
+/**
+ Gets a view response from Drupal
+
+ - parameter viewPath           The path of the view that is set in the views path settings.
+ - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
+
+ */
+
+public let viewGet: (viewPath:String, completionHandler: completion?) -> Void = { (viewPath, completionHandler) in
+    get(viewPath, params: nil, completionHandler: completionHandler)
+}
 
 // MARK: - Helper Functions
 
