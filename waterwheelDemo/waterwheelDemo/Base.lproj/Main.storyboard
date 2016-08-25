@@ -1,40 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A286a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16A304a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hgZ-fy-RE7">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="tne-QT-ifu">
+        <!--waterwheelDemo-->
+        <scene sceneID="sZ0-Ej-b6E">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="waterwheelDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="waterwheelDemo" id="Pqi-n4-wTQ" customClass="MenuTableViewController" customModule="waterwheelDemo" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="9AD-NY-8fj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" id="wXg-PI-yoC">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wXg-PI-yoC" id="Foq-YN-4r0">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Pqi-n4-wTQ" id="yr2-EG-5TG"/>
+                            <outlet property="delegate" destination="Pqi-n4-wTQ" id="Hbh-QP-9Se"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="waterwheel" id="pX8-jf-JYD"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bg4-rL-XM6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1283" y="247"/>
+        </scene>
+        <!--waterwheel-->
+        <scene sceneID="fYs-Nz-Zff">
+            <objects>
+                <navigationController title="waterwheel" automaticallyAdjustsScrollViewInsets="NO" id="hgZ-fy-RE7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="s6k-98-Ddh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Pqi-n4-wTQ" kind="relationship" relationship="rootViewController" id="AQh-mo-81v"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8ME-hy-GNb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="471" y="247"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="7rG-RL-j2c">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="SE8-Cl-zS5" customClass="LoginViewController" customModule="waterwheelDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                        <viewControllerLayoutGuide type="top" id="LQ7-j0-rof"/>
+                        <viewControllerLayoutGuide type="bottom" id="7kz-VW-yeV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                    <view key="view" contentMode="scaleToFill" id="gXH-AH-r1g">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dMb-E0-Uk2" customClass="waterwheelAuthButton" customModule="waterwheel">
-                                <rect key="frame" x="281" y="520" width="38" height="30"/>
-                                <state key="normal" title="Login"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iXL-U8-5Wy" customClass="waterwheelAuthButton" customModule="waterwheel">
+                                <rect key="frame" x="245" y="106" width="112" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="112" id="qct-u9-XnZ"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="dMb-E0-Uk2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bzI-cG-roW"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="dMb-E0-Uk2" secondAttribute="bottom" constant="50" id="tEG-Vu-mgy"/>
+                            <constraint firstItem="iXL-U8-5Wy" firstAttribute="leading" secondItem="gXH-AH-r1g" secondAttribute="leading" constant="245" id="R66-QV-4lM"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iXL-U8-5Wy" secondAttribute="trailing" constant="223" id="fGg-wn-5Cc"/>
+                            <constraint firstItem="iXL-U8-5Wy" firstAttribute="top" secondItem="LQ7-j0-rof" secondAttribute="bottom" constant="86" id="rlM-tq-j4C"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="authButton" destination="dMb-E0-Uk2" id="8MN-3u-rAy"/>
+                        <outlet property="authButton" destination="iXL-U8-5Wy" id="hGI-GP-eR0"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zCf-Q5-P1l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="435" y="455"/>
+            <point key="canvasLocation" x="904" y="934"/>
         </scene>
     </scenes>
 </document>

@@ -9,7 +9,7 @@
 import UIKit
 import waterwheel
 
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
 
     @IBOutlet weak var authButton: waterwheelAuthButton!
 

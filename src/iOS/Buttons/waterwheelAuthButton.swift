@@ -47,14 +47,11 @@ public class waterwheelAuthButton: UIButton {
 
      - returns:
      */
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         self.initButton()
     }
 
-    override public func awakeFromNib() {
-        self.initButton()
-    }
     /**
      Configures the button for its current state.
      */
@@ -74,7 +71,9 @@ public class waterwheelAuthButton: UIButton {
     /// This is required for Swift
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.initButton()
     }
+
 
     /**
      This method provies an action to take when the button is in a logged in state.

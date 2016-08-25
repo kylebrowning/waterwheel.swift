@@ -1,3 +1,4 @@
 use_frameworks!
 target 'waterwheelDemo'
-pod 'waterwheel', '4.2.4'
+pod 'waterwheel', :path => '~/work/ios/waterwheel-swift'
+pod 'DrawerController'
