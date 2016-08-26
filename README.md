@@ -46,7 +46,7 @@
 The code below will give you access to the baseline of features for communicating to a Drupal site.
 ```swift
 // Sets the URL to your Drupal site.
-waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
+waterwheel.setDrupalURL("http://waterwheel-swift.com")
 ```
 
 If is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
