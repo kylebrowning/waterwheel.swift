@@ -7,16 +7,8 @@
 //
 
 import UIKit
-
-enum DrawerSection: Int {
-    case ViewSelection
-    case DrawerWidth
-    case ShadowToggle
-    case OpenDrawerGestures
-    case CloseDrawerGestures
-    case CenterHiddenInteraction
-    case StretchDrawer
-}
+import waterwheel
+import ObjectMapper
 
 /**
  Provide an enum to handle our rows
@@ -33,6 +25,34 @@ enum TableViewRows: String {
         return TableViewRows.allValues.indexOf(self)!
     }
 }
+public struct FrontpageViewContent: Mappable {
+    var title: String?
+    var body:  String?
+    var contentType: String?
+    var date: String?
+
+    public init?(_ map: Map) {
+
+    }
+
+    mutating public func mapping(map: Map) {
+        title     <- map["title"]
+        body  <- map["body"]
+        contentType <- map["type"]
+        date <- map["created"]
+    }
+}
+final class ExampleCell: UITableViewCell {
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+
 
 
 class MenuTableViewController: UITableViewController {
@@ -64,8 +84,7 @@ class MenuTableViewController: UITableViewController {
 
         return cell
     }
-
-
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         switch indexPath.row {
@@ -74,55 +93,33 @@ class MenuTableViewController: UITableViewController {
             self.navigationController?.pushViewController(loginVc, animated: true)
             break;
         case TableViewRows.Views.index :
-            print ("okay")
+            let frontpageTableVC = waterwheelViewTableViewController(viewPath: "frontpage", configure: { (cell: ExampleCell, responseRow: FrontpageViewContent) in
+                cell.textLabel?.text = responseRow.title
+                cell.detailTextLabel?.text = responseRow.contentType
+            })
+
+            frontpageTableVC.title = "Frontpage"
+            frontpageTableVC.didSelect = { selection in
+                let nodeVC = storyboard.instantiateViewControllerWithIdentifier("NodeViewController") as! NodeViewController
+                nodeVC.object = selection
+                print(selection)
+                
+                self.navigationController?.pushViewController(nodeVC, animated: true)
+            }
+            self.navigationController?.pushViewController(frontpageTableVC, animated: true)
 
         default:
             print ("do nothing")
         }
     }
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+
+    final class ExampleCell: UITableViewCell {
+        override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+            super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

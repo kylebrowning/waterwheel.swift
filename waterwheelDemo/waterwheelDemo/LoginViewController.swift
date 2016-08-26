@@ -15,29 +15,43 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // Lets build our default waterwheelLoginViewController.
+        let vc = waterwheelLoginViewController()
+
+        // Lets add some default username and passwords so that we can demo login/logout
+        vc.usernameField.text = "waterwheelDemo"
+        vc.passwordField.text = "waterwheelDemo!"
+
+        // Lets add our function that will be run when the request is completed.
+        vc.loginRequestCompleted = { (success, error) in
+            if (success) {
+                // Do something related to a successfull login
+                print("successfull login")
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                print (error)
+            }
+        }
+
+        // Define our logout action
+        vc.logoutRequestCompleted = { (success, error) in
+            if (success) {
+                print("successfull logout")
+                // Do something related to a successfull logout
+                self.dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                print (error)
+            }
+        }
+
+        // Define our cancel button action
+        vc.cancelButtonHit = {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
+
         // Do any additional setup after loading the view, typically from a nib.
         authButton.didPressLogin = {
-            // Lets build our default waterwheelLoginViewController.
-            let vc = waterwheelLoginViewController()
-            //Lets add our function that will be run when the request is completed.
-            vc.loginRequestCompleted = { (success, error) in
-                if (success) {
-                    // Do something related to a successfull login
-                    print("successfull login")
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    print (error)
-                }
-            }
-            vc.logoutRequestCompleted = { (success, error) in
-                if (success) {
-                    print("successfull logout")
-                    // Do something related to a successfull logout
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                } else {
-                    print (error)
-                }
-            }
             // Lets Present our Login View Controller since this closure is for the loginButton press
             self.presentViewController(vc, animated: true, completion: nil)
         }

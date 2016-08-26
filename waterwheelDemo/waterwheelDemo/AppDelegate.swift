@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
+        waterwheel.setDrupalURL("http://waterwheel-swift.com")
         return true
     }
 

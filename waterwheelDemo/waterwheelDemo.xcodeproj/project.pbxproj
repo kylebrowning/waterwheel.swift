@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1D7518141D6E3AAF00846BD1 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7518131D6E3AAF00846BD1 /* MenuTableViewController.swift */; };
+		1DB965E81D70E44E006E6A78 /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB965E71D70E44E006E6A78 /* NodeViewController.swift */; };
 		1DCBFCCB1D6390F6004328CE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBFCCA1D6390F6004328CE /* AppDelegate.swift */; };
 		1DCBFCCD1D6390F6004328CE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCBFCCC1D6390F6004328CE /* LoginViewController.swift */; };
 		1DCBFCD01D6390F6004328CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DCBFCCE1D6390F6004328CE /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		1D7518131D6E3AAF00846BD1 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
+		1DB965E71D70E44E006E6A78 /* NodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
 		1DCBFCC71D6390F6004328CE /* waterwheelDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = waterwheelDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DCBFCCA1D6390F6004328CE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1DCBFCCC1D6390F6004328CE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -66,7 +68,9 @@
 		1D7518121D6E3A7A00846BD1 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				1DCBFCCC1D6390F6004328CE /* LoginViewController.swift */,
 				1D7518131D6E3AAF00846BD1 /* MenuTableViewController.swift */,
+				1DB965E71D70E44E006E6A78 /* NodeViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -96,7 +100,6 @@
 			children = (
 				1D7518121D6E3A7A00846BD1 /* ViewControllers */,
 				1DCBFCCA1D6390F6004328CE /* AppDelegate.swift */,
-				1DCBFCCC1D6390F6004328CE /* LoginViewController.swift */,
 				1DCBFCCE1D6390F6004328CE /* Main.storyboard */,
 				1DCBFCD11D6390F6004328CE /* Assets.xcassets */,
 				1DCBFCD31D6390F6004328CE /* LaunchScreen.storyboard */,
@@ -283,6 +286,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DB965E81D70E44E006E6A78 /* NodeViewController.swift in Sources */,
 				1DCBFCCD1D6390F6004328CE /* LoginViewController.swift in Sources */,
 				1DCBFCCB1D6390F6004328CE /* AppDelegate.swift in Sources */,
 				1D7518141D6E3AAF00846BD1 /* MenuTableViewController.swift in Sources */,
