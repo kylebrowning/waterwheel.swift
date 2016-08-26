@@ -31,7 +31,7 @@
 - [x] LoginViewController
 - [ ] SignupViewController
 - [x] AuthButton
-- [ ] Views integration into Table Views
+- [x] Views integration into Table Views
 
 <a href="#">Back to Top</a>
 
@@ -51,7 +51,7 @@ waterwheel.setDrupalURL("http://drupal-8-2-0-beta1.dd")
 
 If is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
 
-#### Login 
+#### Login
 
 The code below will set up Basic Authentication for each API call.
 ```swift
@@ -71,15 +71,19 @@ waterwheel.login(usernameField.text!, password: passwordField.text!) { (success,
 }
 ```
 
-Waterwheel  provides a button to place anywhere in your app. The code below is iOS specific because of its dependence on UIKit. 
+Waterwheel  provides a `waterwheelAuthButton` to place anywhere in your app. The code below is iOS specific because of its dependence on UIKit.
 
 ```swift
 let loginButton = waterwheelAuthButton()
 // When we press Login, lets show our Login view controller.
 loginButton.didPressLogin = {
-    let vc = waterwheelLoginViewController()
-    // Lets Present our Login View Controller since this closure is for the loginButton press
-    self.presentViewController(vc, animated: true, completion: nil)
+  waterwheel.login(usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
+      if (success) {
+          print("successful login")
+      } else {
+          print("failed to login")
+      }
+  }
 }
 
 loginButton.didPressLogout = { (success, error) in
@@ -88,33 +92,40 @@ loginButton.didPressLogout = { (success, error) in
 self.view.addSubview(loginButton)
 ```
 
-Taking this one step furthure, waterwheel also provides a LoginViewController. You can subclass this controller and overwrite it however you want. For our purposes we will use the default implementation.
+Taking this one step further, waterwheel also provides a `waterwheelLoginViewController`. You can subclass this controller and overwrite if needed. For our purposes we will use the default implementation.
+
+First, we build our `waterwheelLoginViewController` and set our `loginRequestCompleted` and `logoutRequestCompleted` closures:
+
+```swift
+// Lets build our default waterwheelLoginViewController.
+let vc = waterwheelLoginViewController()
+
+//Lets add our closure that will be run when the request is completed.
+vc.loginRequestCompleted = { (success, error) in
+    if (success) {
+        // Do something related to a successful login
+        print("successful login")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    } else {
+        print (error)
+    }
+}
+vc.logoutRequestCompleted = { (success, error) in
+    if (success) {
+        print("successful logout")
+        // Do something related to a successful logout
+        self.dismissViewControllerAnimated(true, completion: nil)
+    } else {
+        print (error)
+    }
+}
+```
+Once that is done we can now tell our `waterwheelAuthButton` what to do when someone presses Login. Of course this can all be handled manually in your own implementation, but for our purposes, were just using what waterwheel provides. Here we instantiate a new `waterwheelAuthButton` and tell it what we want to happen when someone presses login, and logout.
 
 ```swift
 let loginButton = waterwheelAuthButton()
 // When we press Login, lets show our Login view controller.
 loginButton.didPressLogin = {
-    // Lets build our default waterwheelLoginViewController.
-    let vc = waterwheelLoginViewController()
-    //Lets add our function that will be run when the request is completed.
-    vc.loginRequestCompleted = { (success, error) in
-        if (success) {
-            // Do something related to a successfull login
-            print("successfull login")
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else {
-            print (error)
-        }
-    }
-    vc.logoutRequestCompleted = { (success, error) in
-        if (success) {
-            print("successfull logout")
-            // Do something related to a successfull logout
-            self.dismissViewControllerAnimated(true, completion: nil)
-        } else {
-            print (error)
-        }
-    }
     // Lets Present our Login View Controller since this closure is for the loginButton press
     self.presentViewController(vc, animated: true, completion: nil)
 }
@@ -126,7 +137,7 @@ self.view.addSubview(loginButton)
 
 ```
 
-Because these two items know whether you are logged in or out, they will always show the correct state of buttons. The UI is up to you, but at its default you get username, password and submit button.
+Because these two Views know whether you are logged in or out, they will always show the correct state of buttons(Login, or Logout) and perform the approriate actions. The UI is up to you, but at its default you get username, password, submit, and cancel button.
 
 
 ### Node Methods
@@ -274,7 +285,7 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 
 | waterwheel version | Drupal version   |                                   Notes                                   |
 |:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
-|          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            | 
+|          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            |
 |          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
 |          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
 
