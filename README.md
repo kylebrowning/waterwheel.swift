@@ -120,7 +120,9 @@ vc.logoutRequestCompleted = { (success, error) in
     }
 }
 ```
-Once that is done we can now tell our `waterwheelAuthButton` what to do when someone presses Login. Of course this can all be handled manually in your own implementation, but for our purposes, were just using what waterwheel provides. Here we instantiate a new `waterwheelAuthButton` and tell it what we want to happen when someone presses login, and logout.
+Once that is done we can now tell our `waterwheelAuthButton` what to do when someone presses Login. Of course this can all be handled manually in your own implementation, but for our purposes, were just using what waterwheel provides. 
+
+Here we instantiate a new `waterwheelAuthButton` and tell it what we want to happen when someone presses login, and logout.
 
 ```swift
 let loginButton = waterwheelAuthButton()
@@ -137,7 +139,7 @@ self.view.addSubview(loginButton)
 
 ```
 
-Because these two Views know whether you are logged in or out, they will always show the correct state of buttons(Login, or Logout) and perform the approriate actions. The UI is up to you, but at its default you get username, password, submit, and cancel button.
+Because these two Views know whether you are logged in or out, they will always show the correct state of buttons(Login, or Logout) and perform the approriate actions. The UI is up to you, but at its default you get username, password, submit, and cancel button. With all that said, you can ingore these classes and use the methods that waterwheel provides and deeply integrate into your own UI.
 
 
 ### Node Methods
