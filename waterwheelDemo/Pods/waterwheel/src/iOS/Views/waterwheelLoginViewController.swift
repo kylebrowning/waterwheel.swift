@@ -11,29 +11,73 @@ extension UIViewController {
 }
 public class waterwheelLoginViewController: UIViewController {
 
-    let usernameField = UITextField()
-    let passwordField = UITextField()
-    let submitButton = waterwheelAuthButton()
+    public let usernameField : UITextField = {
+        let usernameField = UITextField()
+        usernameField.autocorrectionType = .No
+        usernameField.attributedPlaceholder = NSAttributedString(string: "Email")
+        usernameField.translatesAutoresizingMaskIntoConstraints = false;
+        usernameField.backgroundColor = UIColor.lightGrayColor()
+        usernameField.textAlignment = .Center
+        usernameField.placeholder = "Username"
+        usernameField.hidden = true
+        return usernameField
+    }()
 
-    /// Provide a closure for when a Login Request is completed.
+     public let passwordField : UITextField = {
+        let passwordField = UITextField()
+        passwordField.secureTextEntry = true
+        passwordField.autocorrectionType = .No
+        passwordField.attributedPlaceholder = NSAttributedString(string: "Password")
+        passwordField.backgroundColor = UIColor.lightGrayColor()
+        passwordField.textAlignment = .Center
+        passwordField.translatesAutoresizingMaskIntoConstraints = false;
+        passwordField.placeholder = "password"
+        passwordField.hidden = true
+        passwordField.returnKeyType = .Go
+        return passwordField
+    }()
+
+
+    lazy public var submitButton : waterwheelAuthButton = {
+        let submitButton = waterwheelAuthButton()
+        submitButton.translatesAutoresizingMaskIntoConstraints = false;
+        submitButton.backgroundColor = UIColor.darkGrayColor()
+        submitButton.didPressLogin = {
+            self.loginAction()
+        }
+        submitButton.didPressLogout = { (success, error) in
+            self.logoutAction(success, error: error)
+        }
+        return submitButton
+    }()
+
+    lazy public var cancelButton : UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false;
+        cancelButton.backgroundColor = UIColor.grayColor()
+        cancelButton.addTarget(self, action: #selector(cancelAction), forControlEvents: .TouchUpInside)
+        cancelButton.setTitle("Cancel", forState: .Normal)
+        return cancelButton
+    }()
+
+    /**
+     Provide a closure for when a Login Request is completed.
+     */
     public var loginRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
-    /// Provide a closure for when a Logout Request is completed.
+
+    /**
+     Provide a closure for when a Logout Request is completed.
+     */
     public var logoutRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
+
+    /**
+     Provide a cancel button closure.
+     */
+    public var cancelButtonHit: () -> () = { _ in }
 
     override public func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .whiteColor()
-        if !waterwheel.isLoggedIn() {
-            self.setupAnonymousView()
-        } else {
-            self.setupAuthenticatedView()
-        }
-        // Incase of logout or login, we attach to the notification Center for the purpose of seeing requests.
-        NSNotificationCenter.defaultCenter().addObserver(
-            self,
-            selector: #selector(configure),
-            name: waterwheelNotifications.waterwheelDidFinishRequest.rawValue,
-            object: nil)
+        configure(isInit:true)
     }
     /**
      Overridden viewDidAppear where decide if were logged in or not.
@@ -41,125 +85,43 @@ public class waterwheelLoginViewController: UIViewController {
      - parameter animated: Is the view animated
      */
     override public func viewDidAppear(animated: Bool) {
-        self.configure()
+        self.configure(isInit:false)
     }
 
     /**
      Configure this viewcontrollers view based on auth state.
      */
 
-    public func configure() {
+    public func configure(isInit isInit: Bool) {
+        if isInit {
+            self.view.backgroundColor = .whiteColor()
+            // Incase of logout or login, we attach to the notification Center for the purpose of seeing requests.
+            NSNotificationCenter.defaultCenter().addObserver(
+                self,
+                selector: #selector(configure),
+                name: waterwheelNotifications.waterwheelDidFinishRequest.rawValue,
+                object: nil)
+
+            self.view.addSubview(usernameField)
+            self.view.addSubview(passwordField)
+            self.view.addSubview(submitButton)
+            self.view.addSubview(cancelButton)
+        }
         if !waterwheel.isLoggedIn() {
-            self.setupAnonymousView()
+            self.showAnonymousSubviews()
         } else {
-            self.setupAuthenticatedView()
-        }
-    }
-
-    /**
-     Setup the authenticated Subviews.
-     */
-    public func setupAuthenticatedView() {
-        self.configureAuthenticatedSubviews()
-        self.addAuthenticatedSubviews()
-        self.layoutAuthenticatedSubviews()
-
-    }
-    /**
-     Setup the Anonymous Subviews.
-     */
-    public func setupAnonymousView() {
-        self.configureAnonymousSubviews()
-        self.addAnonymousSubviews()
-        self.layoutAnonymousSubviews()
-    }
-
-    /**
-     Configure authenticated Subviews.
-     */
-    public func configureAuthenticatedSubviews() {
-        self.configureAuthenticatedButton()
-    }
-
-    /**
-     Configure Anonymous Subviews.
-     */
-    public func configureAnonymousSubviews() {
-        self.configureUsernameField()
-        self.configurePasswordField()
-        self.configureAnonymousButton()
-    }
-
-    /**
-     Configure the username field defaults.
-     */
-    public func configureUsernameField() {
-        usernameField.autocorrectionType = .No
-        usernameField.attributedPlaceholder = NSAttributedString(string: "Email")
-        usernameField.translatesAutoresizingMaskIntoConstraints = false;
-        usernameField.backgroundColor = UIColor.lightGrayColor()
-        usernameField.textAlignment = .Center
-        usernameField.placeholder = "Username"
-    }
-    /**
-     Configure the password field defaults.
-     */
-    public func configurePasswordField() {
-        passwordField.secureTextEntry = true
-        passwordField.autocorrectionType = .No
-        passwordField.attributedPlaceholder = NSAttributedString(string: "Password")
-        passwordField.backgroundColor = UIColor.lightGrayColor()
-        passwordField.textAlignment = .Center
-        passwordField.translatesAutoresizingMaskIntoConstraints = false;
-        passwordField.placeholder = "test"
-    }
-
-    /**
-     Configure Anonymous button defaults.
-     */
-    public func configureAnonymousButton() {
-        submitButton.translatesAutoresizingMaskIntoConstraints = false;
-        submitButton.backgroundColor = UIColor.darkGrayColor()
-        submitButton.didPressLogin = {
-            self.loginAction()
-        }
-    }
-
-    /**
-     Configure Authenticated Button defaults.
-     */
-    public func configureAuthenticatedButton() {
-        submitButton.translatesAutoresizingMaskIntoConstraints = false;
-        submitButton.backgroundColor = UIColor.darkGrayColor()
-        submitButton.didPressLogout = { (success, error) in
-            self.logoutAction(success, error: error)
+            // We do nothing because our waterwheelAuthButton will handle its own state
         }
     }
 
     /**
      Layout the Anonymous Subviews.
      */
-    public func layoutAnonymousSubviews() {
+    public func layoutSubviews() {
         self.layoutLoginField()
         self.layoutPasswordField()
-        self.layoutAnonymousButton()
-    }
-
-    /**
-     Layout the Authenticated Subviews.
-     */
-    public func layoutAuthenticatedSubviews() {
-        self.layoutAuthenticatedButton()
-    }
-
-    /**
-     Lays out the authenticated button.
-     */
-    public func layoutAuthenticatedButton() {
-        submitButton.constrainEqual(.LeadingMargin, to: view)
-        submitButton.constrainEqual(.TrailingMargin, to: view)
-        submitButton.constrainEqual(.Bottom, to: view, .Bottom, multiplier: 1.0, constant: -100)
-        submitButton.heightAnchor.constraintEqualToConstant(50.0).active = true
+        self.layoutSubmitButton()
+        self.layoutCancelButton()
     }
 
     /**
@@ -183,9 +145,9 @@ public class waterwheelLoginViewController: UIViewController {
     }
 
     /**
-     Lays out the Anonymous Button
+     Lays out the Submit Button
      */
-    public func layoutAnonymousButton() {
+    public func layoutSubmitButton() {
         submitButton.constrainEqual(.LeadingMargin, to: view)
         submitButton.constrainEqual(.TrailingMargin, to: view)
         submitButton.constrainEqual(.BottomMargin, to: passwordField, .BottomMargin, multiplier: 1.0, constant: 55)
@@ -193,37 +155,32 @@ public class waterwheelLoginViewController: UIViewController {
     }
 
     /**
-     Removes authenticated Subviews
+     Lays out the Anonymous Button
      */
-    public func removeAuthenticatedSubviews() {
-        submitButton.removeFromSuperview()
-        submitButton.removeTarget(self, action: #selector(waterwheelLoginViewController.logoutAction), forControlEvents: .TouchUpInside)
-    }
-
-    /**
-     Adds authenticated Subviews.
-     */
-    public func addAuthenticatedSubviews() {
-        self.view.addSubview(submitButton)
+    public func layoutCancelButton() {
+        cancelButton.constrainEqual(.LeadingMargin, to: view)
+        cancelButton.constrainEqual(.TrailingMargin, to: view)
+        cancelButton.constrainEqual(.BottomMargin, to: submitButton, .BottomMargin, multiplier: 1.0, constant: 55)
+        cancelButton.heightAnchor.constraintEqualToConstant(50.0).active = true
     }
 
     /**
      Remove anonymous subviews.
      */
-    public func removeAnonymousSubviews() {
-        usernameField.removeFromSuperview()
-        passwordField.removeFromSuperview()
-        submitButton.removeFromSuperview()
-        submitButton.removeTarget(self, action: #selector(waterwheelLoginViewController.loginAction), forControlEvents: .TouchUpInside)
+    public func hideAnonymousSubviews() {
+        usernameField.hidden = true
+        passwordField.hidden = true
+        cancelButton.hidden = true
     }
 
     /**
      Add Anonymous subviews.
      */
-    public func addAnonymousSubviews() {
-        self.view.addSubview(usernameField)
-        self.view.addSubview(passwordField)
-        self.view.addSubview(submitButton)
+    public func showAnonymousSubviews() {
+        self.layoutSubviews()
+        usernameField.hidden = false
+        passwordField.hidden = false
+        cancelButton.hidden = false
     }
 
     /**
@@ -232,8 +189,7 @@ public class waterwheelLoginViewController: UIViewController {
     public func loginAction() {
         waterwheel.login(usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
             if (success) {
-                self.removeAnonymousSubviews()
-                self.setupAuthenticatedView()
+                self.hideAnonymousSubviews()
             } else {
                 print("failed to login")
             }
@@ -249,14 +205,17 @@ public class waterwheelLoginViewController: UIViewController {
      */
     public func logoutAction(success: Bool, error: NSError?) {
         if (success) {
-            self.removeAuthenticatedSubviews()
-            self.setupAnonymousView()
+            self.showAnonymousSubviews()
         } else {
             print("failed to logout")
         }
         self.logoutRequestCompleted(success: success, error: error)
     }
 
+
+    public func cancelAction() {
+        self.cancelButtonHit()
+    }
 
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

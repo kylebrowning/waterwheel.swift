@@ -12,7 +12,7 @@ PODS:
   - ObjectMapper (1.4.0)
   - SwiftyJSON (2.3.2)
   - SwiftyUserDefaults (2.2.1)
-  - waterwheel (4.2.7):
+  - waterwheel (4.2.8):
     - Alamofire
     - AlamofireObjectMapper
     - SwiftyJSON
@@ -20,11 +20,7 @@ PODS:
 
 DEPENDENCIES:
   - DrawerController
-  - waterwheel (from `~/work/ios/waterwheel-swift`)
-
-EXTERNAL SOURCES:
-  waterwheel:
-    :path: ~/work/ios/waterwheel-swift
+  - waterwheel
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
@@ -33,8 +29,8 @@ SPEC CHECKSUMS:
   ObjectMapper: a07ad0462c5adf014adc0f89ef04c29b626e855e
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
-  waterwheel: d71aa189caca242c48dbd7c65041e56d378b8dfa
+  waterwheel: a8e02adf9e3d5558055b94f22d4d747be9327896
 
-PODFILE CHECKSUM: 4f7dd4f25947db7470d2ff7b1676ce34aabb66da
+PODFILE CHECKSUM: 06d7f4701487802fbe8b507b82afc38f7b564418
 
 COCOAPODS: 1.1.0.beta.1

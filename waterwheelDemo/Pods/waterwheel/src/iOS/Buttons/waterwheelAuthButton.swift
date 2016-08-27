@@ -8,37 +8,54 @@ import waterwheel
 import Alamofire
 import SwiftyJSON
 
+/**
+ Provide an enum to handle.
+
+ - Login:  login Auth Action
+ - Logout: logout Auth Action
+ */
 public enum AuthAction: String {
     case Login = "Login", Logout = "Logout"
 }
 
+
+/// A UIButton subclass that will always display the logged in state.
 public class waterwheelAuthButton: UIButton {
 
     public var didPressLogin: () -> () = { _ in }
     public var didPressLogout: (success:Bool, error: NSError?) -> () = { success, error in }
 
-    private func initButton() {
+    /**
+      A initializer to handle run once code for the button.
+     */
+    private func initButton() -> () {
         // Incase of logout or login, we attach to the notification Center for the purpose of seeing requests.
         NSNotificationCenter.defaultCenter().addObserver(
             self,
-            selector: #selector(setupButton),
+            selector: #selector(configureButton),
             name: waterwheelNotifications.waterwheelDidFinishRequest.rawValue,
             object: nil)
 
         self.translatesAutoresizingMaskIntoConstraints = false;
-        self.setupButton()
+        self.setTitleColor(UIButton(type: UIButtonType.System).titleColorForState(.Normal)!, forState: .Normal)
+        self.configureButton()
     }
-    override init(frame: CGRect) {
+    /**
+     Override init to setup our button.
+
+     - parameter frame: frame for view
+
+     - returns:
+     */
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         self.initButton()
     }
 
-    override public func awakeFromNib() {
-        self.initButton()
-    }
-    public func setupButton() {
-        // Default states for the button.
-        self.setTitleColor(UIButton(type: UIButtonType.System).titleColorForState(.Normal)!, forState: .Normal)
+    /**
+     Configures the button for its current state.
+     */
+    public func configureButton() {
 
         if waterwheel.isLoggedIn() {
             self.setTitle("Logout", forState: .Normal)
@@ -51,9 +68,12 @@ public class waterwheelAuthButton: UIButton {
         }
     }
 
+    /// This is required for Swift
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.initButton()
     }
+
 
     /**
      This method provies an action to take when the button is in a logged in state.
