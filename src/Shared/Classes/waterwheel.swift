@@ -195,7 +195,7 @@ public func setBasicAuthUsernameAndPassword(_ username:String, password:String, 
 
 
  */
-public func login(_ username:String?, password:String?, completionHandler: completion?) {
+public func login(username username:String?, password password:String?, completionHandler: completion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
@@ -290,7 +290,7 @@ private func getCSRFToken(_ completionHandler: stringcompletion?) {
 
  */
 
-public func sendRequest(_ path:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
+public func sendRequest(_ path:String, method method:Alamofire.HTTPMethod, params params:paramType, completionHandler completionHandler: completion?) {
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL. Did you set it properly?")
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
     sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
@@ -306,7 +306,7 @@ public func sendRequest(_ path:String, method:Alamofire.HTTPMethod, params:param
 
  */
 
-public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
+public func sendRequestWithUrl(_ urlString:String, method method:Alamofire.HTTPMethod, params params:paramType, completionHandler completionHandler: completion?) {
 
     assert(urlString != "", "waterwheel Error: Missing Drupal URL")
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: nil)
@@ -366,7 +366,7 @@ public func get(_ requestPath: String, params: paramType, completionHandler: com
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public let entityGet: (_ entityType: EntityType, _ entityId: String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
+public func entityGet(entitType entityType: EntityType, entityId entityId: String, params params: paramType, compleitionHandler completionHandler: completion?) {
     let requestPath = entityType.rawValue + "/" + entityId
     get(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -380,8 +380,8 @@ public let entityGet: (_ entityType: EntityType, _ entityId: String, _ params: p
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public let nodeGet: (_ nodeId: String, _ params: paramType, _ completionHandler: completion?) -> Void = { (nodeId, params, completionHandler) in
-    entityGet(.Node, nodeId, params, completionHandler)
+public func nodeGet(nodeId: String, params: paramType, completionHandler: completion?) {
+    entityGet(entitType: .Node, entityId: nodeId, params: params, compleitionHandler: completionHandler)
 }
 
 

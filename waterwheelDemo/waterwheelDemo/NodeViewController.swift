@@ -9,7 +9,7 @@
 import UIKit
 
 
-public class NodeViewController: UIViewController {
+open class NodeViewController: UIViewController {
 
     @IBOutlet weak var labelTitle: UILabel!
 
@@ -18,9 +18,9 @@ public class NodeViewController: UIViewController {
     @IBOutlet weak var textViewBody: UITextView!
 
 
-    public var object : FrontpageViewContent!
+    open var object : FrontpageViewContent!
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
@@ -29,7 +29,7 @@ public class NodeViewController: UIViewController {
         self.textViewBody.text = object.body
     }
 
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

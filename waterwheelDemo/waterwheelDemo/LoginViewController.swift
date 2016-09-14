@@ -28,7 +28,7 @@ class LoginViewController: UIViewController {
             if (success) {
                 // Do something related to a successfull login
                 print("successfull login")
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             } else {
                 print (error)
             }
@@ -39,7 +39,7 @@ class LoginViewController: UIViewController {
             if (success) {
                 print("successfull logout")
                 // Do something related to a successfull logout
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
             } else {
                 print (error)
             }
@@ -47,13 +47,13 @@ class LoginViewController: UIViewController {
 
         // Define our cancel button action
         vc.cancelButtonHit = {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         }
 
         // Do any additional setup after loading the view, typically from a nib.
         authButton.didPressLogin = {
             // Lets Present our Login View Controller since this closure is for the loginButton press
-            self.presentViewController(vc, animated: true, completion: nil)
+            self.present(vc, animated: true, completion: nil)
         }
         
         authButton.didPressLogout = { (success, error) in

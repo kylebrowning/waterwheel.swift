@@ -187,7 +187,7 @@ open class waterwheelLoginViewController: UIViewController {
      Public Login Action function for the login button that runs our closure.
      */
     public func loginAction() {
-        waterwheel.login(usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
+        waterwheel.login(username: usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
             if (success) {
                 self.hideAnonymousSubviews()
             } else {

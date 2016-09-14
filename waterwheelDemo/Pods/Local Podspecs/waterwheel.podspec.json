@@ -1,6 +1,6 @@
 {
   "name": "waterwheel",
-  "version": "4.2.7",
+  "version": "4.3.0",
   "summary": "A framework for communicating to Drupal via iOS, macOS, watchOS, or tvOS.",
   "homepage": "https://github.com/acquia/waterwheel-swift",
   "authors": {
@@ -8,7 +8,7 @@
   },
   "source": {
     "git": "https://github.com/acquia/waterwheel-swift.git",
-    "tag": "4.2.7"
+    "tag": "4.3.0"
   },
   "source_files": "src/**/**/*.swift",
   "requires_arc": true,
@@ -31,15 +31,15 @@
   },
   "dependencies": {
     "Alamofire": [
+      "~> 4.0"
+    ],
+    "ObjectMapper": [
 
     ],
     "SwiftyJSON": [
 
     ],
     "SwiftyUserDefaults": [
-
-    ],
-    "AlamofireObjectMapper": [
 
     ]
   }

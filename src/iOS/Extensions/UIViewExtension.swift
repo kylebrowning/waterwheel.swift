@@ -30,15 +30,15 @@ extension UIView {
     /// If the `view` is nil, we take the superview.
     public func center(in view: UIView? = nil) {
         guard let container = view ?? self.superview else { fatalError() }
-        centerXAnchor.constrainEqual(container.centerXAnchor)
-        centerYAnchor.constrainEqual(container.centerYAnchor)
+//        centerXAnchor.constrainEqualS(acnhor: container.centerXAnchor)
+//        centerYAnchor.constrainEqualS(acnhor: container.centerYAnchor)
     }
 }
 
-@available(iOS 9.0, *)
-extension NSLayoutAnchor {
-    public func constrainEqual(_ anchor: NSLayoutAnchor, constant: CGFloat = 0) {
-        let constraint = self.constraint(equalTo: anchor, constant: constant)
-        constraint.isActive = true
-    }
-}
+//@available(iOS 9.0, *)
+//extension NSLayoutAnchor {
+//    public func constrainEqualS(acnhor anchor: NSLayoutAnchor, constant: CGFloat = 0) {
+//        let constraint = self.constraint(equalTo: anchor, constant: constant)
+//        constraint.isActive = true
+//    }
+//}

@@ -1,8 +1,8 @@
 //
-//  TransformOf.swift
+//  DataTransform.swift
 //  ObjectMapper
 //
-//  Created by Syo Ikeda on 1/23/15.
+//  Created by Yagrushkin, Evgeny on 8/30/16.
 //
 //  The MIT License (MIT)
 //
@@ -26,23 +26,25 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-open class TransformOf<ObjectType, JSONType>: TransformType {
-	public typealias Object = ObjectType
-	public typealias JSON = JSONType
+import Foundation
 
-	private let fromJSON: (JSONType?) -> ObjectType?
-	private let toJSON: (ObjectType?) -> JSONType?
-
-	public init(fromJSON: @escaping(JSONType?) -> ObjectType?, toJSON: @escaping(ObjectType?) -> JSONType?) {
-		self.fromJSON = fromJSON
-		self.toJSON = toJSON
+open class DataTransform: TransformType {
+	public typealias Object = Data
+	public typealias JSON = String
+	
+	public init() {}
+	
+	public func transformFromJSON(_ value: Any?) -> Data? {
+		guard let string = value as? String else{
+			return nil
+		}
+		return Data(base64Encoded: string)
 	}
-
-	public func transformFromJSON(_ value: Any?) -> ObjectType? {
-		return fromJSON(value as? JSONType)
-	}
-
-	public func transformToJSON(_ value: ObjectType?) -> JSONType? {
-		return toJSON(value)
+	
+	public func transformToJSON(_ value: Data?) -> String? {
+		guard let data = value else{
+			return nil
+		}
+		return data.base64EncodedString()
 	}
 }

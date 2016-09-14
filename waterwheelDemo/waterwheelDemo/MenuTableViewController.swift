@@ -22,7 +22,7 @@ enum TableViewRows: String {
 
     static let allValues = [Authentication, Views]
     var index : Int {
-        return TableViewRows.allValues.indexOf(self)!
+        return TableViewRows.allValues.index(of: self)!
     }
 }
 public struct FrontpageViewContent: Mappable {
@@ -31,7 +31,7 @@ public struct FrontpageViewContent: Mappable {
     var contentType: String?
     var date: String?
 
-    public init?(_ map: Map) {
+    public init?(map: Map) {
 
     }
 
@@ -44,7 +44,7 @@ public struct FrontpageViewContent: Mappable {
 }
 final class ExampleCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -68,28 +68,28 @@ class MenuTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return TableViewRows.allValues.count
     }
 
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
-        cell.textLabel!.text = TableViewRows.allValues[indexPath.row].rawValue
+        cell.textLabel!.text = TableViewRows.allValues[(indexPath as NSIndexPath).row].rawValue
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
         case TableViewRows.Authentication.index :
-            let loginVc = storyboard.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+            let loginVc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
             self.navigationController?.pushViewController(loginVc, animated: true)
             break;
         case TableViewRows.Views.index :
@@ -100,7 +100,7 @@ class MenuTableViewController: UITableViewController {
 
             frontpageTableVC.title = "Frontpage"
             frontpageTableVC.didSelect = { selection in
-                let nodeVC = storyboard.instantiateViewControllerWithIdentifier("NodeViewController") as! NodeViewController
+                let nodeVC = storyboard.instantiateViewController(withIdentifier: "NodeViewController") as! NodeViewController
                 nodeVC.object = selection
                 print(selection)
                 
@@ -115,7 +115,7 @@ class MenuTableViewController: UITableViewController {
 
     final class ExampleCell: UITableViewCell {
         override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-            super.init(style: .Subtitle, reuseIdentifier: reuseIdentifier)
+            super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
         }
 
         required init?(coder aDecoder: NSCoder) {
