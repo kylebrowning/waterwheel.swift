@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "waterwheel"
-  s.version      = "4.2.8"
+  s.version      = "4.3.0"
   s.summary      = "A framework for communicating to Drupal via iOS, macOS, watchOS, or tvOS."
   s.homepage     = "https://github.com/acquia/waterwheel-swift"
   s.author       = { "Kyle Browning" => "kylebrowning@me.com"}
@@ -31,8 +31,8 @@ Pod::Spec.new do |s|
   s.watchos.exclude_files = 'src/iOS'
 
   s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE" }
-  s.dependency 'Alamofire'
+  s.dependency 'Alamofire', '~> 4.0'
+  s.dependency 'ObjectMapper'
   s.dependency 'SwiftyJSON'
   s.dependency 'SwiftyUserDefaults'
-  s.dependency 'AlamofireObjectMapper'
 end

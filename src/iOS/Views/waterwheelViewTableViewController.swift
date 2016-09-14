@@ -13,7 +13,7 @@ public struct ViewResponseRow: Mappable {
     var title: String?
     var body:  String?
 
-    public init?(_ map: Map) {
+    public init?(map: Map) {
 
     }
 
@@ -31,34 +31,38 @@ public class waterwheelViewTableViewController<Row: Mappable, Cell: UITableViewC
     public var didSelect: (Row) -> () = { _ in }
     public var didFinish: (JSON?, waterwheelViewTableViewController) -> () = { _ in }
 
-    init(items: [Row], configure: (Cell, Row) -> ()) {
+    init(items: [Row], configure: @escaping (Cell, Row) -> ()) {
         self.configure = configure
-        super.init(style: .Plain)
+        super.init(style: .plain)
         self.rows = items
     }
 
-    public convenience init(viewPath: (String), configure: (Cell, Row) -> ()) {
+    public convenience init(viewPath: (String), configure: @escaping (Cell, Row) -> ()) {
         self.init(items: [], configure: configure)
-        waterwheel.viewGet(viewPath: viewPath, completionHandler:  { (success, response, json, error) in
+        waterwheel.ViewGet(viewPath, { (success, response, json, error) in
             self.didFinish(json, self)
 
             if (success) {
                 var items: [Row] = []
                 for (_, subJson):(String, JSON) in json! {
-                    let responseRow = Mapper<Row>().map(subJson.rawString())
+                    let responseRow = Mapper<Row>().map(JSONString: subJson.rawString()!)
                     items.append(responseRow!)
                 }
                 self.rows = items
                 self.tableView.reloadData()
             } else {
-                print("waterwheel Error fetching view: " + error.localizedDescription)
+                print("waterwheel Error fetching view: " + (error?.localizedDescription)!)
             }
         })
 
     }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     override public func viewDidLoad() {
         super.viewDidLoad()
-        tableView.registerClass(Cell.self, forCellReuseIdentifier: reuseIdentifier)
+        tableView.register(Cell.self, forCellReuseIdentifier: reuseIdentifier)
     }
 
     override public func didReceiveMemoryWarning() {
@@ -68,21 +72,20 @@ public class waterwheelViewTableViewController<Row: Mappable, Cell: UITableViewC
 
     // MARK: - Table view data source
 
-    override public func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override public func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-
-    override public func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return rows.count
     }
 
-    override public func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = rows[indexPath.row]
         didSelect(item)
     }
 
-    override public func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath) as! Cell
+    override public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! Cell
         let item = rows[indexPath.row]
         configure(cell, item)
         return cell

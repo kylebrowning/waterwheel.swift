@@ -19,6 +19,7 @@ PODS:
     - SwiftyUserDefaults
 
 DEPENDENCIES:
+  - AlamofireObjectMapper
   - DrawerController
   - waterwheel
 
@@ -31,6 +32,6 @@ SPEC CHECKSUMS:
   SwiftyUserDefaults: 7abdba50a50ea0c18ee8903af3c88e4c1cb8448d
   waterwheel: a8e02adf9e3d5558055b94f22d4d747be9327896
 
-PODFILE CHECKSUM: 06d7f4701487802fbe8b507b82afc38f7b564418
+PODFILE CHECKSUM: 4afc0169ab6873d7d0721c1287884d27d3e35965
 
 COCOAPODS: 1.1.0.beta.1

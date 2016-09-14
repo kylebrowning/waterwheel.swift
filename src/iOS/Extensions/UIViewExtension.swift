@@ -10,21 +10,21 @@ import UIKit
 
 @available(iOS 9.0, *)
 extension UIView {
-    public func constrainEqual(attribute: NSLayoutAttribute, to: AnyObject, multiplier: CGFloat = 1, constant: CGFloat = 0) {
+    public func constrainEqual(_ attribute: NSLayoutAttribute, to: AnyObject, multiplier: CGFloat = 1, constant: CGFloat = 0) {
         constrainEqual(attribute, to: to, attribute, multiplier: multiplier, constant: constant)
     }
 
-    public func constrainEqual(attribute: NSLayoutAttribute, to: AnyObject, _ toAttribute: NSLayoutAttribute, multiplier: CGFloat = 1, constant: CGFloat = 0) {
-        NSLayoutConstraint.activateConstraints([
-            NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .Equal, toItem: to, attribute: toAttribute, multiplier: multiplier, constant: constant)
+    public func constrainEqual(_ attribute: NSLayoutAttribute, to: AnyObject, _ toAttribute: NSLayoutAttribute, multiplier: CGFloat = 1, constant: CGFloat = 0) {
+        NSLayoutConstraint.activate([
+            NSLayoutConstraint(item: self, attribute: attribute, relatedBy: .equal, toItem: to, attribute: toAttribute, multiplier: multiplier, constant: constant)
             ])
     }
 
     public func constrainEdges(to view: UIView) {
-        constrainEqual(.Top, to: view, .Top)
-        constrainEqual(.Leading, to: view, .Leading)
-        constrainEqual(.Trailing, to: view, .Trailing)
-        constrainEqual(.Bottom, to: view, .Bottom)
+        constrainEqual(.top, to: view, .top)
+        constrainEqual(.leading, to: view, .leading)
+        constrainEqual(.trailing, to: view, .trailing)
+        constrainEqual(.bottom, to: view, .bottom)
     }
 
     /// If the `view` is nil, we take the superview.
@@ -37,8 +37,8 @@ extension UIView {
 
 @available(iOS 9.0, *)
 extension NSLayoutAnchor {
-    public func constrainEqual(anchor: NSLayoutAnchor, constant: CGFloat = 0) {
-        let constraint = constraintEqualToAnchor(anchor, constant: constant)
-        constraint.active = true
+    public func constrainEqual(_ anchor: NSLayoutAnchor, constant: CGFloat = 0) {
+        let constraint = self.constraint(equalTo: anchor, constant: constant)
+        constraint.isActive = true
     }
 }

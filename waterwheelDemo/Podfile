@@ -2,3 +2,4 @@ use_frameworks!
 target 'waterwheelDemo'
 pod 'waterwheel'
 pod 'DrawerController'
+pod 'AlamofireObjectMapper'

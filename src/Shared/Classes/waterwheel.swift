@@ -7,9 +7,7 @@
 
 import SwiftyJSON
 import SwiftyUserDefaults
-import ObjectMapper
 import Alamofire
-import AlamofireObjectMapper
 
 extension DefaultsKeys {
     static let basicUsername = DefaultsKey<String?>("basicUsername")
@@ -44,8 +42,8 @@ public enum waterwheelNotificationsTypes: String {
 
 // MARK: - Typelias definitions
 
-public typealias completion = (success:Bool, response:Response<AnyObject, NSError>?, json:SwiftyJSON.JSON?, error:NSError!) -> Void
-public typealias stringcompletion = (success:Bool, response:Response<String, NSError>?, json:SwiftyJSON.JSON?, error:NSError!) -> Void
+public typealias completion = (_ success:Bool, _ response:DataResponse<Any>?, _ json:JSON?, _ error:NSError?) -> Void
+public typealias stringcompletion = (_ success:Bool, _ response:DataResponse<String>?, _ json:JSON?, _ error:NSError?) -> Void
 public typealias paramType = [String: AnyObject]?
 
 
@@ -54,7 +52,7 @@ private let waterwheelErrorString = "waterhwheel error: "
 /**
  Responsible for storing state and variables for waterwheel.
  */
-public class waterwheelManager {
+open class waterwheelManager {
 
 
     // MARK: - Properties
@@ -62,23 +60,23 @@ public class waterwheelManager {
     /**
      A shared instance of `waterwheelManager`
      */
-    public static let sharedInstance: waterwheelManager = {
+    open static let sharedInstance: waterwheelManager = {
         return waterwheelManager(basicUsername: "", basicPassword: "", logoutToken: "", CSRFToken: "", signRequestsBasic: false, signCSRFToken: false, isLoggedIn: false)
     }()
 
-    public let requestFormat = "?_format=json"
+    open let requestFormat = "?_format=json"
     var headers = [
         "Content-Type":"application/json",
         "Accept":"application/json",
         ]
-    public var URL : String = ""
-    private var basicUsername : String = ""
-    private var basicPassword : String = ""
-    private var logoutToken : String = ""
-    private var CSRFToken : String = ""
-    private var signRequestsBasic : Bool = false
-    private var signCSRFToken : Bool = false
-    private var isLoggedIn: Bool = false
+    open var URL : String = ""
+    fileprivate var basicUsername : String = ""
+    fileprivate var basicPassword : String = ""
+    fileprivate var logoutToken : String = ""
+    fileprivate var CSRFToken : String = ""
+    fileprivate var signRequestsBasic : Bool = false
+    fileprivate var signCSRFToken : Bool = false
+    fileprivate var isLoggedIn: Bool = false
 
     /**
      Initializes the `waterwheel` instance with the our defaults.
@@ -135,7 +133,7 @@ public class waterwheelManager {
  - parameter drupalURL:         The URL for the Drupal Site
 
  */
-public func setDrupalURL(drupalURL: String) {
+public func setDrupalURL(_ drupalURL: String) {
     assert(drupalURL != "", waterwheelErrorString + "Missing Drupal URL")
     waterwheelManager.sharedInstance.URL = drupalURL;
     waterwheel.checkLoginStatus()
@@ -149,11 +147,11 @@ public func setDrupalURL(drupalURL: String) {
 private func checkLoginStatus() {
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: nil)
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
-    Alamofire.request(.GET, urlString)
+    Alamofire.request(urlString)
         .validate(statusCode: 200..<300)
         .responseString{ response in
             if (response.result.error == nil) {
-                let loginStatus = String(data: response.data!, encoding: NSUTF8StringEncoding)
+                let loginStatus = String(data: response.data!, encoding: String.Encoding.utf8)
                 if (loginStatus == "1") {
                     setIsLoggedIn(true)
                 } else {
@@ -177,7 +175,7 @@ private func checkLoginStatus() {
  - parameter password:          The password to login with
 
  */
-public func setBasicAuthUsernameAndPassword(username:String, password:String, sign: Bool) {
+public func setBasicAuthUsernameAndPassword(_ username:String, password:String, sign: Bool) {
     waterwheelManager.sharedInstance.basicUsername = username
     waterwheelManager.sharedInstance.basicPassword = password
     waterwheelManager.sharedInstance.signRequestsBasic = sign
@@ -197,7 +195,7 @@ public func setBasicAuthUsernameAndPassword(username:String, password:String, si
 
 
  */
-public func login(username:String?, password:String?, completionHandler: completion?) {
+public func login(_ username:String?, password:String?, completionHandler: completion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
@@ -210,17 +208,17 @@ public func login(username:String?, password:String?, completionHandler: complet
 
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
 
-    sendRequest("user/login", method: .POST, params: body) { (success, response, json, error) in
+    sendRequest("user/login", method: .post, params: body as paramType) { (success, response, json, error) in
         switch response!.result {
-        case .Success(let _):
+        case .success(let _):
             let csrfToken = json!["csrf_token"].string
             let logoutToken = json!["logout_token"].string
             setCSRF(csrfToken!, sign: true)
             setLogoutToken(logoutToken!)
             waterwheel.setIsLoggedIn(true)
-            completionHandler?(success: true, response: response, json: json, error: nil)
-        case .Failure(let error):
-            completionHandler?(success: false, response: response, json: nil, error: error)
+            completionHandler?(true, response, json, nil)
+        case .failure(let error):
+            completionHandler?(false, response, nil, error as NSError?)
         }
         postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: response?.response)
     }
@@ -235,7 +233,7 @@ public func login(username:String?, password:String?, completionHandler: complet
 
  */
 
-public func logout(completionHandler completionHandler: completion?) {
+public func logout(completionHandler: completion?) {
     if waterwheelManager.sharedInstance.signRequestsBasic  {
         waterwheelManager.sharedInstance.basicUsername = ""
         waterwheelManager.sharedInstance.basicPassword = ""
@@ -245,14 +243,14 @@ public func logout(completionHandler completionHandler: completion?) {
     postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
 
     let urlString = waterwheelManager.sharedInstance.URL + "/user/logout" + waterwheelManager.sharedInstance.requestFormat + "&token=" + waterwheelManager.sharedInstance.logoutToken
-    sendRequestWithUrl(urlString, method: .POST, params: nil) { (success, response, json, error) in
+    sendRequestWithUrl(urlString, method: .post, params: nil) { (success, response, json, error) in
         if (response!.result.error == nil) {
             setCSRF("", sign: false)
             setIsLoggedIn(false)
-            completionHandler?(success: true, response: response, json: nil, error: response!.result.error)
+            completionHandler?(true, response, nil, response!.result.error as NSError?)
         }
         else {
-            completionHandler?(success: false, response: response, json: nil, error: response!.result.error)
+            completionHandler?(false, response, nil, response!.result.error as NSError?)
         }
         postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: response?.response)
     }
@@ -263,18 +261,18 @@ public func logout(completionHandler completionHandler: completion?) {
  Private function to get the CSRF Token
 
  */
-private func getCSRFToken(completionHandler: stringcompletion?) {
+private func getCSRFToken(_ completionHandler: stringcompletion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/rest/session/token"
-    Alamofire.request(.GET, urlString)
+    Alamofire.request(urlString)
         .validate(statusCode: 200..<300)
         .responseString{ response in
             if (response.result.error == nil) {
-                let csrfToken = String(data: response.data!, encoding: NSUTF8StringEncoding)
+                let csrfToken = String(data: response.data!, encoding: String.Encoding.utf8)
                 setCSRF(csrfToken!, sign: true)
-                completionHandler?(success: true, response: response, json: nil, error: nil)
+                completionHandler?(true, response, nil, nil)
             }
             else {
-                completionHandler?(success: false, response: response, json: nil, error: response.result.error)
+                completionHandler?(false, response, nil, response.result.error as NSError?)
             }
     }
 }
@@ -292,7 +290,7 @@ private func getCSRFToken(completionHandler: stringcompletion?) {
 
  */
 
-public func sendRequest(path:String, method:Alamofire.Method, params:paramType, completionHandler: completion?) {
+public func sendRequest(_ path:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL. Did you set it properly?")
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
     sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
@@ -308,30 +306,37 @@ public func sendRequest(path:String, method:Alamofire.Method, params:paramType, 
 
  */
 
-public func sendRequestWithUrl(urlString:String, method:Alamofire.Method, params:paramType, completionHandler: completion?) {
+public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
 
     assert(urlString != "", "waterwheel Error: Missing Drupal URL")
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: nil)
     if (waterwheelManager.sharedInstance.signRequestsBasic == true) {
 
         let plainString = waterwheelManager.sharedInstance.basicUsername + ":" + waterwheelManager.sharedInstance.basicPassword
-        let credentialData = plainString.dataUsingEncoding(NSUTF8StringEncoding)!
-        let base64String = credentialData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions([]))
+        let credentialData = plainString.data(using: String.Encoding.utf8)!
+        let base64String = credentialData.base64EncodedString(options: NSData.Base64EncodingOptions([]))
 
         waterwheelManager.sharedInstance.headers["Authorization"] = "Basic \(base64String)"
     }
     if (waterwheelManager.sharedInstance.signCSRFToken == true) {
         waterwheelManager.sharedInstance.headers["X-CSRF-Token"] = waterwheelManager.sharedInstance.CSRFToken
     }
-    Alamofire.request(method, urlString, parameters: params, encoding:.JSON, headers:waterwheelManager.sharedInstance.headers).validate().responseSwiftyJSON({ (request, response, json, error) in
-        switch response!.result {
-        case .Success(let _):
-            completionHandler?(success: true, response: response, json: json, error: nil)
-        case .Failure(let error):
-            completionHandler?(success: false, response: response, json: nil, error: error)
+    Alamofire.request(urlString, method: method, parameters: params, encoding:JSONEncoding.default, headers:waterwheelManager.sharedInstance.headers).validate().responseJSON { (response) in
+        var responseJSON: JSON
+        if response.result.isFailure
+        {
+            responseJSON = JSON.null
+        } else {
+            responseJSON = SwiftyJSON.JSON(response.result.value!)
         }
-        postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: response?.response)
-    })
+        switch response.result {
+        case .success(let _):
+            completionHandler?(true, response, responseJSON, nil)
+        case .failure(let error):
+            completionHandler?(false, response, nil, error as NSError?)
+        }
+        postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: response.response)
+    }
 }
 
 
@@ -346,9 +351,9 @@ public func sendRequestWithUrl(urlString:String, method:Alamofire.Method, params
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public func get(requestPath: String, params: paramType, completionHandler: completion?) {
-    sendRequest(requestPath, method: .GET, params: nil) { (success, response, json, error) in
-        completionHandler?(success: success, response: response, json: json, error: error)
+public func get(_ requestPath: String, params: paramType, completionHandler: completion?) {
+    sendRequest(requestPath, method: .get, params: nil) { (success, response, json, error) in
+        completionHandler?(success, response, json, error)
     }
 }
 
@@ -361,7 +366,7 @@ public func get(requestPath: String, params: paramType, completionHandler: compl
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public let entityGet: (entityType: EntityType, entityId: String, params: paramType, completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
+public let entityGet: (_ entityType: EntityType, _ entityId: String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
     let requestPath = entityType.rawValue + "/" + entityId
     get(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -375,8 +380,8 @@ public let entityGet: (entityType: EntityType, entityId: String, params: paramTy
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public let nodeGet: (nodeId: String, params: paramType, completionHandler: completion?) -> Void = { (nodeId, params, completionHandler) in
-    entityGet(entityType: .Node, entityId: nodeId, params: params, completionHandler: completionHandler)
+public let nodeGet: (_ nodeId: String, _ params: paramType, _ completionHandler: completion?) -> Void = { (nodeId, params, completionHandler) in
+    entityGet(.Node, nodeId, params, completionHandler)
 }
 
 
@@ -390,9 +395,9 @@ public let nodeGet: (nodeId: String, params: paramType, completionHandler: compl
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public func post(requestPath: String, params: paramType, completionHandler: completion?) {
-    sendRequest(requestPath, method: .POST, params: params) { (success, response, json, error) in
-        completionHandler?(success: success, response: response, json: json, error: error)
+public func post(_ requestPath: String, params: paramType, completionHandler: completion?) {
+    sendRequest(requestPath, method: .post, params: params) { (success, response, json, error) in
+        completionHandler?(success, response, json, error)
     }
 }
 
@@ -405,7 +410,7 @@ public func post(requestPath: String, params: paramType, completionHandler: comp
 
  */
 
-public let entityPost: (entityType: EntityType, params: paramType, completionHandler: completion?) -> Void = { (entityType, params, completionHandler) in
+public let entityPost: (_ entityType: EntityType, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, params, completionHandler) in
     let requestPath = "entity/" + entityType.rawValue
     post(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -419,8 +424,8 @@ public let entityPost: (entityType: EntityType, params: paramType, completionHan
 
  */
 
-public let nodePost: (node: paramType, completionHandler: completion?) -> Void = { ( params, completionHandler) in
-    entityPost(entityType: .Node, params: params, completionHandler: completionHandler)
+public let nodePost: (_ node: paramType, _ completionHandler: completion?) -> Void = { ( params, completionHandler) in
+    entityPost(.Node, params, completionHandler)
 }
 
 // MARK: - PATCH Requests
@@ -435,9 +440,9 @@ public let nodePost: (node: paramType, completionHandler: completion?) -> Void =
  */
 
 
-public func patch(requestPath:String, params:paramType, completionHandler: completion?) {
-    sendRequest(requestPath, method: .PATCH, params: params) { (success, response, json, error) in
-        completionHandler?(success: success, response: response, json: json, error: error)
+public func patch(_ requestPath:String, params:paramType, completionHandler: completion?) {
+    sendRequest(requestPath, method: .patch, params: params) { (success, response, json, error) in
+        completionHandler?(success, response, json, error)
     }
 }
 
@@ -450,7 +455,7 @@ public func patch(requestPath:String, params:paramType, completionHandler: compl
 
  */
 
-public let entityPatch: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
+public let entityPatch: (_ entityType: EntityType, _ entityId:String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
     let requestPath = entityType.rawValue + "/" + entityId
     patch(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -465,8 +470,8 @@ public let entityPatch: (entityType: EntityType, entityId:String, params: paramT
 
  */
 
-public let nodePatch: (nodeId:String, node: paramType, completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
-    entityPatch(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+public let nodePatch: (_ nodeId:String, _ node: paramType, _ completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
+    entityPatch(.Node, entityId, params, completionHandler)
 }
 
 // MARK: - DELETE Requests
@@ -481,9 +486,9 @@ public let nodePatch: (nodeId:String, node: paramType, completionHandler: comple
  */
 
 
-public func delete(requestPath:String, params:paramType, completionHandler: completion?) {
-    sendRequest(requestPath, method: .DELETE, params: params) { (success, response, json, error) in
-        completionHandler?(success: success, response: response, json: json, error: error)
+public func delete(_ requestPath:String, params:paramType, completionHandler: completion?) {
+    sendRequest(requestPath, method: .delete, params: params) { (success, response, json, error) in
+        completionHandler?(success, response, json, error)
     }
 }
 
@@ -497,7 +502,7 @@ public func delete(requestPath:String, params:paramType, completionHandler: comp
 
  */
 
-public let entityDelete: (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
+public let entityDelete: (_ entityType: EntityType, _ entityId:String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
     let requestPath = entityType.rawValue + "/" + entityId
     delete(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -511,8 +516,8 @@ public let entityDelete: (entityType: EntityType, entityId:String, params: param
 
  */
 
-public let nodeDelete: (nodeId:String, params: paramType, completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
-    entityDelete(entityType: .Node, entityId: entityId, params: params, completionHandler: completionHandler)
+public let nodeDelete: (_ nodeId:String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
+    entityDelete(.Node, entityId, params, completionHandler)
 }
 
 /**
@@ -523,7 +528,7 @@ public let nodeDelete: (nodeId:String, params: paramType, completionHandler: com
 
  */
 
-public let viewGet: (viewPath:String, completionHandler: completion?) -> Void = { (viewPath, completionHandler) in
+public let ViewGet: (_ viewPath:String, _ completionHandler: completion?) -> Void = { (viewPath, completionHandler) in
     get(viewPath, params: nil, completionHandler: completionHandler)
 }
 
@@ -532,7 +537,7 @@ public let viewGet: (viewPath:String, completionHandler: completion?) -> Void = 
 /**
  Private function to set Logged in Status
  */
-private func setIsLoggedIn(isLoggedIn: Bool) {
+private func setIsLoggedIn(_ isLoggedIn: Bool) {
     waterwheelManager.sharedInstance.isLoggedIn = isLoggedIn
     Defaults[.isLoggedIn] = isLoggedIn
 }
@@ -549,7 +554,7 @@ public func isLoggedIn() -> Bool {
 /**
  Private function to set logoutToken
  */
-private func setLogoutToken(logoutToken: String) {
+private func setLogoutToken(_ logoutToken: String) {
     waterwheelManager.sharedInstance.logoutToken = logoutToken
     Defaults[.logoutToken] = logoutToken
 }
@@ -557,7 +562,7 @@ private func setLogoutToken(logoutToken: String) {
 /**
  Private function to set csrf settings
  */
-private func setCSRF(csrfToken: String, sign: Bool) {
+private func setCSRF(_ csrfToken: String, sign: Bool) {
     waterwheelManager.sharedInstance.CSRFToken = csrfToken
     waterwheelManager.sharedInstance.signCSRFToken = sign
     Defaults[.csrfToken] = csrfToken
@@ -567,10 +572,10 @@ private func setCSRF(csrfToken: String, sign: Bool) {
 
 
 
-private func postNotification(name: String, requestName: String, object: AnyObject?) {
+private func postNotification(_ name: String, requestName: String, object: AnyObject?) {
     var notification = Dictionary<String, AnyObject>()
-    notification["name"] = name
-    notification["type"] = requestName
+    notification["name"] = name as AnyObject?
+    notification["type"] = requestName as AnyObject?
     notification["object"] = object
-    NSNotificationCenter.defaultCenter().postNotificationName(name, object: notification)
+    NotificationCenter.default.post(name: Notification.Name(rawValue: name), object: notification)
 }

@@ -9,39 +9,39 @@ import waterwheel
 extension UIViewController {
 
 }
-public class waterwheelLoginViewController: UIViewController {
+open class waterwheelLoginViewController: UIViewController {
 
-    public let usernameField : UITextField = {
+    open let usernameField : UITextField = {
         let usernameField = UITextField()
-        usernameField.autocorrectionType = .No
+        usernameField.autocorrectionType = .no
         usernameField.attributedPlaceholder = NSAttributedString(string: "Email")
         usernameField.translatesAutoresizingMaskIntoConstraints = false;
-        usernameField.backgroundColor = UIColor.lightGrayColor()
-        usernameField.textAlignment = .Center
+        usernameField.backgroundColor = UIColor.lightGray
+        usernameField.textAlignment = .center
         usernameField.placeholder = "Username"
-        usernameField.hidden = true
+        usernameField.isHidden = true
         return usernameField
     }()
 
-     public let passwordField : UITextField = {
+     open let passwordField : UITextField = {
         let passwordField = UITextField()
-        passwordField.secureTextEntry = true
-        passwordField.autocorrectionType = .No
+        passwordField.isSecureTextEntry = true
+        passwordField.autocorrectionType = .no
         passwordField.attributedPlaceholder = NSAttributedString(string: "Password")
-        passwordField.backgroundColor = UIColor.lightGrayColor()
-        passwordField.textAlignment = .Center
+        passwordField.backgroundColor = UIColor.lightGray
+        passwordField.textAlignment = .center
         passwordField.translatesAutoresizingMaskIntoConstraints = false;
         passwordField.placeholder = "password"
-        passwordField.hidden = true
-        passwordField.returnKeyType = .Go
+        passwordField.isHidden = true
+        passwordField.returnKeyType = .go
         return passwordField
     }()
 
 
-    lazy public var submitButton : waterwheelAuthButton = {
+    lazy open var submitButton : waterwheelAuthButton = {
         let submitButton = waterwheelAuthButton()
         submitButton.translatesAutoresizingMaskIntoConstraints = false;
-        submitButton.backgroundColor = UIColor.darkGrayColor()
+        submitButton.backgroundColor = UIColor.darkGray
         submitButton.didPressLogin = {
             self.loginAction()
         }
@@ -51,31 +51,31 @@ public class waterwheelLoginViewController: UIViewController {
         return submitButton
     }()
 
-    lazy public var cancelButton : UIButton = {
+    lazy open var cancelButton : UIButton = {
         let cancelButton = UIButton()
         cancelButton.translatesAutoresizingMaskIntoConstraints = false;
-        cancelButton.backgroundColor = UIColor.grayColor()
-        cancelButton.addTarget(self, action: #selector(cancelAction), forControlEvents: .TouchUpInside)
-        cancelButton.setTitle("Cancel", forState: .Normal)
+        cancelButton.backgroundColor = UIColor.gray
+        cancelButton.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
+        cancelButton.setTitle("Cancel", for: UIControlState())
         return cancelButton
     }()
 
     /**
      Provide a closure for when a Login Request is completed.
      */
-    public var loginRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
+    open var loginRequestCompleted: (_ success: Bool, _ error: NSError?) -> () = { _ in }
 
     /**
      Provide a closure for when a Logout Request is completed.
      */
-    public var logoutRequestCompleted: (success: Bool, error: NSError?) -> () = { _ in }
+    open var logoutRequestCompleted: (_ success: Bool, _ error: NSError?) -> () = { _ in }
 
     /**
      Provide a cancel button closure.
      */
-    public var cancelButtonHit: () -> () = { _ in }
+    open var cancelButtonHit: () -> () = { _ in }
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
         configure(isInit:true)
     }
@@ -84,7 +84,7 @@ public class waterwheelLoginViewController: UIViewController {
 
      - parameter animated: Is the view animated
      */
-    override public func viewDidAppear(animated: Bool) {
+    override open func viewDidAppear(_ animated: Bool) {
         self.configure(isInit:false)
     }
 
@@ -92,14 +92,14 @@ public class waterwheelLoginViewController: UIViewController {
      Configure this viewcontrollers view based on auth state.
      */
 
-    public func configure(isInit isInit: Bool) {
+    open func configure(isInit: Bool) {
         if isInit {
-            self.view.backgroundColor = .whiteColor()
+            self.view.backgroundColor = UIColor.white
             // Incase of logout or login, we attach to the notification Center for the purpose of seeing requests.
-            NSNotificationCenter.defaultCenter().addObserver(
+            NotificationCenter.default.addObserver(
                 self,
                 selector: #selector(configure),
-                name: waterwheelNotifications.waterwheelDidFinishRequest.rawValue,
+                name: NSNotification.Name(rawValue: waterwheelNotifications.waterwheelDidFinishRequest.rawValue),
                 object: nil)
 
             self.view.addSubview(usernameField)
@@ -128,49 +128,49 @@ public class waterwheelLoginViewController: UIViewController {
      Lays out the login field.
      */
     public func layoutLoginField() {
-        usernameField.constrainEqual(.LeadingMargin, to: view)
-        usernameField.constrainEqual(.TrailingMargin, to: view)
-        usernameField.constrainEqual(.Top, to: view, .Top, multiplier: 1.0, constant: 44)
-        usernameField.heightAnchor.constraintEqualToConstant(50.0).active = true
+        usernameField.constrainEqual(.leadingMargin, to: view)
+        usernameField.constrainEqual(.trailingMargin, to: view)
+        usernameField.constrainEqual(.top, to: view, .top, multiplier: 1.0, constant: 44)
+        usernameField.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
 
     /**
      Lays out the password field.
      */
     public func layoutPasswordField() {
-        passwordField.constrainEqual(.LeadingMargin, to: view)
-        passwordField.constrainEqual(.TrailingMargin, to: view)
-        passwordField.constrainEqual(.BottomMargin, to: usernameField, .BottomMargin, multiplier: 1.0, constant: 55)
-        passwordField.heightAnchor.constraintEqualToConstant(50.0).active = true
+        passwordField.constrainEqual(.leadingMargin, to: view)
+        passwordField.constrainEqual(.trailingMargin, to: view)
+        passwordField.constrainEqual(.bottomMargin, to: usernameField, .bottomMargin, multiplier: 1.0, constant: 55)
+        passwordField.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
 
     /**
      Lays out the Submit Button
      */
     public func layoutSubmitButton() {
-        submitButton.constrainEqual(.LeadingMargin, to: view)
-        submitButton.constrainEqual(.TrailingMargin, to: view)
-        submitButton.constrainEqual(.BottomMargin, to: passwordField, .BottomMargin, multiplier: 1.0, constant: 55)
-        submitButton.heightAnchor.constraintEqualToConstant(50.0).active = true
+        submitButton.constrainEqual(.leadingMargin, to: view)
+        submitButton.constrainEqual(.trailingMargin, to: view)
+        submitButton.constrainEqual(.bottomMargin, to: passwordField, .bottomMargin, multiplier: 1.0, constant: 55)
+        submitButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
 
     /**
      Lays out the Anonymous Button
      */
     public func layoutCancelButton() {
-        cancelButton.constrainEqual(.LeadingMargin, to: view)
-        cancelButton.constrainEqual(.TrailingMargin, to: view)
-        cancelButton.constrainEqual(.BottomMargin, to: submitButton, .BottomMargin, multiplier: 1.0, constant: 55)
-        cancelButton.heightAnchor.constraintEqualToConstant(50.0).active = true
+        cancelButton.constrainEqual(.leadingMargin, to: view)
+        cancelButton.constrainEqual(.trailingMargin, to: view)
+        cancelButton.constrainEqual(.bottomMargin, to: submitButton, .bottomMargin, multiplier: 1.0, constant: 55)
+        cancelButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
 
     /**
      Remove anonymous subviews.
      */
     public func hideAnonymousSubviews() {
-        usernameField.hidden = true
-        passwordField.hidden = true
-        cancelButton.hidden = true
+        usernameField.isHidden = true
+        passwordField.isHidden = true
+        cancelButton.isHidden = true
     }
 
     /**
@@ -178,9 +178,9 @@ public class waterwheelLoginViewController: UIViewController {
      */
     public func showAnonymousSubviews() {
         self.layoutSubviews()
-        usernameField.hidden = false
-        passwordField.hidden = false
-        cancelButton.hidden = false
+        usernameField.isHidden = false
+        passwordField.isHidden = false
+        cancelButton.isHidden = false
     }
 
     /**
@@ -193,7 +193,7 @@ public class waterwheelLoginViewController: UIViewController {
             } else {
                 print("failed to login")
             }
-            self.loginRequestCompleted(success: success, error: error)
+            self.loginRequestCompleted(success, error)
         }
     }
 
@@ -203,21 +203,21 @@ public class waterwheelLoginViewController: UIViewController {
      - parameter success: success or failure
      - parameter error:   if error happened.
      */
-    public func logoutAction(success: Bool, error: NSError?) {
+    open func logoutAction(_ success: Bool, error: NSError?) {
         if (success) {
             self.showAnonymousSubviews()
         } else {
             print("failed to logout")
         }
-        self.logoutRequestCompleted(success: success, error: error)
+        self.logoutRequestCompleted(success, error)
     }
 
 
-    public func cancelAction() {
+    open func cancelAction() {
         self.cancelButtonHit()
     }
 
-    override public func didReceiveMemoryWarning() {
+    override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }    
