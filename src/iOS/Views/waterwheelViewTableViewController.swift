@@ -39,7 +39,7 @@ public class waterwheelViewTableViewController<Row: Mappable, Cell: UITableViewC
 
     public convenience init(viewPath: (String), configure: @escaping (Cell, Row) -> ()) {
         self.init(items: [], configure: configure)
-        waterwheel.ViewGet(viewPath, { (success, response, json, error) in
+        waterwheel.viewGet(viewPath: viewPath, completionHandler: { (success, response, json, error) in
             self.didFinish(json, self)
 
             if (success) {

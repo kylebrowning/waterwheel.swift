@@ -366,7 +366,7 @@ public func get(_ requestPath: String, params: paramType, completionHandler: com
  - parameter completionHandler: A completion handler that your delegate method should call if you want the response.
 
  */
-public func entityGet(entitType entityType: EntityType, entityId entityId: String, params params: paramType, compleitionHandler completionHandler: completion?) {
+public func entityGet(entityType: EntityType, entityId: String, params: paramType, completionHandler: completion?) {
     let requestPath = entityType.rawValue + "/" + entityId
     get(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -381,7 +381,7 @@ public func entityGet(entitType entityType: EntityType, entityId entityId: Strin
 
  */
 public func nodeGet(nodeId: String, params: paramType, completionHandler: completion?) {
-    entityGet(entitType: .Node, entityId: nodeId, params: params, compleitionHandler: completionHandler)
+    entityGet(entityType: .Node, entityId: nodeId, params: params, completionHandler: completionHandler)
 }
 
 
@@ -410,7 +410,7 @@ public func post(_ requestPath: String, params: paramType, completionHandler: co
 
  */
 
-public let entityPost: (_ entityType: EntityType, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, params, completionHandler) in
+public func entityPost(entityType: EntityType, params: paramType, completionHandler: completion?) {
     let requestPath = "entity/" + entityType.rawValue
     post(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -425,7 +425,7 @@ public let entityPost: (_ entityType: EntityType, _ params: paramType, _ complet
  */
 
 public let nodePost: (_ node: paramType, _ completionHandler: completion?) -> Void = { ( params, completionHandler) in
-    entityPost(.Node, params, completionHandler)
+    entityPost(entityType: .Node, params: params, completionHandler: completionHandler)
 }
 
 // MARK: - PATCH Requests
@@ -455,7 +455,7 @@ public func patch(_ requestPath:String, params:paramType, completionHandler: com
 
  */
 
-public let entityPatch: (_ entityType: EntityType, _ entityId:String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
+public func entityPatch (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) {
     let requestPath = entityType.rawValue + "/" + entityId
     patch(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -470,8 +470,8 @@ public let entityPatch: (_ entityType: EntityType, _ entityId:String, _ params: 
 
  */
 
-public let nodePatch: (_ nodeId:String, _ node: paramType, _ completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
-    entityPatch(.Node, entityId, params, completionHandler)
+public func nodePatch (nodeId:String, node: paramType, completionHandler: completion?) {
+    entityPatch(entityType: .Node, entityId: nodeId, params: node, completionHandler: completionHandler)
 }
 
 // MARK: - DELETE Requests
@@ -502,7 +502,7 @@ public func delete(_ requestPath:String, params:paramType, completionHandler: co
 
  */
 
-public let entityDelete: (_ entityType: EntityType, _ entityId:String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityType, entityId, params, completionHandler) in
+public func entityDelete (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) {
     let requestPath = entityType.rawValue + "/" + entityId
     delete(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -516,8 +516,8 @@ public let entityDelete: (_ entityType: EntityType, _ entityId:String, _ params:
 
  */
 
-public let nodeDelete: (_ nodeId:String, _ params: paramType, _ completionHandler: completion?) -> Void = { (entityId, params, completionHandler) in
-    entityDelete(.Node, entityId, params, completionHandler)
+public func nodeDelete ( nodeId:String, params: paramType,  completionHandler: completion?) {
+    entityDelete(entityType: .Node, entityId: nodeId, params: params, completionHandler: completionHandler)
 }
 
 /**
@@ -528,7 +528,7 @@ public let nodeDelete: (_ nodeId:String, _ params: paramType, _ completionHandle
 
  */
 
-public let ViewGet: (_ viewPath:String, _ completionHandler: completion?) -> Void = { (viewPath, completionHandler) in
+public func viewGet (viewPath:String, completionHandler: completion?) {
     get(viewPath, params: nil, completionHandler: completionHandler)
 }
 
