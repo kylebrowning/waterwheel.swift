@@ -1,0 +1,6 @@
+framework module waterwheel {
+  umbrella header "waterwheel-umbrella.h"
+
+  export *
+  module * { export * }
+}

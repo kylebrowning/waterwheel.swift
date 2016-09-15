@@ -1,0 +1,5 @@
+use_frameworks!
+target 'waterwheelDemo'
+pod 'waterwheel', :path => '~/work/ios/waterwheel-swift'
+pod 'SwiftyJSON', :git => 'https://github.com/acegreen/SwiftyJSON.git', :branch => 'swift3'
+pod 'SwiftyUserDefaults', :git => 'https://github.com/radex/SwiftyUserDefaults.git'
