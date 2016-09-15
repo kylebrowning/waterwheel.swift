@@ -34,5 +34,5 @@ Pod::Spec.new do |s|
   s.dependency 'Alamofire', '~> 4.0'
   s.dependency 'ObjectMapper', '~> 2.0'
   s.dependency 'SwiftyJSON'
-  s.dependency 'SwiftyUserDefaults', '~> 2.0'
+  s.dependency 'SwiftyUserDefaults'
 end
