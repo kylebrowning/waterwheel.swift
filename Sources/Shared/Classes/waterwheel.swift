@@ -196,7 +196,6 @@ public func setBasicAuthUsernameAndPassword(_ username:String, password:String, 
 
  */
 public func login(username:String?, password:String?, completionHandler: completion?) {
-    let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
     assert(password! != "", waterwheelErrorString + "Missing password.")
@@ -210,7 +209,7 @@ public func login(username:String?, password:String?, completionHandler: complet
 
     sendRequest("user/login", method: .post, params: body as paramType) { (success, response, json, error) in
         switch response!.result {
-        case .success(let _):
+        case .success( _):
             let csrfToken = json!["csrf_token"].string
             let logoutToken = json!["logout_token"].string
             setCSRF(csrfToken!, sign: true)
@@ -330,7 +329,7 @@ public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, 
             responseJSON = SwiftyJSON.JSON(response.result.value!)
         }
         switch response.result {
-        case .success(let _):
+        case .success( _):
             completionHandler?(true, response, responseJSON, nil)
         case .failure(let error):
             completionHandler?(false, response, nil, error as NSError?)

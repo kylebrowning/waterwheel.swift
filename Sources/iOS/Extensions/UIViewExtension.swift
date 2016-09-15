@@ -28,11 +28,11 @@ extension UIView {
     }
 
     /// If the `view` is nil, we take the superview.
-    public func center(in view: UIView? = nil) {
-        guard let container = view ?? self.superview else { fatalError() }
-//        centerXAnchor.constrainEqualS(acnhor: container.centerXAnchor)
-//        centerYAnchor.constrainEqualS(acnhor: container.centerYAnchor)
-    }
+//    public func center(in view: UIView? = nil) {
+//        guard let container = view ?? self.superview else { fatalError() }
+////        centerXAnchor.constrainEqualS(acnhor: container.centerXAnchor)
+////        centerYAnchor.constrainEqualS(acnhor: container.centerYAnchor)
+//    }
 }
 
 //@available(iOS 9.0, *)

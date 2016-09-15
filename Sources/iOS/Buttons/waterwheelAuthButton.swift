@@ -4,7 +4,6 @@
 
 
 import UIKit
-import waterwheel
 import Alamofire
 import SwiftyJSON
 
