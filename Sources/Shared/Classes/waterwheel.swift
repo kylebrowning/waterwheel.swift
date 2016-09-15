@@ -195,7 +195,7 @@ public func setBasicAuthUsernameAndPassword(_ username:String, password:String, 
 
 
  */
-public func login(username username:String?, password password:String?, completionHandler: completion?) {
+public func login(username:String?, password:String?, completionHandler: completion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login" + waterwheelManager.sharedInstance.requestFormat
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
@@ -290,7 +290,7 @@ private func getCSRFToken(_ completionHandler: stringcompletion?) {
 
  */
 
-public func sendRequest(_ path:String, method method:Alamofire.HTTPMethod, params params:paramType, completionHandler completionHandler: completion?) {
+public func sendRequest(_ path:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL. Did you set it properly?")
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
     sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
@@ -306,7 +306,7 @@ public func sendRequest(_ path:String, method method:Alamofire.HTTPMethod, param
 
  */
 
-public func sendRequestWithUrl(_ urlString:String, method method:Alamofire.HTTPMethod, params params:paramType, completionHandler completionHandler: completion?) {
+public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
 
     assert(urlString != "", "waterwheel Error: Missing Drupal URL")
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: nil)
