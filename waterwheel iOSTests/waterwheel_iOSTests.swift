@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import waterwheel
 
 class waterwheel_iOSTests: XCTestCase {
     
@@ -20,9 +21,11 @@ class waterwheel_iOSTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testSetWaterwheelURL() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        waterwheel.setDrupalURL("http://waterwheel-swift.com")
+        XCTAssertNotNil(waterwheelManager.sharedInstance.URL, "url should not be nil")
     }
     
     func testPerformanceExample() {
