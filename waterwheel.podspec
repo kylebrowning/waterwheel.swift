@@ -33,6 +33,6 @@ Pod::Spec.new do |s|
   s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE" }
   s.dependency 'Alamofire', '~> 4.0'
   s.dependency 'ObjectMapper', '~> 2.0'
-  s.dependency 'SwiftyJSON', ' ~> 3.0'
+  s.dependency 'SwiftyJSON', ' ~> 3.1'
   s.dependency 'SwiftyUserDefaults'
 end
