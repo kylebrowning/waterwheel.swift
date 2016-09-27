@@ -2,6 +2,20 @@
 All notable changes to this project will be documented in this file. starting with version 4.2.5
 --- 
 
+## [4.3.0](https://github.com/Acquia/waterwheel-swift/releases/tag/4.3.0) (09/27/2016)
+Released on Tuesday, September 27, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.3.0+is%3Aclosed).
+
+#### Updated
+* Update waterwheel demo to use waterwheel-swift.com
+ * Implemented by kylebrowning in [#147](https://github.com/acquia/waterwheel-swift/issues/147).
+* Support Swift 3.0
+ * Implemented by kylebrowning in [#144](https://github.com/acquia/waterwheel-swift/issues/144).
+
+#### Fixed
+* Fixes Carthage support
+ * Implemented by kylebrowning in [#146](https://github.com/acquia/waterwheel-swift/issues/146).
+ 
+
 ## [4.2.8](https://github.com/Acquia/waterwheel-swift/releases/tag/4.2.8) (08/26/2016)
 Released on Friday, August 26, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.2.8+is%3Aclosed).
 
