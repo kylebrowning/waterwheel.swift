@@ -23,9 +23,9 @@ Pod::Spec.new do |s|
   s.prefix_header_contents = pch_W
 
   s.ios.deployment_target = '9.0'
-  s.osx.deployment_target = '10.9'
-  s.watchos.deployment_target = '2.0'
+  s.osx.deployment_target = '10.11'
   s.tvos.deployment_target = '9.0'
+  s.watchos.deployment_target = '2.0'
 
   s.osx.exclude_files = 'Sources/iOS'
   s.watchos.exclude_files = 'Sources/iOS'
@@ -33,6 +33,6 @@ Pod::Spec.new do |s|
   s.license  = { :type => 'MPL 1.1/GPL 2.0', :file => "LICENSE" }
   s.dependency 'Alamofire', '~> 4.0'
   s.dependency 'ObjectMapper', '~> 2.0'
-  s.dependency 'SwiftyJSON', '~> 3.1'
+  s.dependency 'SwiftyJSON', '3.1.0'
   s.dependency 'SwiftyUserDefaults'
 end
