@@ -1,11 +1,11 @@
 
 ![Waterwheel - Drupal SDK](https://raw.githubusercontent.com/acquia/waterwheel-swift/assets/waterwheel.png)
 
-[![Drupal version](https://img.shields.io/badge/Drupal-8-blue.svg)]()
-[![CocoaPods](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-green.svg)](#)
 [![CocoaPods](https://img.shields.io/cocoapods/v/waterwheel.svg?maxAge=43000)]()
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](#carthage)
-![Swift version](https://img.shields.io/badge/swift-2.2%20|%202.3-orange.svg)
+![Swift version](https://img.shields.io/badge/swift-3.0-orange.svg)
+[![Drupal version](https://img.shields.io/badge/Drupal-8-blue.svg)]()
+[![CocoaPods](https://img.shields.io/badge/platform-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS-green.svg)](#)
 
 #### Waterwheel Swift SDK for `Drupal`
 ###### Waterwheel makes using Drupal as a backend with iOS, macOS, tvOS, or watchOS enjoyable by combining the most used features of Drupal's API's in one SDK. - Formerly known as Drupal iOS SDK.
