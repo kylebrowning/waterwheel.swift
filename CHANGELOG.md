@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. starting with version 4.2.5
 --- 
 
+## [4.3.1](https://github.com/Acquia/waterwheel-swift/releases/tag/4.3.1) (09/30/2016)
+Released on Friday, September 30, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.3.1+is%3Aclosed).
+
+#### Updated
+* Update Carthage to use regular SwiftyJSON
+ * Implemented by kylebrowning in [#148](https://github.com/acquia/waterwheel-swift/issues/148).
+ 
+
 ## [4.3.0](https://github.com/Acquia/waterwheel-swift/releases/tag/4.3.0) (09/27/2016)
 Released on Tuesday, September 27, 2016. All issues associated with this milestone can be found using this [filter](https://github.com/Acquia/waterwheel-swift/issues?q=milestone%3A4.3.0+is%3Aclosed).
 
