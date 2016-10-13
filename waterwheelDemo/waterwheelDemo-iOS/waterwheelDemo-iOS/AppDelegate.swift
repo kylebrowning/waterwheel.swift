@@ -8,6 +8,7 @@
 
 import UIKit
 import waterwheel
+// NO such module error? run `carthage update`
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -9,6 +9,7 @@
 import UIKit
 import waterwheel
 import ObjectMapper
+// NO such module error? run `carthage update`
 
 /**
  Provide an enum to handle our rows
