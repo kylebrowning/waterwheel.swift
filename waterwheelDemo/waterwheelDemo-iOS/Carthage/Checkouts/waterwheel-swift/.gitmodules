@@ -1,12 +1,12 @@
 [submodule "Carthage/Checkouts/Alamofire"]
-	path = Carthage/Checkouts/Alamofire
+	path = waterwheelDemo/waterwheelDemo-iOS/Carthage/Checkouts/Alamofire
 	url = https://github.com/Alamofire/Alamofire.git
 [submodule "Carthage/Checkouts/SwiftyJSON"]
-	path = Carthage/Checkouts/SwiftyJSON
+	path = waterwheelDemo/waterwheelDemo-iOS/Carthage/Checkouts/SwiftyJSON
 	url = https://github.com/appsailor/SwiftyJSON.git
 [submodule "Carthage/Checkouts/SwiftyUserDefaults"]
-	path = Carthage/Checkouts/SwiftyUserDefaults
+	path = waterwheelDemo/waterwheelDemo-iOS/Carthage/Checkouts/SwiftyUserDefaults
 	url = https://github.com/radex/SwiftyUserDefaults.git
 [submodule "Carthage/Checkouts/ObjectMapper"]
-	path = Carthage/Checkouts/ObjectMapper
+	path = waterwheelDemo/waterwheelDemo-iOS/Carthage/Checkouts/ObjectMapper
 	url = https://github.com/Hearst-DD/ObjectMapper.git
