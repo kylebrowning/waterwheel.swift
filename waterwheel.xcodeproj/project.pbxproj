@@ -7,18 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D389BD61D8B2DE2002A7BB6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BD21D8B2DE2002A7BB6 /* Alamofire.framework */; };
-		1D389BD71D8B2DE2002A7BB6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BD31D8B2DE2002A7BB6 /* ObjectMapper.framework */; };
-		1D389BD81D8B2DE2002A7BB6 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BD41D8B2DE2002A7BB6 /* SwiftyJSON.framework */; };
-		1D389BD91D8B2DE2002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BD51D8B2DE2002A7BB6 /* SwiftyUserDefaults.framework */; };
-		1D389BDE1D8B2E15002A7BB6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BDA1D8B2E15002A7BB6 /* Alamofire.framework */; };
-		1D389BDF1D8B2E15002A7BB6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BDB1D8B2E15002A7BB6 /* ObjectMapper.framework */; };
-		1D389BE01D8B2E15002A7BB6 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BDC1D8B2E15002A7BB6 /* SwiftyJSON.framework */; };
-		1D389BE11D8B2E15002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BDD1D8B2E15002A7BB6 /* SwiftyUserDefaults.framework */; };
-		1D389BE61D8B2E3D002A7BB6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BE21D8B2E3D002A7BB6 /* Alamofire.framework */; };
-		1D389BE71D8B2E3D002A7BB6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BE31D8B2E3D002A7BB6 /* ObjectMapper.framework */; };
-		1D389BE81D8B2E3D002A7BB6 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BE41D8B2E3D002A7BB6 /* SwiftyJSON.framework */; };
-		1D389BE91D8B2E3D002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389BE51D8B2E3D002A7BB6 /* SwiftyUserDefaults.framework */; };
 		1D611E501D8B201800DFC418 /* waterwheel.h in Headers */ = {isa = PBXBuildFile; fileRef = 1D611E4E1D8B201800DFC418 /* waterwheel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1D611E941D8B221300DFC418 /* waterwheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D611E931D8B20A200DFC418 /* waterwheel.swift */; };
 		1D611E951D8B221300DFC418 /* waterwheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D611E931D8B20A200DFC418 /* waterwheel.swift */; };
@@ -30,10 +18,26 @@
 		1D611E9B1D8B226700DFC418 /* waterwheelViewTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D611E901D8B20A200DFC418 /* waterwheelViewTableViewController.swift */; };
 		1D611EA51D8B24A600DFC418 /* waterwheel_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D611EA41D8B24A600DFC418 /* waterwheel_iOSTests.swift */; };
 		1D611EA71D8B24A600DFC418 /* waterwheel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D611E4B1D8B201800DFC418 /* waterwheel.framework */; };
-		1D611EAF1D8B292900DFC418 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D611EAE1D8B292900DFC418 /* SwiftyJSON.framework */; };
-		1D611EB21D8B296500DFC418 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D611EB01D8B296500DFC418 /* Alamofire.framework */; };
-		1D611EB31D8B296500DFC418 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D611EB11D8B296500DFC418 /* SwiftyUserDefaults.framework */; };
-		1D611EB51D8B2AFC00DFC418 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D611EB41D8B2AFC00DFC418 /* ObjectMapper.framework */; };
+		1DEC822F1E1DB6B8009CDF8A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC822A1E1DB6B8009CDF8A /* Alamofire.framework */; };
+		1DEC82301E1DB6B8009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC822B1E1DB6B8009CDF8A /* AlamofireImage.framework */; };
+		1DEC82311E1DB6B8009CDF8A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC822C1E1DB6B8009CDF8A /* ObjectMapper.framework */; };
+		1DEC82321E1DB6B8009CDF8A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC822D1E1DB6B8009CDF8A /* SwiftyJSON.framework */; };
+		1DEC82331E1DB6B8009CDF8A /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC822E1E1DB6B8009CDF8A /* SwiftyUserDefaults.framework */; };
+		1DEC82391E1DB6D7009CDF8A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82341E1DB6D7009CDF8A /* Alamofire.framework */; };
+		1DEC823A1E1DB6D7009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82351E1DB6D7009CDF8A /* AlamofireImage.framework */; };
+		1DEC823B1E1DB6D7009CDF8A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82361E1DB6D7009CDF8A /* ObjectMapper.framework */; };
+		1DEC823C1E1DB6D7009CDF8A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82371E1DB6D7009CDF8A /* SwiftyJSON.framework */; };
+		1DEC823D1E1DB6D7009CDF8A /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82381E1DB6D7009CDF8A /* SwiftyUserDefaults.framework */; };
+		1DEC82431E1DB6ED009CDF8A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC823E1E1DB6ED009CDF8A /* Alamofire.framework */; };
+		1DEC82441E1DB6ED009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC823F1E1DB6ED009CDF8A /* AlamofireImage.framework */; };
+		1DEC82451E1DB6ED009CDF8A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82401E1DB6ED009CDF8A /* ObjectMapper.framework */; };
+		1DEC82461E1DB6ED009CDF8A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82411E1DB6ED009CDF8A /* SwiftyJSON.framework */; };
+		1DEC82471E1DB6ED009CDF8A /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82421E1DB6ED009CDF8A /* SwiftyUserDefaults.framework */; };
+		1DEC824D1E1DB6F7009CDF8A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82481E1DB6F7009CDF8A /* Alamofire.framework */; };
+		1DEC824E1E1DB6F7009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82491E1DB6F7009CDF8A /* AlamofireImage.framework */; };
+		1DEC824F1E1DB6F7009CDF8A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC824A1E1DB6F7009CDF8A /* ObjectMapper.framework */; };
+		1DEC82501E1DB6F7009CDF8A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC824B1E1DB6F7009CDF8A /* SwiftyJSON.framework */; };
+		1DEC82511E1DB6F7009CDF8A /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC824C1E1DB6F7009CDF8A /* SwiftyUserDefaults.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,18 +51,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D389BD21D8B2DE2002A7BB6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Carthage/Checkouts/Alamofire/build/Debug-watchos/Alamofire.framework"; sourceTree = "<group>"; };
-		1D389BD31D8B2DE2002A7BB6 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "Carthage/Checkouts/ObjectMapper/build/Debug-watchos/ObjectMapper.framework"; sourceTree = "<group>"; };
-		1D389BD41D8B2DE2002A7BB6 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Carthage/Checkouts/SwiftyJSON/build/Debug-watchos/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		1D389BD51D8B2DE2002A7BB6 /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = "Carthage/Checkouts/SwiftyUserDefaults/build/Debug-watchos/SwiftyUserDefaults.framework"; sourceTree = "<group>"; };
-		1D389BDA1D8B2E15002A7BB6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Carthage/Checkouts/Alamofire/build/Debug-appletvos/Alamofire.framework"; sourceTree = "<group>"; };
-		1D389BDB1D8B2E15002A7BB6 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "Carthage/Checkouts/ObjectMapper/build/Debug-appletvos/ObjectMapper.framework"; sourceTree = "<group>"; };
-		1D389BDC1D8B2E15002A7BB6 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Carthage/Checkouts/SwiftyJSON/build/Debug-appletvos/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		1D389BDD1D8B2E15002A7BB6 /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = "Carthage/Checkouts/SwiftyUserDefaults/build/Debug-appletvos/SwiftyUserDefaults.framework"; sourceTree = "<group>"; };
-		1D389BE21D8B2E3D002A7BB6 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Checkouts/Alamofire/build/Debug/Alamofire.framework; sourceTree = "<group>"; };
-		1D389BE31D8B2E3D002A7BB6 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Checkouts/ObjectMapper/build/Debug/ObjectMapper.framework; sourceTree = "<group>"; };
-		1D389BE41D8B2E3D002A7BB6 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Checkouts/SwiftyJSON/build/Debug/SwiftyJSON.framework; sourceTree = "<group>"; };
-		1D389BE51D8B2E3D002A7BB6 /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Checkouts/SwiftyUserDefaults/build/Debug/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
 		1D611E4B1D8B201800DFC418 /* waterwheel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = waterwheel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D611E4E1D8B201800DFC418 /* waterwheel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = waterwheel.h; sourceTree = "<group>"; };
 		1D611E4F1D8B201800DFC418 /* Info-iOS.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-iOS.plist"; sourceTree = "<group>"; };
@@ -77,10 +69,26 @@
 		1D611EA21D8B24A600DFC418 /* waterwheel iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "waterwheel iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D611EA41D8B24A600DFC418 /* waterwheel_iOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = waterwheel_iOSTests.swift; sourceTree = "<group>"; };
 		1D611EA61D8B24A600DFC418 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1D611EAE1D8B292900DFC418 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "Carthage/Checkouts/SwiftyJSON/build/Debug-iphoneos/SwiftyJSON.framework"; sourceTree = "<group>"; };
-		1D611EB01D8B296500DFC418 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = "Carthage/Checkouts/Alamofire/build/Debug-iphoneos/Alamofire.framework"; sourceTree = "<group>"; };
-		1D611EB11D8B296500DFC418 /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = "Carthage/Checkouts/SwiftyUserDefaults/build/Debug-iphoneos/SwiftyUserDefaults.framework"; sourceTree = "<group>"; };
-		1D611EB41D8B2AFC00DFC418 /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = "Carthage/Checkouts/ObjectMapper/build/Debug-iphoneos/ObjectMapper.framework"; sourceTree = "<group>"; };
+		1DEC822A1E1DB6B8009CDF8A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/watchOS/Alamofire.framework; sourceTree = "<group>"; };
+		1DEC822B1E1DB6B8009CDF8A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/watchOS/AlamofireImage.framework; sourceTree = "<group>"; };
+		1DEC822C1E1DB6B8009CDF8A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/watchOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		1DEC822D1E1DB6B8009CDF8A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/watchOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		1DEC822E1E1DB6B8009CDF8A /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/watchOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
+		1DEC82341E1DB6D7009CDF8A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/tvOS/Alamofire.framework; sourceTree = "<group>"; };
+		1DEC82351E1DB6D7009CDF8A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/tvOS/AlamofireImage.framework; sourceTree = "<group>"; };
+		1DEC82361E1DB6D7009CDF8A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/tvOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		1DEC82371E1DB6D7009CDF8A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/tvOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		1DEC82381E1DB6D7009CDF8A /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/tvOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
+		1DEC823E1E1DB6ED009CDF8A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
+		1DEC823F1E1DB6ED009CDF8A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/Mac/AlamofireImage.framework; sourceTree = "<group>"; };
+		1DEC82401E1DB6ED009CDF8A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/Mac/ObjectMapper.framework; sourceTree = "<group>"; };
+		1DEC82411E1DB6ED009CDF8A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/Mac/SwiftyJSON.framework; sourceTree = "<group>"; };
+		1DEC82421E1DB6ED009CDF8A /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/Mac/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
+		1DEC82481E1DB6F7009CDF8A /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		1DEC82491E1DB6F7009CDF8A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
+		1DEC824A1E1DB6F7009CDF8A /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/iOS/ObjectMapper.framework; sourceTree = "<group>"; };
+		1DEC824B1E1DB6F7009CDF8A /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		1DEC824C1E1DB6F7009CDF8A /* SwiftyUserDefaults.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyUserDefaults.framework; path = Carthage/Build/iOS/SwiftyUserDefaults.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,10 +96,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D611EB51D8B2AFC00DFC418 /* ObjectMapper.framework in Frameworks */,
-				1D611EB21D8B296500DFC418 /* Alamofire.framework in Frameworks */,
-				1D611EB31D8B296500DFC418 /* SwiftyUserDefaults.framework in Frameworks */,
-				1D611EAF1D8B292900DFC418 /* SwiftyJSON.framework in Frameworks */,
+				1DEC82501E1DB6F7009CDF8A /* SwiftyJSON.framework in Frameworks */,
+				1DEC824F1E1DB6F7009CDF8A /* ObjectMapper.framework in Frameworks */,
+				1DEC824D1E1DB6F7009CDF8A /* Alamofire.framework in Frameworks */,
+				1DEC82511E1DB6F7009CDF8A /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC824E1E1DB6F7009CDF8A /* AlamofireImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,10 +108,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D389BD61D8B2DE2002A7BB6 /* Alamofire.framework in Frameworks */,
-				1D389BD71D8B2DE2002A7BB6 /* ObjectMapper.framework in Frameworks */,
-				1D389BD81D8B2DE2002A7BB6 /* SwiftyJSON.framework in Frameworks */,
-				1D389BD91D8B2DE2002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC82321E1DB6B8009CDF8A /* SwiftyJSON.framework in Frameworks */,
+				1DEC82331E1DB6B8009CDF8A /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC82301E1DB6B8009CDF8A /* AlamofireImage.framework in Frameworks */,
+				1DEC822F1E1DB6B8009CDF8A /* Alamofire.framework in Frameworks */,
+				1DEC82311E1DB6B8009CDF8A /* ObjectMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -110,10 +120,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D389BDE1D8B2E15002A7BB6 /* Alamofire.framework in Frameworks */,
-				1D389BDF1D8B2E15002A7BB6 /* ObjectMapper.framework in Frameworks */,
-				1D389BE01D8B2E15002A7BB6 /* SwiftyJSON.framework in Frameworks */,
-				1D389BE11D8B2E15002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC823C1E1DB6D7009CDF8A /* SwiftyJSON.framework in Frameworks */,
+				1DEC823B1E1DB6D7009CDF8A /* ObjectMapper.framework in Frameworks */,
+				1DEC82391E1DB6D7009CDF8A /* Alamofire.framework in Frameworks */,
+				1DEC823D1E1DB6D7009CDF8A /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC823A1E1DB6D7009CDF8A /* AlamofireImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,10 +132,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D389BE61D8B2E3D002A7BB6 /* Alamofire.framework in Frameworks */,
-				1D389BE71D8B2E3D002A7BB6 /* ObjectMapper.framework in Frameworks */,
-				1D389BE81D8B2E3D002A7BB6 /* SwiftyJSON.framework in Frameworks */,
-				1D389BE91D8B2E3D002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC82461E1DB6ED009CDF8A /* SwiftyJSON.framework in Frameworks */,
+				1DEC82451E1DB6ED009CDF8A /* ObjectMapper.framework in Frameworks */,
+				1DEC82431E1DB6ED009CDF8A /* Alamofire.framework in Frameworks */,
+				1DEC82471E1DB6ED009CDF8A /* SwiftyUserDefaults.framework in Frameworks */,
+				1DEC82441E1DB6ED009CDF8A /* AlamofireImage.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,22 +251,26 @@
 		1D611EAD1D8B292900DFC418 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1D389BE21D8B2E3D002A7BB6 /* Alamofire.framework */,
-				1D389BE31D8B2E3D002A7BB6 /* ObjectMapper.framework */,
-				1D389BE41D8B2E3D002A7BB6 /* SwiftyJSON.framework */,
-				1D389BE51D8B2E3D002A7BB6 /* SwiftyUserDefaults.framework */,
-				1D389BDA1D8B2E15002A7BB6 /* Alamofire.framework */,
-				1D389BDB1D8B2E15002A7BB6 /* ObjectMapper.framework */,
-				1D389BDC1D8B2E15002A7BB6 /* SwiftyJSON.framework */,
-				1D389BDD1D8B2E15002A7BB6 /* SwiftyUserDefaults.framework */,
-				1D389BD21D8B2DE2002A7BB6 /* Alamofire.framework */,
-				1D389BD31D8B2DE2002A7BB6 /* ObjectMapper.framework */,
-				1D389BD41D8B2DE2002A7BB6 /* SwiftyJSON.framework */,
-				1D389BD51D8B2DE2002A7BB6 /* SwiftyUserDefaults.framework */,
-				1D611EB41D8B2AFC00DFC418 /* ObjectMapper.framework */,
-				1D611EB01D8B296500DFC418 /* Alamofire.framework */,
-				1D611EB11D8B296500DFC418 /* SwiftyUserDefaults.framework */,
-				1D611EAE1D8B292900DFC418 /* SwiftyJSON.framework */,
+				1DEC82481E1DB6F7009CDF8A /* Alamofire.framework */,
+				1DEC82491E1DB6F7009CDF8A /* AlamofireImage.framework */,
+				1DEC824A1E1DB6F7009CDF8A /* ObjectMapper.framework */,
+				1DEC824B1E1DB6F7009CDF8A /* SwiftyJSON.framework */,
+				1DEC824C1E1DB6F7009CDF8A /* SwiftyUserDefaults.framework */,
+				1DEC823E1E1DB6ED009CDF8A /* Alamofire.framework */,
+				1DEC823F1E1DB6ED009CDF8A /* AlamofireImage.framework */,
+				1DEC82401E1DB6ED009CDF8A /* ObjectMapper.framework */,
+				1DEC82411E1DB6ED009CDF8A /* SwiftyJSON.framework */,
+				1DEC82421E1DB6ED009CDF8A /* SwiftyUserDefaults.framework */,
+				1DEC82341E1DB6D7009CDF8A /* Alamofire.framework */,
+				1DEC82351E1DB6D7009CDF8A /* AlamofireImage.framework */,
+				1DEC82361E1DB6D7009CDF8A /* ObjectMapper.framework */,
+				1DEC82371E1DB6D7009CDF8A /* SwiftyJSON.framework */,
+				1DEC82381E1DB6D7009CDF8A /* SwiftyUserDefaults.framework */,
+				1DEC822A1E1DB6B8009CDF8A /* Alamofire.framework */,
+				1DEC822B1E1DB6B8009CDF8A /* AlamofireImage.framework */,
+				1DEC822C1E1DB6B8009CDF8A /* ObjectMapper.framework */,
+				1DEC822D1E1DB6B8009CDF8A /* SwiftyJSON.framework */,
+				1DEC822E1E1DB6B8009CDF8A /* SwiftyUserDefaults.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -391,7 +407,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				TargetAttributes = {
 					1D611E4A1D8B201800DFC418 = {
 						CreatedOnToolsVersion = 8.0;
@@ -533,8 +549,27 @@
 		1D611E441D8B1FF800DFC418 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 				WATCHOS_DEPLOYMENT_TARGET = 2.0;
 			};
@@ -543,6 +578,23 @@
 		1D611E451D8B1FF800DFC418 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
@@ -573,7 +625,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -583,7 +635,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -640,7 +695,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -650,7 +705,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -709,7 +767,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -775,7 +836,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/watchOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -834,7 +898,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -900,7 +967,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/tvOS",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -960,7 +1030,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1027,7 +1100,10 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;

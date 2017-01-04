@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:waterwheel.playground">
+      location = "group:Carthage/Checkouts/SwiftyJSON/SwiftyJSON.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Carthage/Checkouts/ObjectMapper/ObjectMapper.xcodeproj">

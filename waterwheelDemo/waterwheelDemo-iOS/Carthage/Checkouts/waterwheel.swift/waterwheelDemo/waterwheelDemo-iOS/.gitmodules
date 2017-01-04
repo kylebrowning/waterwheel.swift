@@ -1,0 +1,8 @@
+[submodule "Carthage/Checkouts/Alamofire"]
+	url = https://github.com/Alamofire/Alamofire.git
+[submodule "Carthage/Checkouts/ObjectMapper"]
+	url = https://github.com/Hearst-DD/ObjectMapper.git
+[submodule "Carthage/Checkouts/SwiftyJSON"]
+	url = https://github.com/appsailor/SwiftyJSON.git
+[submodule "Carthage/Checkouts/SwiftyUserDefaults"]
+	url = https://github.com/radex/SwiftyUserDefaults.git
