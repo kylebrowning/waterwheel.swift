@@ -19,11 +19,9 @@ extension DefaultsKeys {
     static let isLoggedIn = DefaultsKey<Bool?>("isLoggedIn")
 }
 
-
 public enum EntityType: String {
     case Node = "node", Comment = "comment"
 }
-
 
 public enum waterwheelNotifications: String {
     case waterwheelDidLogin
@@ -42,10 +40,9 @@ public enum waterwheelNotificationsTypes: String {
 
 // MARK: - Typelias definitions
 
-public typealias completion = (_ success:Bool, _ response:DataResponse<Any>?, _ json:JSON?, _ error:NSError?) -> Void
-public typealias stringcompletion = (_ success:Bool, _ response:DataResponse<String>?, _ json:JSON?, _ error:NSError?) -> Void
+public typealias completion = (_ success: Bool, _ response: DataResponse<Any>?, _ json: JSON?, _ error: NSError?) -> Void
+public typealias stringcompletion = (_ success: Bool, _ response: DataResponse<String>?, _ json: JSON?, _ error: NSError?) -> Void
 public typealias paramType = [String: AnyObject]?
-
 
 private let waterwheelErrorString = "waterhwheel error: "
 
@@ -53,7 +50,6 @@ private let waterwheelErrorString = "waterhwheel error: "
  Responsible for storing state and variables for waterwheel.
  */
 open class waterwheelManager {
-
 
     // MARK: - Properties
 
@@ -66,16 +62,16 @@ open class waterwheelManager {
 
     open let requestFormat = "?_format=json"
     var headers = [
-        "Content-Type":"application/json",
-        "Accept":"application/json",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
         ]
-    open var URL : String = ""
-    fileprivate var basicUsername : String = ""
-    fileprivate var basicPassword : String = ""
-    fileprivate var logoutToken : String = ""
-    fileprivate var CSRFToken : String = ""
-    fileprivate var signRequestsBasic : Bool = false
-    fileprivate var signCSRFToken : Bool = false
+    open var URL: String = ""
+    fileprivate var basicUsername: String = ""
+    fileprivate var basicPassword: String = ""
+    fileprivate var logoutToken: String = ""
+    fileprivate var CSRFToken: String = ""
+    fileprivate var signRequestsBasic: Bool = false
+    fileprivate var signCSRFToken: Bool = false
     fileprivate var isLoggedIn: Bool = false
 
     /**
@@ -135,10 +131,9 @@ open class waterwheelManager {
  */
 public func setDrupalURL(_ drupalURL: String) {
     assert(drupalURL != "", waterwheelErrorString + "Missing Drupal URL")
-    waterwheelManager.sharedInstance.URL = drupalURL;
+    waterwheelManager.sharedInstance.URL = drupalURL
     waterwheel.checkLoginStatus()
 }
-
 
 /**
  Private function to check Login Status with all cookies that have been set.
@@ -149,7 +144,7 @@ private func checkLoginStatus() {
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(urlString)
         .validate(statusCode: 200..<300)
-        .responseString{ response in
+        .responseString { response in
             if (response.result.error == nil) {
                 let loginStatus = String(data: response.data!, encoding: String.Encoding.utf8)
                 if (loginStatus == "1") {
@@ -157,14 +152,12 @@ private func checkLoginStatus() {
                 } else {
                     setIsLoggedIn(false)
                 }
-            }
-            else {
+            } else {
                 setIsLoggedIn(false)
             }
             postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: response.response)
     }
 }
-
 
 // MARK: - Authentication methods
 
@@ -175,7 +168,7 @@ private func checkLoginStatus() {
  - parameter password:          The password to login with
 
  */
-public func setBasicAuthUsernameAndPassword(_ username:String, password:String, sign: Bool) {
+public func setBasicAuthUsernameAndPassword(_ username: String, password: String, sign: Bool) {
     waterwheelManager.sharedInstance.basicUsername = username
     waterwheelManager.sharedInstance.basicPassword = password
     waterwheelManager.sharedInstance.signRequestsBasic = sign
@@ -184,7 +177,6 @@ public func setBasicAuthUsernameAndPassword(_ username:String, password:String, 
     Defaults[.signRequestsBasic] = true
     setIsLoggedIn(true)
 }
-
 
 /**
  Login
@@ -195,14 +187,14 @@ public func setBasicAuthUsernameAndPassword(_ username:String, password:String, 
 
 
  */
-public func login(username:String?, password:String?, completionHandler: completion?) {
+public func login(username: String?, password: String?, completionHandler: completion?) {
 
     assert(username! != "", waterwheelErrorString + "Missing username.")
     assert(password! != "", waterwheelErrorString + "Missing password.")
 
     let body = [
-        "name":username!,
-        "pass":password!
+        "name": username!,
+        "pass": password!
     ]
 
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
@@ -223,8 +215,6 @@ public func login(username:String?, password:String?, completionHandler: complet
     }
 }
 
-
-
 /**
  Logout a user
 
@@ -233,7 +223,7 @@ public func login(username:String?, password:String?, completionHandler: complet
  */
 
 public func logout(completionHandler: completion?) {
-    if waterwheelManager.sharedInstance.signRequestsBasic  {
+    if waterwheelManager.sharedInstance.signRequestsBasic {
         waterwheelManager.sharedInstance.basicUsername = ""
         waterwheelManager.sharedInstance.basicPassword = ""
         waterwheelManager.sharedInstance.signRequestsBasic = false
@@ -242,13 +232,12 @@ public func logout(completionHandler: completion?) {
     postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
 
     let urlString = waterwheelManager.sharedInstance.URL + "/user/logout" + waterwheelManager.sharedInstance.requestFormat + "&token=" + waterwheelManager.sharedInstance.logoutToken
-    sendRequestWithUrl(urlString, method: .post, params: nil) { (success, response, json, error) in
+    sendRequestWithUrl(urlString, method: .post, params: nil) { (_, response, _, error) in
         if (response!.result.error == nil) {
             setCSRF("", sign: false)
             setIsLoggedIn(false)
             completionHandler?(true, response, nil, response!.result.error as NSError?)
-        }
-        else {
+        } else {
             completionHandler?(false, response, nil, response!.result.error as NSError?)
         }
         postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: response?.response)
@@ -264,20 +253,18 @@ private func getCSRFToken(_ completionHandler: stringcompletion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/rest/session/token"
     Alamofire.request(urlString)
         .validate(statusCode: 200..<300)
-        .responseString{ response in
+        .responseString { response in
             if (response.result.error == nil) {
                 let csrfToken = String(data: response.data!, encoding: String.Encoding.utf8)
                 setCSRF(csrfToken!, sign: true)
                 completionHandler?(true, response, nil, nil)
-            }
-            else {
+            } else {
                 completionHandler?(false, response, nil, response.result.error as NSError?)
             }
     }
 }
 
 // MARK: - Requests
-
 
 /**
  Sends a request to Drupal with a specified path
@@ -289,7 +276,7 @@ private func getCSRFToken(_ completionHandler: stringcompletion?) {
 
  */
 
-public func sendRequest(_ path:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
+public func sendRequest(_ path: String, method: Alamofire.HTTPMethod, params: paramType, completionHandler: completion?) {
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL. Did you set it properly?")
     let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
     sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
@@ -305,7 +292,7 @@ public func sendRequest(_ path:String, method:Alamofire.HTTPMethod, params:param
 
  */
 
-public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, params:paramType, completionHandler: completion?) {
+public func sendRequestWithUrl(_ urlString: String, method: Alamofire.HTTPMethod, params: paramType, completionHandler: completion?) {
 
     assert(urlString != "", "waterwheel Error: Missing Drupal URL")
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: nil)
@@ -322,8 +309,7 @@ public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, 
     }
     Alamofire.request(urlString, method: method, parameters: params, encoding:JSONEncoding.default, headers:waterwheelManager.sharedInstance.headers).validate().responseJSON { (response) in
         var responseJSON: JSON
-        if response.result.isFailure
-        {
+        if response.result.isFailure {
             responseJSON = JSON.null
         } else {
             responseJSON = SwiftyJSON.JSON(response.result.value!)
@@ -337,8 +323,6 @@ public func sendRequestWithUrl(_ urlString:String, method:Alamofire.HTTPMethod, 
         postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: response.response)
     }
 }
-
-
 
 // MARK: - GET Requests
 
@@ -370,7 +354,6 @@ public func entityGet(entityType: EntityType, entityId: String, params: paramTyp
     get(requestPath, params: params, completionHandler: completionHandler)
 }
 
-
 /**
  Sends a GET Node request to Drupal
 
@@ -382,7 +365,6 @@ public func entityGet(entityType: EntityType, entityId: String, params: paramTyp
 public func nodeGet(nodeId: String, params: paramType, completionHandler: completion?) {
     entityGet(entityType: .Node, entityId: nodeId, params: params, completionHandler: completionHandler)
 }
-
 
 // MARK: - POST Requests
 
@@ -438,8 +420,7 @@ public let nodePost: (_ node: paramType, _ completionHandler: completion?) -> Vo
 
  */
 
-
-public func patch(_ requestPath:String, params:paramType, completionHandler: completion?) {
+public func patch(_ requestPath: String, params: paramType, completionHandler: completion?) {
     sendRequest(requestPath, method: .patch, params: params) { (success, response, json, error) in
         completionHandler?(success, response, json, error)
     }
@@ -454,11 +435,10 @@ public func patch(_ requestPath:String, params:paramType, completionHandler: com
 
  */
 
-public func entityPatch (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) {
+public func entityPatch (entityType: EntityType, entityId: String, params: paramType, completionHandler: completion?) {
     let requestPath = entityType.rawValue + "/" + entityId
     patch(requestPath, params: params, completionHandler: completionHandler)
 }
-
 
 /**
  Sends a PATCH request to Drupal that will update a node
@@ -469,7 +449,7 @@ public func entityPatch (entityType: EntityType, entityId:String, params: paramT
 
  */
 
-public func nodePatch (nodeId:String, node: paramType, completionHandler: completion?) {
+public func nodePatch (nodeId: String, node: paramType, completionHandler: completion?) {
     entityPatch(entityType: .Node, entityId: nodeId, params: node, completionHandler: completionHandler)
 }
 
@@ -484,8 +464,7 @@ public func nodePatch (nodeId:String, node: paramType, completionHandler: comple
 
  */
 
-
-public func delete(_ requestPath:String, params:paramType, completionHandler: completion?) {
+public func delete(_ requestPath: String, params: paramType, completionHandler: completion?) {
     sendRequest(requestPath, method: .delete, params: params) { (success, response, json, error) in
         completionHandler?(success, response, json, error)
     }
@@ -501,7 +480,7 @@ public func delete(_ requestPath:String, params:paramType, completionHandler: co
 
  */
 
-public func entityDelete (entityType: EntityType, entityId:String, params: paramType, completionHandler: completion?) {
+public func entityDelete (entityType: EntityType, entityId: String, params: paramType, completionHandler: completion?) {
     let requestPath = entityType.rawValue + "/" + entityId
     delete(requestPath, params: params, completionHandler: completionHandler)
 }
@@ -515,7 +494,7 @@ public func entityDelete (entityType: EntityType, entityId:String, params: param
 
  */
 
-public func nodeDelete ( nodeId:String, params: paramType,  completionHandler: completion?) {
+public func nodeDelete ( nodeId: String, params: paramType, completionHandler: completion?) {
     entityDelete(entityType: .Node, entityId: nodeId, params: params, completionHandler: completionHandler)
 }
 
@@ -527,7 +506,7 @@ public func nodeDelete ( nodeId:String, params: paramType,  completionHandler: c
 
  */
 
-public func viewGet (viewPath:String, completionHandler: completion?) {
+public func viewGet (viewPath: String, completionHandler: completion?) {
     get(viewPath, params: nil, completionHandler: completionHandler)
 }
 
@@ -540,7 +519,6 @@ private func setIsLoggedIn(_ isLoggedIn: Bool) {
     waterwheelManager.sharedInstance.isLoggedIn = isLoggedIn
     Defaults[.isLoggedIn] = isLoggedIn
 }
-
 
 /**
  Public function to check if the user is logged in
@@ -567,9 +545,6 @@ private func setCSRF(_ csrfToken: String, sign: Bool) {
     Defaults[.csrfToken] = csrfToken
     Defaults[.signCSRFToken] = sign
 }
-
-
-
 
 private func postNotification(_ name: String, requestName: String, object: AnyObject?) {
     var notification = Dictionary<String, AnyObject>()

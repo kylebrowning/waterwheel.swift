@@ -11,7 +11,7 @@ import ObjectMapper
 
 public struct ViewResponseRow: Mappable {
     var title: String?
-    var body:  String?
+    var body: String?
 
     public init?(map: Map) {
 
@@ -27,19 +27,19 @@ public class waterwheelViewTableViewController<Row: Mappable, Cell: UITableViewC
     public var rows: [Row] = []
 
     public let reuseIdentifier = "Cell"
-    public let configure: (Cell, Row) -> ()
-    public var didSelect: (Row) -> () = { _ in }
-    public var didFinish: (JSON?, waterwheelViewTableViewController) -> () = { _ in }
+    public let configure: (Cell, Row) -> Void
+    public var didSelect: (Row) -> Void = { _ in }
+    public var didFinish: (JSON?, waterwheelViewTableViewController) -> Void = { _ in }
 
-    init(items: [Row], configure: @escaping (Cell, Row) -> ()) {
+    init(items: [Row], configure: @escaping (Cell, Row) -> Void) {
         self.configure = configure
         super.init(style: .plain)
         self.rows = items
     }
 
-    public convenience init(viewPath: (String), configure: @escaping (Cell, Row) -> ()) {
+    public convenience init(viewPath: (String), configure: @escaping (Cell, Row) -> Void) {
         self.init(items: [], configure: configure)
-        waterwheel.viewGet(viewPath: viewPath, completionHandler: { (success, response, json, error) in
+        waterwheel.viewGet(viewPath: viewPath, completionHandler: { (success, _, json, error) in
             self.didFinish(json, self)
 
             if (success) {
@@ -56,7 +56,7 @@ public class waterwheelViewTableViewController<Row: Mappable, Cell: UITableViewC
         })
 
     }
-    
+
     required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -91,4 +91,3 @@ public class waterwheelViewTableViewController<Row: Mappable, Cell: UITableViewC
         return cell
     }
 }
-

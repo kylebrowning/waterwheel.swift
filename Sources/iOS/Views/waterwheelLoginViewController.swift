@@ -10,11 +10,11 @@ extension UIViewController {
 }
 open class waterwheelLoginViewController: UIViewController {
 
-    open let usernameField : UITextField = {
+    open let usernameField: UITextField = {
         let usernameField = UITextField()
         usernameField.autocorrectionType = .no
         usernameField.attributedPlaceholder = NSAttributedString(string: "Email")
-        usernameField.translatesAutoresizingMaskIntoConstraints = false;
+        usernameField.translatesAutoresizingMaskIntoConstraints = false
         usernameField.backgroundColor = UIColor.lightGray
         usernameField.textAlignment = .center
         usernameField.placeholder = "Username"
@@ -22,24 +22,23 @@ open class waterwheelLoginViewController: UIViewController {
         return usernameField
     }()
 
-     open let passwordField : UITextField = {
+     open let passwordField: UITextField = {
         let passwordField = UITextField()
         passwordField.isSecureTextEntry = true
         passwordField.autocorrectionType = .no
         passwordField.attributedPlaceholder = NSAttributedString(string: "Password")
         passwordField.backgroundColor = UIColor.lightGray
         passwordField.textAlignment = .center
-        passwordField.translatesAutoresizingMaskIntoConstraints = false;
+        passwordField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.placeholder = "password"
         passwordField.isHidden = true
         passwordField.returnKeyType = .go
         return passwordField
     }()
 
-
-    lazy open var submitButton : waterwheelAuthButton = {
+    lazy open var submitButton: waterwheelAuthButton = {
         let submitButton = waterwheelAuthButton()
-        submitButton.translatesAutoresizingMaskIntoConstraints = false;
+        submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.backgroundColor = UIColor.darkGray
         submitButton.didPressLogin = {
             self.loginAction()
@@ -50,9 +49,9 @@ open class waterwheelLoginViewController: UIViewController {
         return submitButton
     }()
 
-    lazy open var cancelButton : UIButton = {
+    lazy open var cancelButton: UIButton = {
         let cancelButton = UIButton()
-        cancelButton.translatesAutoresizingMaskIntoConstraints = false;
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.backgroundColor = UIColor.gray
         cancelButton.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         cancelButton.setTitle("Cancel", for: UIControlState())
@@ -62,17 +61,17 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Provide a closure for when a Login Request is completed.
      */
-    open var loginRequestCompleted: (_ success: Bool, _ error: NSError?) -> () = { _ in }
+    open var loginRequestCompleted: (_ success: Bool, _ error: NSError?) -> Void = { _ in }
 
     /**
      Provide a closure for when a Logout Request is completed.
      */
-    open var logoutRequestCompleted: (_ success: Bool, _ error: NSError?) -> () = { _ in }
+    open var logoutRequestCompleted: (_ success: Bool, _ error: NSError?) -> Void = { _ in }
 
     /**
      Provide a cancel button closure.
      */
-    open var cancelButtonHit: () -> () = { _ in }
+    open var cancelButtonHit: () -> Void = { _ in }
 
     override open func viewDidLoad() {
         super.viewDidLoad()
@@ -186,7 +185,7 @@ open class waterwheelLoginViewController: UIViewController {
      Public Login Action function for the login button that runs our closure.
      */
     public func loginAction() {
-        waterwheel.login(username: usernameField.text!, password: passwordField.text!) { (success, response, json, error) in
+        waterwheel.login(username: usernameField.text!, password: passwordField.text!) { (success, _, _, error) in
             if (success) {
                 self.hideAnonymousSubviews()
             } else {
@@ -211,7 +210,6 @@ open class waterwheelLoginViewController: UIViewController {
         self.logoutRequestCompleted(success, error)
     }
 
-
     open func cancelAction() {
         self.cancelButtonHit()
     }
@@ -219,5 +217,5 @@ open class waterwheelLoginViewController: UIViewController {
     override open func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-    }    
+    }
 }

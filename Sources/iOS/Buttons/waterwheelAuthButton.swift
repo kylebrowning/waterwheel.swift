@@ -2,7 +2,6 @@
 //  waterwheelAuthButton.swift
 //  Only For use in iOS
 
-
 import UIKit
 import Alamofire
 import SwiftyJSON
@@ -17,17 +16,16 @@ public enum AuthAction: String {
     case Login = "Login", Logout = "Logout"
 }
 
-
 /// A UIButton subclass that will always display the logged in state.
 open class waterwheelAuthButton: UIButton {
 
-    open var didPressLogin: () -> () = { _ in }
-    open var didPressLogout: (_ success:Bool, _ error: NSError?) -> () = { success, error in }
+    open var didPressLogin: () -> Void = { _ in }
+    open var didPressLogout: (_ success: Bool, _ error: NSError?) -> Void = { success, error in }
 
     /**
       A initializer to handle run once code for the button.
      */
-    fileprivate func initButton() -> () {
+    fileprivate func initButton() -> Void {
         // Incase of logout or login, we attach to the notification Center for the purpose of seeing requests.
         NotificationCenter.default.addObserver(
             self,
@@ -35,7 +33,7 @@ open class waterwheelAuthButton: UIButton {
             name: NSNotification.Name(rawValue: waterwheelNotifications.waterwheelDidFinishRequest.rawValue),
             object: nil)
 
-        self.translatesAutoresizingMaskIntoConstraints = false;
+        self.translatesAutoresizingMaskIntoConstraints = false
         self.setTitleColor(UIButton(type: UIButtonType.system).titleColor(for: UIControlState())!, for: UIControlState())
         self.configureButton()
     }
@@ -73,7 +71,6 @@ open class waterwheelAuthButton: UIButton {
         self.initButton()
     }
 
-
     /**
      This method provies an action to take when the button is in a logged in state.
      We automatically log the user out, but provide a closure that can be used to do anything else base on the outcome.
@@ -81,7 +78,7 @@ open class waterwheelAuthButton: UIButton {
      */
 
     open func logoutAction() {
-        waterwheel.logout { (success, response, json, error) in
+        waterwheel.logout { (success, _, _, error) in
             self.didPressLogout(success, error)
         }
     }
@@ -94,5 +91,3 @@ open class waterwheelAuthButton: UIButton {
         self.didPressLogin()
     }
 }
-
-
