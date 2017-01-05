@@ -7,7 +7,9 @@
 //
 
 import UIKit
-
+import Alamofire
+import AlamofireImage
+import waterwheel
 
 open class NodeViewController: UIViewController {
 
@@ -17,6 +19,7 @@ open class NodeViewController: UIViewController {
 
     @IBOutlet weak var textViewBody: UITextView!
 
+    @IBOutlet weak var imageView: UIImageView!
 
     open var object : FrontpageViewContent!
 
@@ -27,6 +30,14 @@ open class NodeViewController: UIViewController {
         self.labelTitle.text = object.title
         self.labelDate.text = object.date
         self.textViewBody.text = object.body
+    }
+    
+    override open func viewDidAppear(_ animated: Bool) {
+        Alamofire.request(waterwheelManager.sharedInstance.URL+object.image!).responseImage { response in
+            if let image = response.result.value {
+                self.imageView.image = image
+            }
+        }
     }
 
     override open func didReceiveMemoryWarning() {

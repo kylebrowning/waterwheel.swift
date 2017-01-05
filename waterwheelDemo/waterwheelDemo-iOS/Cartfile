@@ -1,1 +1,2 @@
-github "acquia/waterwheel-swift" "dev"
+github "acquia/waterwheel-swift" "4.3"
+github "Alamofire/AlamofireImage" ~> 3.1

@@ -21,7 +21,39 @@
 		1D389C3D1D8B3B72002A7BB6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D389C3A1D8B3B72002A7BB6 /* LoginViewController.swift */; };
 		1D389C3E1D8B3B72002A7BB6 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D389C3B1D8B3B72002A7BB6 /* MenuTableViewController.swift */; };
 		1D389C3F1D8B3B72002A7BB6 /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D389C3C1D8B3B72002A7BB6 /* NodeViewController.swift */; };
+		1DEC82551E1DC162009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */; };
+		1DEC82561E1DC175009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */; };
+		1DEC82571E1DC175009CDF8A /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1DEC82581E1DC175009CDF8A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C2F1D8B3875002A7BB6 /* Alamofire.framework */; };
+		1DEC82591E1DC175009CDF8A /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C2F1D8B3875002A7BB6 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1DEC825A1E1DC175009CDF8A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C301D8B3875002A7BB6 /* ObjectMapper.framework */; };
+		1DEC825B1E1DC175009CDF8A /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C301D8B3875002A7BB6 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1DEC825C1E1DC175009CDF8A /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C311D8B3875002A7BB6 /* SwiftyJSON.framework */; };
+		1DEC825D1E1DC175009CDF8A /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C311D8B3875002A7BB6 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1DEC825E1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C321D8B3875002A7BB6 /* SwiftyUserDefaults.framework */; };
+		1DEC825F1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C321D8B3875002A7BB6 /* SwiftyUserDefaults.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		1DEC82601E1DC175009CDF8A /* waterwheel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C331D8B3875002A7BB6 /* waterwheel.framework */; };
+		1DEC82611E1DC175009CDF8A /* waterwheel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C331D8B3875002A7BB6 /* waterwheel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1DEC82621E1DC175009CDF8A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1DEC825D1E1DC175009CDF8A /* SwiftyJSON.framework in Embed Frameworks */,
+				1DEC825B1E1DC175009CDF8A /* ObjectMapper.framework in Embed Frameworks */,
+				1DEC82571E1DC175009CDF8A /* AlamofireImage.framework in Embed Frameworks */,
+				1DEC825F1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Embed Frameworks */,
+				1DEC82611E1DC175009CDF8A /* waterwheel.framework in Embed Frameworks */,
+				1DEC82591E1DC175009CDF8A /* Alamofire.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1D389C171D8B35CA002A7BB6 /* waterwheelDemo-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "waterwheelDemo-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -40,6 +72,7 @@
 		1D389C3A1D8B3B72002A7BB6 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		1D389C3B1D8B3B72002A7BB6 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
 		1D389C3C1D8B3B72002A7BB6 /* NodeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeViewController.swift; sourceTree = "<group>"; };
+		1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,11 +80,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DEC825A1E1DC175009CDF8A /* ObjectMapper.framework in Frameworks */,
+				1DEC82551E1DC162009CDF8A /* AlamofireImage.framework in Frameworks */,
+				1D389C381D8B3875002A7BB6 /* waterwheel.framework in Frameworks */,
+				1DEC82561E1DC175009CDF8A /* AlamofireImage.framework in Frameworks */,
+				1DEC82601E1DC175009CDF8A /* waterwheel.framework in Frameworks */,
+				1DEC825C1E1DC175009CDF8A /* SwiftyJSON.framework in Frameworks */,
 				1D389C341D8B3875002A7BB6 /* Alamofire.framework in Frameworks */,
 				1D389C351D8B3875002A7BB6 /* ObjectMapper.framework in Frameworks */,
 				1D389C361D8B3875002A7BB6 /* SwiftyJSON.framework in Frameworks */,
+				1DEC825E1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Frameworks */,
 				1D389C371D8B3875002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */,
-				1D389C381D8B3875002A7BB6 /* waterwheel.framework in Frameworks */,
+				1DEC82581E1DC175009CDF8A /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +135,7 @@
 		1D389C2E1D8B3875002A7BB6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */,
 				1D389C2F1D8B3875002A7BB6 /* Alamofire.framework */,
 				1D389C301D8B3875002A7BB6 /* ObjectMapper.framework */,
 				1D389C311D8B3875002A7BB6 /* SwiftyJSON.framework */,
@@ -115,6 +156,7 @@
 				1D389C141D8B35CA002A7BB6 /* Frameworks */,
 				1D389C151D8B35CA002A7BB6 /* Resources */,
 				1D389C391D8B388E002A7BB6 /* ShellScript */,
+				1DEC82621E1DC175009CDF8A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -327,6 +369,7 @@
 		1D389C2C1D8B35CA002A7BB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -343,6 +386,7 @@
 		1D389C2D1D8B35CA002A7BB6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

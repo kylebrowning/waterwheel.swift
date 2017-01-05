@@ -31,7 +31,7 @@ class LoginViewController: UIViewController {
                 print("successfull login")
                 self.dismiss(animated: true, completion: nil)
             } else {
-                print (error)
+                print (error!)
             }
         }
 
@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
                 // Do something related to a successfull logout
                 self.dismiss(animated: true, completion: nil)
             } else {
-                print (error)
+                print (error!)
             }
         }
 
