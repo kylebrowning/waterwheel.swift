@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         waterwheel.setDrupalURL("http://waterwheel-swift.com")
         waterwheel.nodeGet(nodeId: "496", params: nil) { (success, response, json, error) in
-            print(json!)
+            print(json)
         }
         return true
     }
