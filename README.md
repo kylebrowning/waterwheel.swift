@@ -26,8 +26,7 @@
 - [x] Basic Auth
 - [x] Cookie Auth
 - [x] Entity CRUD
-- [ ] True entities
-- [ ] Local caching
+- [x] Local caching
 - [x] LoginViewController
 - [ ] SignupViewController
 - [x] AuthButton
@@ -49,7 +48,7 @@ The code below will give you access to the baseline of features for communicatin
 waterwheel.setDrupalURL("http://waterwheel-swift.com")
 ```
 
-If is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
+It is important to note that waterwheel makes heavy uses of [Closures](https://developer.apple.com/library/ios/documentation/Swift/Conceptual/Swift_Programming_Language/Closures.html), which allows us to pass functions as returns, or store them in variables.
 
 #### Login
 
