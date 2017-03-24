@@ -115,7 +115,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Layout the Anonymous Subviews.
      */
-    public func layoutSubviews() {
+    open func layoutSubviews() {
         self.layoutLoginField()
         self.layoutPasswordField()
         self.layoutSubmitButton()
@@ -125,7 +125,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Lays out the login field.
      */
-    public func layoutLoginField() {
+    open func layoutLoginField() {
         usernameField.constrainEqual(.leadingMargin, to: view)
         usernameField.constrainEqual(.trailingMargin, to: view)
         usernameField.constrainEqual(.top, to: view, .top, multiplier: 1.0, constant: 44)
@@ -135,7 +135,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Lays out the password field.
      */
-    public func layoutPasswordField() {
+    open func layoutPasswordField() {
         passwordField.constrainEqual(.leadingMargin, to: view)
         passwordField.constrainEqual(.trailingMargin, to: view)
         passwordField.constrainEqual(.bottomMargin, to: usernameField, .bottomMargin, multiplier: 1.0, constant: 55)
@@ -145,7 +145,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Lays out the Submit Button
      */
-    public func layoutSubmitButton() {
+    open func layoutSubmitButton() {
         submitButton.constrainEqual(.leadingMargin, to: view)
         submitButton.constrainEqual(.trailingMargin, to: view)
         submitButton.constrainEqual(.bottomMargin, to: passwordField, .bottomMargin, multiplier: 1.0, constant: 55)
@@ -155,7 +155,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Lays out the Anonymous Button
      */
-    public func layoutCancelButton() {
+    open func layoutCancelButton() {
         cancelButton.constrainEqual(.leadingMargin, to: view)
         cancelButton.constrainEqual(.trailingMargin, to: view)
         cancelButton.constrainEqual(.bottomMargin, to: submitButton, .bottomMargin, multiplier: 1.0, constant: 55)
@@ -165,7 +165,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Remove anonymous subviews.
      */
-    public func hideAnonymousSubviews() {
+    open func hideAnonymousSubviews() {
         usernameField.isHidden = true
         passwordField.isHidden = true
         cancelButton.isHidden = true
@@ -174,7 +174,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Add Anonymous subviews.
      */
-    public func showAnonymousSubviews() {
+    open func showAnonymousSubviews() {
         self.layoutSubviews()
         usernameField.isHidden = false
         passwordField.isHidden = false
@@ -184,7 +184,7 @@ open class waterwheelLoginViewController: UIViewController {
     /**
      Public Login Action function for the login button that runs our closure.
      */
-    public func loginAction() {
+    open func loginAction() {
         waterwheel.login(username: usernameField.text!, password: passwordField.text!) { (success, _, _, error) in
             if (success) {
                 self.hideAnonymousSubviews()
