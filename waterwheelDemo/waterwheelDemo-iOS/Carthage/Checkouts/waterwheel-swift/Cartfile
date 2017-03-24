@@ -1,4 +1,0 @@
-git "https://github.com/appsailor/SwiftyJSON.git" "swift3"
-github "Alamofire/Alamofire" ~> 4.0
-github "radex/SwiftyUserDefaults" ~> 3.0
-github "Hearst-DD/ObjectMapper" ~> 2.0

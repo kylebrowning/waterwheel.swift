@@ -1,5 +1,0 @@
-github "Alamofire/Alamofire" "4.0.0"
-github "Hearst-DD/ObjectMapper" "2.0.0"
-git "https://github.com/appsailor/SwiftyJSON.git" "c0462747a546575665f57fceeb560b5d2830b36b"
-github "radex/SwiftyUserDefaults" "3.0.0"
-github "acquia/waterwheel-swift" "dea85de11fa045ef8e5205d69f7c432948a85dcf"
