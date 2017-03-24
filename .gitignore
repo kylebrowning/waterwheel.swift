@@ -55,6 +55,7 @@ DerivedData
 
 ### Xcode ###
 build/
+Checkouts
 *.pbxuser
 !default.pbxuser
 *.mode1v3
