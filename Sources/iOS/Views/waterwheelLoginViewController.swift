@@ -36,7 +36,7 @@ open class waterwheelLoginViewController: UIViewController {
         return passwordField
     }()
 
-    lazy open var submitButton: waterwheelAuthButton = {
+    open var submitButton: waterwheelAuthButton = {
         let submitButton = waterwheelAuthButton()
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.backgroundColor = UIColor.darkGray
@@ -49,7 +49,7 @@ open class waterwheelLoginViewController: UIViewController {
         return submitButton
     }()
 
-    lazy open var cancelButton: UIButton = {
+    open var cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.backgroundColor = UIColor.gray
