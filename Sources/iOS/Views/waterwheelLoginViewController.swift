@@ -40,12 +40,6 @@ open class waterwheelLoginViewController: UIViewController {
         let submitButton = waterwheelAuthButton()
         submitButton.translatesAutoresizingMaskIntoConstraints = false
         submitButton.backgroundColor = UIColor.darkGray
-        submitButton.didPressLogin = {
-            self.loginAction()
-        }
-        submitButton.didPressLogout = { (success, error) in
-            self.logoutAction(success, error: error)
-        }
         return submitButton
     }()
 
@@ -99,6 +93,13 @@ open class waterwheelLoginViewController: UIViewController {
                 selector: #selector(configure),
                 name: NSNotification.Name(rawValue: waterwheelNotifications.waterwheelDidFinishRequest.rawValue),
                 object: nil)
+
+            submitButton.didPressLogin = {
+                self.loginAction()
+            }
+            submitButton.didPressLogout = { (success, error) in
+                self.logoutAction(success, error: error)
+            }
 
             self.view.addSubview(usernameField)
             self.view.addSubview(passwordField)
