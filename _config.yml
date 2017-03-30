@@ -1,0 +1,8 @@
+title: Waterwheel
+description: The Waterwheel Swift SDK provides a way to natively connect iOS, macOS, tvOS, and watchOS applications to Drupal 7 and 8.
+google_analytics: UA-3203637-9
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
