@@ -19,7 +19,8 @@
     <a href="#installation">Installation</a> &bull;
     <a href="#requirements">Requirements</a>
 </p>
--------
+
+--------
 
 ## Features in 4.x
 - [x] Session management
@@ -284,8 +285,8 @@ Run `carthage update` to build the framework and drag the built `waterwheel.fram
 - iOS 8.0+ / Mac OS X 10.9+ / tvOS 9.0+ / watchOS 2.0+
 - Xcode 7.3+
 
-| waterwheel version | Drupal version   |                                   Notes                                   |
-|:--------------------:|:---------------------------:|:----------------------------:|:-------------------------------------------------------------------------:|
+| waterwheel version  | Drupal Version |
+| ------------- | ------------- |
 |          [4.x](https://github.com/kylebrowning/waterwheel-swift/tree/4.x)         |            Drupal 8 (Swift)            |
 |          [3.x](https://github.com/kylebrowning/waterwheel-swift/tree/3.x)         |            Drupal 8 (Obj-C)                   |  |
 |          [2.x](https://github.com/kylebrowning/waterwheel-swift/tree/2.x)         |            Drupal 6-7 (Obj-C)              |        Requires [Services](http://drupal.org/project/services) module                                                                    |
