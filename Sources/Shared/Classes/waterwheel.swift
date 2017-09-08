@@ -136,10 +136,10 @@ public func setDrupalURL(_ drupalURL: String) {
 }
 
 /**
- Private function to check Login Status with all cookies that have been set.
+ public function to check Login Status with all cookies that have been set.
 
  */
-private func checkLoginStatus() {
+public func checkLoginStatus() {
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: nil)
     let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(urlString)
@@ -513,9 +513,9 @@ public func viewGet (viewPath: String, completionHandler: completion?) {
 // MARK: - Helper Functions
 
 /**
- Private function to set Logged in Status
+ Public function to set Logged in Status
  */
-private func setIsLoggedIn(_ isLoggedIn: Bool) {
+public func setIsLoggedIn(_ isLoggedIn: Bool) {
     waterwheelManager.sharedInstance.isLoggedIn = isLoggedIn
     Defaults[.isLoggedIn] = isLoggedIn
 }
@@ -529,24 +529,24 @@ public func isLoggedIn() -> Bool {
 }
 
 /**
- Private function to set logoutToken
+ Public function to set logoutToken
  */
-private func setLogoutToken(_ logoutToken: String) {
+public func setLogoutToken(_ logoutToken: String) {
     waterwheelManager.sharedInstance.logoutToken = logoutToken
     Defaults[.logoutToken] = logoutToken
 }
 
 /**
- Private function to set csrf settings
+ public function to set csrf settings
  */
-private func setCSRF(_ csrfToken: String, sign: Bool) {
+public func setCSRF(_ csrfToken: String, sign: Bool) {
     waterwheelManager.sharedInstance.CSRFToken = csrfToken
     waterwheelManager.sharedInstance.signCSRFToken = sign
     Defaults[.csrfToken] = csrfToken
     Defaults[.signCSRFToken] = sign
 }
 
-private func postNotification(_ name: String, requestName: String, object: AnyObject?) {
+public func postNotification(_ name: String, requestName: String, object: AnyObject?) {
     var notification = Dictionary<String, AnyObject>()
     notification["name"] = name as AnyObject?
     notification["type"] = requestName as AnyObject?
