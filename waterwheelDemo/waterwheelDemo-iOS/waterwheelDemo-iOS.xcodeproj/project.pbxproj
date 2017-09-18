@@ -12,17 +12,12 @@
 		1D389C241D8B35CA002A7BB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D389C231D8B35CA002A7BB6 /* Assets.xcassets */; };
 		1D389C271D8B35CA002A7BB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D389C251D8B35CA002A7BB6 /* LaunchScreen.storyboard */; };
 		1D389C341D8B3875002A7BB6 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C2F1D8B3875002A7BB6 /* Alamofire.framework */; };
-		1D389C351D8B3875002A7BB6 /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C301D8B3875002A7BB6 /* ObjectMapper.framework */; };
-		1D389C361D8B3875002A7BB6 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C311D8B3875002A7BB6 /* SwiftyJSON.framework */; };
-		1D389C371D8B3875002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C321D8B3875002A7BB6 /* SwiftyUserDefaults.framework */; };
 		1D389C381D8B3875002A7BB6 /* waterwheel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C331D8B3875002A7BB6 /* waterwheel.framework */; };
 		1D389C3D1D8B3B72002A7BB6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D389C3A1D8B3B72002A7BB6 /* LoginViewController.swift */; };
 		1D389C3E1D8B3B72002A7BB6 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D389C3B1D8B3B72002A7BB6 /* MenuTableViewController.swift */; };
 		1D389C3F1D8B3B72002A7BB6 /* NodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D389C3C1D8B3B72002A7BB6 /* NodeViewController.swift */; };
 		1DEC82551E1DC162009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */; };
-		1DEC82561E1DC175009CDF8A /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */; };
 		1DEC82571E1DC175009CDF8A /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEC82541E1DC162009CDF8A /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1DEC82581E1DC175009CDF8A /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C2F1D8B3875002A7BB6 /* Alamofire.framework */; };
 		1DEC82591E1DC175009CDF8A /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C2F1D8B3875002A7BB6 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1DEC825A1E1DC175009CDF8A /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C301D8B3875002A7BB6 /* ObjectMapper.framework */; };
 		1DEC825B1E1DC175009CDF8A /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C301D8B3875002A7BB6 /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -30,7 +25,6 @@
 		1DEC825D1E1DC175009CDF8A /* SwiftyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C311D8B3875002A7BB6 /* SwiftyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1DEC825E1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C321D8B3875002A7BB6 /* SwiftyUserDefaults.framework */; };
 		1DEC825F1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C321D8B3875002A7BB6 /* SwiftyUserDefaults.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		1DEC82601E1DC175009CDF8A /* waterwheel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C331D8B3875002A7BB6 /* waterwheel.framework */; };
 		1DEC82611E1DC175009CDF8A /* waterwheel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1D389C331D8B3875002A7BB6 /* waterwheel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -79,15 +73,9 @@
 				1DEC825A1E1DC175009CDF8A /* ObjectMapper.framework in Frameworks */,
 				1DEC82551E1DC162009CDF8A /* AlamofireImage.framework in Frameworks */,
 				1D389C381D8B3875002A7BB6 /* waterwheel.framework in Frameworks */,
-				1DEC82561E1DC175009CDF8A /* AlamofireImage.framework in Frameworks */,
-				1DEC82601E1DC175009CDF8A /* waterwheel.framework in Frameworks */,
 				1DEC825C1E1DC175009CDF8A /* SwiftyJSON.framework in Frameworks */,
 				1D389C341D8B3875002A7BB6 /* Alamofire.framework in Frameworks */,
-				1D389C351D8B3875002A7BB6 /* ObjectMapper.framework in Frameworks */,
-				1D389C361D8B3875002A7BB6 /* SwiftyJSON.framework in Frameworks */,
 				1DEC825E1E1DC175009CDF8A /* SwiftyUserDefaults.framework in Frameworks */,
-				1D389C371D8B3875002A7BB6 /* SwiftyUserDefaults.framework in Frameworks */,
-				1DEC82581E1DC175009CDF8A /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,11 +156,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = acquia;
 				TargetAttributes = {
 					1D389C161D8B35CA002A7BB6 = {
 						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = ABBM6U9RM5;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -272,7 +262,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -280,7 +272,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -323,7 +319,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -331,7 +329,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -363,6 +365,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = ABBM6U9RM5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -371,7 +374,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.acquia.waterwheelDemo-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -380,6 +384,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = ABBM6U9RM5;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -388,7 +393,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.acquia.waterwheelDemo-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

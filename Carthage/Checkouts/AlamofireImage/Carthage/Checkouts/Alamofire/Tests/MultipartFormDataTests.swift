@@ -1,7 +1,7 @@
 //
 //  MultipartFormDataTests.swift
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -794,7 +794,7 @@ class MultipartFormDataWriteEncodedDataToDiskTestCase: BaseTestCase {
 class MultipartFormDataFailureTestCase: BaseTestCase {
     func testThatAppendingFileBodyPartWithInvalidLastPathComponentReturnsError() {
         // Given
-        let fileURL = NSURL(string: "") as! URL
+        let fileURL = NSURL(string: "")! as URL
         let multipartFormData = MultipartFormData()
         multipartFormData.append(fileURL, withName: "empty_data")
 

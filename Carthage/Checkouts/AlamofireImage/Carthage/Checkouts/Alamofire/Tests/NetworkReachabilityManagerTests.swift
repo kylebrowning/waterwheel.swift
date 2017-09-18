@@ -1,7 +1,7 @@
 //
 //  NetworkReachabilityManagerTests.swift
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -162,10 +162,22 @@ class NetworkReachabilityManagerTestCase: BaseTestCase {
         XCTAssertEqual(networkReachabilityStatus, .notReachable)
     }
 
+    func testThatManagerReturnsNotReachableStatusWhenConnectionIsRequired() {
+        // Given
+        let manager = NetworkReachabilityManager()
+        let flags: SCNetworkReachabilityFlags = [.reachable, .connectionRequired]
+
+        // When
+        let networkReachabilityStatus = manager?.networkReachabilityStatusForFlags(flags)
+
+        // Then
+        XCTAssertEqual(networkReachabilityStatus, .notReachable)
+    }
+
     func testThatManagerReturnsNotReachableStatusWhenInterventionIsRequired() {
         // Given
         let manager = NetworkReachabilityManager()
-        let flags: SCNetworkReachabilityFlags = [.reachable, .connectionRequired, .connectionOnDemand, .interventionRequired]
+        let flags: SCNetworkReachabilityFlags = [.reachable, .connectionRequired, .interventionRequired]
 
         // When
         let networkReachabilityStatus = manager?.networkReachabilityStatusForFlags(flags)
@@ -221,6 +233,18 @@ class NetworkReachabilityManagerTestCase: BaseTestCase {
 
         // Then
         XCTAssertEqual(networkReachabilityStatus, .reachable(.wwan))
+    }
+
+    func testThatManagerReturnsNotReachableOnWWANStatusWhenIsWWANAndConnectionIsRequired() {
+        // Given
+        let manager = NetworkReachabilityManager()
+        let flags: SCNetworkReachabilityFlags = [.reachable, .isWWAN, .connectionRequired]
+
+        // When
+        let networkReachabilityStatus = manager?.networkReachabilityStatusForFlags(flags)
+
+        // Then
+        XCTAssertEqual(networkReachabilityStatus, .notReachable)
     }
 #endif
 }

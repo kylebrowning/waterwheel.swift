@@ -5,6 +5,7 @@
 [![Carthage Compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Platform](https://img.shields.io/cocoapods/p/AlamofireImage.svg?style=flat)](http://cocoadocs.org/docsets/AlamofireImage)
 [![Twitter](https://img.shields.io/badge/twitter-@AlamofireSF-blue.svg?style=flat)](http://twitter.com/AlamofireSF)
+[![Gitter](https://badges.gitter.im/Alamofire/Alamofire.svg)](https://gitter.im/Alamofire/Alamofire?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 AlamofireImage is an image component library for Alamofire.
 
@@ -24,8 +25,8 @@ AlamofireImage is an image component library for Alamofire.
 ## Requirements
 
 - iOS 8.0+ / macOS 10.10+ / tvOS 9.0+ / watchOS 2.0+
-- Xcode 8.0+
-- Swift 3.0+
+- Xcode 8.3+
+- Swift 3.1+
 
 ## Migration Guides
 
@@ -34,7 +35,7 @@ AlamofireImage is an image component library for Alamofire.
 
 ## Dependencies
 
-- [Alamofire 4.0+](https://github.com/Alamofire/Alamofire)
+- [Alamofire 4.5+](https://github.com/Alamofire/Alamofire)
 
 ## Communication
 
@@ -54,7 +55,7 @@ AlamofireImage is an image component library for Alamofire.
 $ gem install cocoapods
 ```
 
-> CocoaPods 1.1.0+ is required.
+> CocoaPods 1.1+ is required.
 
 To integrate AlamofireImage into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
@@ -64,7 +65,7 @@ platform :ios, '10.0'
 use_frameworks!
 
 target '<Your Target Name>' do
-    pod 'AlamofireImage', '~> 3.1'
+    pod 'AlamofireImage', '~> 3.3'
 end
 ```
 
@@ -88,7 +89,7 @@ $ brew install carthage
 To integrate AlamofireImage into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "Alamofire/AlamofireImage" ~> 3.1
+github "Alamofire/AlamofireImage" ~> 3.3
 ```
 
 Run `carthage update` to build the framework and drag the built `AlamofireImage.framework` into your Xcode project.
@@ -101,13 +102,13 @@ If you prefer not to use either of the aforementioned dependency managers, you c
 
 - Open up Terminal, `cd` into your top-level project directory, and run the following command "if" your project is not initialized as a git repository:
 
-  ```bash
+```bash
 $ git init
 ```
 
 - Add AlamofireImage as a git [submodule](http://git-scm.com/docs/git-submodule) by running the following command:
 
-  ```bash
+```bash
 $ git submodule add https://github.com/Alamofire/AlamofireImage.git
 ```
 
@@ -138,6 +139,7 @@ $ git submodule add https://github.com/Alamofire/AlamofireImage.git
 ### Image Response Serializers
 
 ```swift
+import Alamofire
 import AlamofireImage
 
 Alamofire.request("https://httpbin.org/image/png").responseImage { response in
@@ -279,7 +281,7 @@ The current list of multi-pass image filters includes:
 
 ### Image Cache
 
-Image caching can become complicated when it comes to network images. `URLCache` is quite powerful and does a great job reasoning through the various cache policies and `Cache-Control` headers. However, it is not equiped to handle caching multiple modified versions of those images.
+Image caching can become complicated when it comes to network images. `URLCache` is quite powerful and does a great job reasoning through the various cache policies and `Cache-Control` headers. However, it is not equipped to handle caching multiple modified versions of those images.
 
 For example, let's say you need to download an album of images. Your app needs to display both the thumbnail version as well as the full size version at various times. Due to performance issues, you want to scale down the thumbnails to a reasonable size before rendering them on-screen. You also need to apply a global CoreImage filter to the full size images when displayed. While `URLCache` can easily handle storing the original downloaded image, it cannot store these different variants. What you really need is another caching layer designed to handle these different variants.
 
@@ -573,7 +575,7 @@ The [ASF](https://github.com/Alamofire/Foundation#members) is looking to raise m
 * Potentially fund test servers to make it easier for us to test the edge cases
 * Potentially fund developers to work on one of our projects full-time
 
-The community adoption of the ASF libraries has been amazing. We are greatly humbled by your enthusiam around the projects, and want to continue to do everything we can to move the needle forward. With your continued support, the ASF will be able to improve its reach and also provide better legal safety for the core members. If you use any of our libraries for work, see if your employers would be interested in donating. Our initial goal is to raise $1000 to get all our legal ducks in a row and kickstart this campaign. Any amount you can donate today to help us reach our goal would be greatly appreciated.
+The community adoption of the ASF libraries has been amazing. We are greatly humbled by your enthusiasm around the projects, and want to continue to do everything we can to move the needle forward. With your continued support, the ASF will be able to improve its reach and also provide better legal safety for the core members. If you use any of our libraries for work, see if your employers would be interested in donating. Our initial goal is to raise $1000 to get all our legal ducks in a row and kickstart this campaign. Any amount you can donate today to help us reach our goal would be greatly appreciated.
 
 <a href='https://pledgie.com/campaigns/31474'><img alt='Click here to lend your support to: Alamofire Software Foundation and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/31474.png?skin_name=chrome' border='0' ></a>
 

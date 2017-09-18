@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'AlamofireImage'
-  s.version = '3.2.0'
+  s.version = '3.3.0'
   s.license = 'MIT'
   s.summary = 'AlamofireImage is an image component library for Alamofire'
   s.homepage = 'https://github.com/Alamofire/AlamofireImage'
@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
   s.tvos.deployment_target = '9.0'
   s.watchos.deployment_target = '2.0'
 
-  s.dependency 'Alamofire', '~> 4.1'
+  s.dependency 'Alamofire', '~> 4.5'
 end

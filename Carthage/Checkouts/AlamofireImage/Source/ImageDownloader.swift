@@ -1,7 +1,7 @@
 //
 //  ImageDownloader.swift
 //
-//  Copyright (c) 2015-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2015-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -275,7 +275,7 @@ open class ImageDownloader {
             let urlID = ImageDownloader.urlIdentifier(for: urlRequest)
 
             if let responseHandler = self.responseHandlers[urlID] {
-                responseHandler.operations.append(receiptID: receiptID, filter: filter, completion: completion)
+                responseHandler.operations.append((receiptID: receiptID, filter: filter, completion: completion))
                 request = responseHandler.request
                 return
             }

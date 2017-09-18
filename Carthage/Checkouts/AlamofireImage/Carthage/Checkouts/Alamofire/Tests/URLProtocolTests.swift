@@ -1,7 +1,7 @@
 //
 //  URLProtocolTests.swift
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -92,15 +92,15 @@ class ProxyURLProtocol: URLProtocol {
 
 // MARK: -
 
-extension ProxyURLProtocol: URLSessionDelegate {
+extension ProxyURLProtocol: URLSessionDataDelegate {
 
     // MARK: NSURLSessionDelegate
 
-    func URLSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceiveData data: Data) {
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
         client?.urlProtocol(self, didLoad: data)
     }
 
-    func URLSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
         if let response = task.response {
             client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
         }
@@ -123,7 +123,7 @@ class URLProtocolTestCase: BaseTestCase {
             let configuration: URLSessionConfiguration = {
                 let configuration = URLSessionConfiguration.default
                 configuration.protocolClasses = [ProxyURLProtocol.self]
-                configuration.httpAdditionalHeaders = ["session-configuration-header": "foo"]
+                configuration.httpAdditionalHeaders = ["Session-Configuration-Header": "foo"]
 
                 return configuration
             }()
@@ -141,7 +141,7 @@ class URLProtocolTestCase: BaseTestCase {
 
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.get.rawValue
-        urlRequest.setValue("foobar", forHTTPHeaderField: "request-header")
+        urlRequest.setValue("foobar", forHTTPHeaderField: "Request-Header")
 
         let expectation = self.expectation(description: "GET request should succeed")
 
@@ -163,13 +163,13 @@ class URLProtocolTestCase: BaseTestCase {
         XCTAssertNil(response?.error)
 
         if let headers = response?.response?.allHeaderFields as? [String: String] {
-            XCTAssertEqual(headers["request-header"], "foobar")
+            XCTAssertEqual(headers["Request-Header"], "foobar")
 
             // Configuration headers are only passed in on iOS 9.0+
             if #available(iOS 9.0, *) {
-                XCTAssertEqual(headers["session-configuration-header"], "foo")
+                XCTAssertEqual(headers["Session-Configuration-Header"], "foo")
             } else {
-                XCTAssertNil(headers["session-configuration-header"])
+                XCTAssertNil(headers["Session-Configuration-Header"])
             }
         } else {
             XCTFail("headers should not be nil")

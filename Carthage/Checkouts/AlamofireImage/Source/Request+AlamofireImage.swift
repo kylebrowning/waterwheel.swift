@@ -1,7 +1,7 @@
 //
 //  Request+AlamofireImage.swift
 //
-//  Copyright (c) 2015-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2015-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -112,6 +112,8 @@ extension DataRequest {
     ///                                   (such as PNG or JPEG). Enabling this can significantly improve drawing
     ///                                   performance as it allows a bitmap representation to be constructed in the
     ///                                   background rather than on the main thread. `true` by default.
+    /// - parameter queue:                The queue on which the completion handler is dispatched. `nil` by default,
+    ///                                   which results in using `DispatchQueue.main`.
     /// - parameter completionHandler:    A closure to be executed once the request has finished. The closure takes 4
     ///                                   arguments: the URL request, the URL response, if one was received, the image,
     ///                                   if one could be created from the URL response and data, and any error produced
@@ -122,10 +124,12 @@ extension DataRequest {
     public func responseImage(
         imageScale: CGFloat = DataRequest.imageScale,
         inflateResponseImage: Bool = true,
+        queue: DispatchQueue? = nil,
         completionHandler: @escaping (DataResponse<Image>) -> Void)
         -> Self
     {
         return response(
+            queue: queue,
             responseSerializer: DataRequest.imageResponseSerializer(
                 imageScale: imageScale,
                 inflateResponseImage: inflateResponseImage
@@ -200,7 +204,7 @@ extension DataRequest {
         throw AFIError.imageSerializationFailed
     }
 
-    private class var imageScale: CGFloat {
+    public class var imageScale: CGFloat {
         #if os(iOS) || os(tvOS)
             return UIScreen.main.scale
         #elseif os(watchOS)
@@ -244,11 +248,17 @@ extension DataRequest {
     ///                                arguments: the URL request, the URL response, if one was received, the image, if
     ///                                one could be created from the URL response and data, and any error produced while
     ///                                creating the image.
+    /// - parameter queue:             The queue on which the completion handler is dispatched. `nil` by default,
+    ///                                which results in using `DispatchQueue.main`.
     ///
     /// - returns: The request.
     @discardableResult
-    public func responseImage(completionHandler: @escaping (DataResponse<Image>) -> Void) -> Self {
+    public func responseImage(
+        queue: DispatchQueue? = nil,
+        completionHandler: @escaping (DataResponse<Image>) -> Void)
+        -> Self {
         return response(
+            queue: queue,
             responseSerializer: DataRequest.imageResponseSerializer(),
             completionHandler: completionHandler
         )

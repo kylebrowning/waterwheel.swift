@@ -1,7 +1,7 @@
 //
 //  SessionDelegateTests.swift
 //
-//  Copyright (c) 2014-2016 Alamofire Software Foundation (http://alamofire.org/)
+//  Copyright (c) 2014-2017 Alamofire Software Foundation (http://alamofire.org/)
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -422,7 +422,7 @@ class SessionDelegateTestCase: BaseTestCase {
         let headers = [
             "Authorization": "1234",
             "Custom-Header": "foobar",
-            ]
+        ]
 
         // NOTE: It appears that most headers are maintained during a redirect with the exception of the `Authorization`
         // header. It appears that Apple's strips the `Authorization` header from the redirected URL request. If you

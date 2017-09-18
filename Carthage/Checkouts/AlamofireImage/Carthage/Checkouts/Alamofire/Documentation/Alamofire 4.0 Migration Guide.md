@@ -28,7 +28,7 @@ This guide is provided in order to ease the transition of existing applications 
 - Xcode 8.1+
 - Swift 3.0+
 
-For those of you that would like to use Alamofire on iOS 8 or macOS 10.9, please use the latest tagged 3.x release which supports both Swift 2.2 and 2.3.
+For those of you that would like to use Alamofire on macOS 10.9, please use the latest tagged 3.x release which supports both Swift 2.2 and 2.3.
 
 ## Benefits of Upgrading
 
@@ -120,7 +120,7 @@ Alamofire.request(urlString, method: .get, parameters: parameters, encoding: JSO
 
 ```swift
 // Alamofire 3
-let destination = Request.suggestedDownloadDestination()
+let destination = DownloadRequest.suggestedDownloadDestination()
 
 Alamofire.download(.GET, urlString, destination: destination).response { request, response, data, error in
 	// What is fileURL...not easy to get
@@ -131,7 +131,7 @@ Alamofire.download(.GET, urlString, destination: destination).response { request
 }
 
 // Alamofire 4
-let destination = Request.suggestedDownloadDestination()
+let destination = DownloadRequest.suggestedDownloadDestination()
 
 Alamofire.download(urlString, to: destination).response { response in // method defaults to `.get`
     print(response.request)
@@ -146,7 +146,7 @@ Alamofire.download(urlString, to: destination).response { response in // method 
 
 ```swift
 // Alamofire 3
-let destination = Request.suggestedDownloadDestination()
+let destination = DownloadRequest.suggestedDownloadDestination()
 
 Alamofire.download(urlRequest, destination: destination).validate().responseData { response in
 	// What is fileURL...not easy to get
@@ -457,7 +457,7 @@ Alamofire 4 contains many new features and enhancements on existing ones. This s
 
 ### Errors
 
-Alamofire 4 contains a completely new error system that adopts the new pattern proposed in [SE-0112](https://github.com/apple/swift-evolution/blob/master/proposals/0112-nserror-bridging.md). At the heart of the new error system is `AFError`, a new `Error` type enumeration backed by four main cases.
+Alamofire 4 contains a completely new error system that adopts the new pattern proposed in [SE-0112](https://github.com/apple/swift-evolution/blob/master/proposals/0112-nserror-bridging.md). At the heart of the new error system is `AFError`, a new `Error` type enumeration backed by five main cases.
 
 - `.invalidURL(url: URLConvertible)` - Returned when a `URLConvertible` type fails to create a valid `URL`.
 - `.parameterEncodingFailed(reason: ParameterEncodingFailureReason)` - Returned when a parameter encoding object throws an error during the encoding process.
@@ -699,7 +699,7 @@ Alamofire.download(urlString).responseData { response in
 }
 ```
 
-> We'll cover the `DownloadResponse` type in more detail in the [Reponse Serializers](#response-serializers) section.
+> We'll cover the `DownloadResponse` type in more detail in the [Response Serializers](#response-serializers) section.
 
 #### Download Options
 
