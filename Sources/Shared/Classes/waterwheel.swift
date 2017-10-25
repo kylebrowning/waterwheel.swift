@@ -61,7 +61,7 @@ open class waterwheelManager {
     }()
 
     open let requestFormat = "?_format=json"
-    var headers = [
+    open var headers = [
         "Content-Type": "application/json",
         "Accept": "application/json",
         ]
@@ -72,7 +72,7 @@ open class waterwheelManager {
     fileprivate var CSRFToken: String = ""
     fileprivate var signRequestsBasic: Bool = false
     fileprivate var signCSRFToken: Bool = false
-    fileprivate var isLoggedIn: Bool = false
+    open var isLoggedIn: Bool = false
 
     /**
      Initializes the `waterwheel` instance with the our defaults.
