@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "waterwheel"
-  s.version      = "4.3.3"
+  s.version      = "4.3.4"
   s.summary      = "A framework for communicating to Drupal via iOS, macOS, watchOS, or tvOS."
   s.homepage     = "https://github.com/acquia/waterwheel-swift"
   s.author       = { "Kyle Browning" => "kylebrowning@me.com"}
