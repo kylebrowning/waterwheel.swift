@@ -60,11 +60,11 @@ open class waterwheelManager {
         return waterwheelManager(basicUsername: "", basicPassword: "", logoutToken: "", CSRFToken: "", signRequestsBasic: false, signCSRFToken: false, isLoggedIn: false)
     }()
 
-    open let requestFormat = "?_format=json"
+    open let requestFormat = "_format=json"
     open var headers = [
         "Content-Type": "application/json",
         "Accept": "application/json",
-        ]
+    ]
     open var URL: String = ""
     fileprivate var basicUsername: String = ""
     fileprivate var basicPassword: String = ""
@@ -141,22 +141,22 @@ public func setDrupalURL(_ drupalURL: String) {
  */
 public func checkLoginStatus() {
     postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: nil)
-    let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status" + waterwheelManager.sharedInstance.requestFormat
+    let urlString = waterwheelManager.sharedInstance.URL + "/user/login_status?" + waterwheelManager.sharedInstance.requestFormat
     Alamofire.request(urlString)
-        .validate(statusCode: 200..<300)
-        .responseString { response in
-            if (response.result.error == nil) {
-                let loginStatus = String(data: response.data!, encoding: String.Encoding.utf8)
-                if (loginStatus == "1") {
-                    setIsLoggedIn(true)
+            .validate(statusCode: 200..<300)
+            .responseString { response in
+                if (response.result.error == nil) {
+                    let loginStatus = String(data: response.data!, encoding: String.Encoding.utf8)
+                    if (loginStatus == "1") {
+                        setIsLoggedIn(true)
+                    } else {
+                        setIsLoggedIn(false)
+                    }
                 } else {
                     setIsLoggedIn(false)
                 }
-            } else {
-                setIsLoggedIn(false)
+                postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: response.response)
             }
-            postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.checkLoginStatus.rawValue, object: response.response)
-    }
 }
 
 // MARK: - Authentication methods
@@ -231,7 +231,7 @@ public func logout(completionHandler: completion?) {
     }
     postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.login.rawValue, object: nil)
 
-    let urlString = waterwheelManager.sharedInstance.URL + "/user/logout" + waterwheelManager.sharedInstance.requestFormat + "&token=" + waterwheelManager.sharedInstance.logoutToken
+    let urlString = waterwheelManager.sharedInstance.URL + "/user/logout?" + waterwheelManager.sharedInstance.requestFormat + "&token=" + waterwheelManager.sharedInstance.logoutToken
     sendRequestWithUrl(urlString, method: .post, params: nil) { (_, response, _, error) in
         if (response!.result.error == nil) {
             setCSRF("", sign: false)
@@ -252,16 +252,16 @@ public func logout(completionHandler: completion?) {
 private func getCSRFToken(_ completionHandler: stringcompletion?) {
     let urlString = waterwheelManager.sharedInstance.URL + "/rest/session/token"
     Alamofire.request(urlString)
-        .validate(statusCode: 200..<300)
-        .responseString { response in
-            if (response.result.error == nil) {
-                let csrfToken = String(data: response.data!, encoding: String.Encoding.utf8)
-                setCSRF(csrfToken!, sign: true)
-                completionHandler?(true, response, nil, nil)
-            } else {
-                completionHandler?(false, response, nil, response.result.error as NSError?)
+            .validate(statusCode: 200..<300)
+            .responseString { response in
+                if (response.result.error == nil) {
+                    let csrfToken = String(data: response.data!, encoding: String.Encoding.utf8)
+                    setCSRF(csrfToken!, sign: true)
+                    completionHandler?(true, response, nil, nil)
+                } else {
+                    completionHandler?(false, response, nil, response.result.error as NSError?)
+                }
             }
-    }
 }
 
 // MARK: - Requests
@@ -278,7 +278,15 @@ private func getCSRFToken(_ completionHandler: stringcompletion?) {
 
 public func sendRequest(_ path: String, method: Alamofire.HTTPMethod, params: paramType, completionHandler: completion?) {
     assert(waterwheelManager.sharedInstance.URL != "", "waterwheel Error: Mission Drupal URL. Did you set it properly?")
-    let urlString = waterwheelManager.sharedInstance.URL + "/" + path + waterwheelManager.sharedInstance.requestFormat
+
+    var urlString = waterwheelManager.sharedInstance.URL + "/" + path// + waterwheelManager.sharedInstance.requestFormat
+
+    if urlString.range(of: "?") == nil {
+        urlString = urlString + "?" + waterwheelManager.sharedInstance.requestFormat
+    } else {
+        urlString = urlString + "&" + waterwheelManager.sharedInstance.requestFormat
+    }
+
     sendRequestWithUrl(urlString, method: method, params: params, completionHandler: completionHandler)
 }
 
@@ -320,7 +328,7 @@ public func sendRequestWithUrl(_ urlString: String, method: Alamofire.HTTPMethod
         case .failure(let error):
             completionHandler?(false, response, nil, error as NSError?)
         }
-        postNotification(waterwheelNotifications.waterwheelDidStartRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: response.response)
+        postNotification(waterwheelNotifications.waterwheelDidFinishRequest.rawValue, requestName: waterwheelNotificationsTypes.normalRequest.rawValue, object: response.response)
     }
 }
 
@@ -335,7 +343,20 @@ public func sendRequestWithUrl(_ urlString: String, method: Alamofire.HTTPMethod
 
  */
 public func get(_ requestPath: String, params: paramType, completionHandler: completion?) {
-    sendRequest(requestPath, method: .get, params: nil) { (success, response, json, error) in
+
+    var ultimateRequestPath = requestPath
+
+    if params != nil {
+        let getParams = params!.map( { key, value -> String in
+            return "\(key)=\(value)"
+        }).joined(separator: "&")
+
+        if getParams != "" {
+            ultimateRequestPath = requestPath + "?" + getParams
+        }
+    }
+
+    sendRequest(ultimateRequestPath, method: .get, params: nil) { (success, response, json, error) in
         completionHandler?(success, response, json, error)
     }
 }
