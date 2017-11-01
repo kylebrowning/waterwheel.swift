@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        waterwheel.setDrupalURL("http://waterwheel-swift.com")
-        waterwheel.nodeGet(nodeId: "496", params: nil) { (success, response, json, error) in
+        waterwheel.setDrupalURL("http://local.wws.com")
+        waterwheel.nodeGet(nodeId: "1", params: nil) { (success, response, json, error) in
             print(json)
         }
         return true
