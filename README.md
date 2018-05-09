@@ -29,7 +29,6 @@
 - [x] Entity CRUD
 - [x] Local caching
 - [x] LoginViewController
-- [ ] SignupViewController
 - [x] AuthButton
 - [x] Views integration into Table Views
 
